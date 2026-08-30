@@ -4,6 +4,8 @@ import {
   LifeBuoy,
   LogOut,
   Menu as MenuIcon,
+  Moon,
+  Sun,
   Settings,
   User,
 } from "lucide-react";
@@ -19,7 +21,7 @@ import type { TranslationKey } from "@/i18n/translations";
 type PlaceholderKey = "profile" | "settings" | "favorites" | "support";
 
 export function MenuDrawer() {
-  const { t, lang, setLang } = useAppState();
+  const { t, lang, setLang, theme, setTheme } = useAppState();
   const [open, setOpen] = useState(false);
   const [placeholder, setPlaceholder] = useState<PlaceholderKey | null>(null);
 
@@ -75,6 +77,45 @@ export function MenuDrawer() {
                 <p className="mt-2 text-xs text-muted-foreground">
                   {LANGUAGES.find((l) => l.code === lang)?.native}
                 </p>
+              </div>
+            </li>
+
+            <li>
+              <div className="rounded-2xl border border-border p-3">
+                <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                  {theme === "dark" ? (
+                    <Moon className="h-4 w-4 text-primary" aria-hidden="true" />
+                  ) : (
+                    <Sun className="h-4 w-4 text-primary" aria-hidden="true" />
+                  )}
+                  {t("theme")}
+                </p>
+                <div className="mt-3 grid grid-cols-2 gap-2" role="group" aria-label={t("theme")}>
+                  {(["light", "dark"] as const).map((mode) => {
+                    const active = mode === theme;
+                    return (
+                      <button
+                        key={mode}
+                        type="button"
+                        onClick={() => setTheme(mode)}
+                        aria-pressed={active}
+                        className={cn(
+                          "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border text-sm font-semibold transition-colors",
+                          active
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-card text-alt-foreground hover:bg-secondary",
+                        )}
+                      >
+                        {mode === "dark" ? (
+                          <Moon className="h-4 w-4" aria-hidden="true" />
+                        ) : (
+                          <Sun className="h-4 w-4" aria-hidden="true" />
+                        )}
+                        {mode === "dark" ? t("themeDark") : t("themeLight")}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </li>
 
