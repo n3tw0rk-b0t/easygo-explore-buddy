@@ -30,8 +30,8 @@ function PlaceDetail() {
   const category = place ? CATEGORIES.find((c) => c.id === place.categories[0]) : undefined;
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto w-full max-w-[560px] px-4 pb-16 pt-4">
+    <div className="min-h-[100dvh] bg-background">
+      <div className="mx-auto w-full max-w-[560px] safe-x pb-16 pt-4 lg:max-w-[860px] lg:px-8 lg:pt-8">
         <Link
           to="/"
           className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-card px-4 text-sm font-semibold text-alt-foreground shadow-soft transition-colors hover:bg-secondary"
@@ -47,7 +47,7 @@ function PlaceDetail() {
               alt={tr(place.name)}
               width={800}
               height={600}
-              className="h-56 w-full object-cover"
+              className="h-56 w-full object-cover lg:h-80"
             />
             <div className="p-5">
               <h1 className="font-display text-2xl font-extrabold text-foreground">

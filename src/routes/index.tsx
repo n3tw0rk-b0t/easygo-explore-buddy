@@ -35,33 +35,41 @@ function Home() {
   const [exploreOpen, setExploreOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto w-full max-w-[560px] px-4 pb-28 pt-4">
-        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-          <div className="flex min-w-0 justify-center pl-11">
+    <div className="min-h-[100dvh] bg-background">
+      <div className="mx-auto w-full max-w-[560px] safe-x safe-bottom pt-4 lg:max-w-[1120px] lg:px-8 lg:pt-6">
+        <header className="sticky top-0 z-30 -mx-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 bg-background/85 px-4 py-2 backdrop-blur-md lg:mx-0 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:rounded-full lg:border lg:border-border lg:bg-card/90 lg:px-6 lg:py-3 lg:shadow-soft">
+          <div className="flex min-w-0 justify-center pl-11 lg:justify-start lg:pl-0">
             <Logo />
+          </div>
+          <div className="hidden lg:flex lg:justify-center">
+            <CitySelector />
           </div>
           <MenuDrawer />
         </header>
 
-        <div className="mt-4 flex justify-center">
+        <div className="mt-4 flex justify-center lg:hidden">
           <CitySelector />
         </div>
 
-        <main className="mt-6">
-          <h1 className="text-center font-display text-3xl font-extrabold leading-tight text-foreground">
-            {t("mainQuestion")}
-          </h1>
-          <p className="mx-auto mt-2 max-w-sm text-center text-sm text-muted-foreground">
-            {t("mainHelper")}
-          </p>
+        <main className="mt-6 lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-start lg:gap-10">
+          <section className="lg:rounded-4xl lg:border lg:border-border lg:bg-card lg:p-8 lg:shadow-soft">
+            <h1 className="text-center font-display text-3xl font-extrabold leading-tight text-foreground lg:text-left lg:text-4xl">
+              {t("mainQuestion")}
+            </h1>
+            <p className="mx-auto mt-2 max-w-sm text-center text-sm text-muted-foreground lg:mx-0 lg:max-w-none lg:text-left lg:text-base">
+              {t("mainHelper")}
+            </p>
 
-          <SearchPanel onExplore={() => setExploreOpen(true)} />
-          <RadiusFilter />
-          <NearbyPlaces />
+            <SearchPanel onExplore={() => setExploreOpen(true)} />
+            <RadiusFilter />
+          </section>
 
-          <p className="mt-10 text-center text-xs text-muted-foreground">{t("tagline")}</p>
+          <section className="lg:mt-0">
+            <NearbyPlaces />
+          </section>
         </main>
+
+        <p className="mt-10 pb-4 text-center text-xs text-muted-foreground">{t("tagline")}</p>
       </div>
 
       <ExploreSheet open={exploreOpen} onOpenChange={setExploreOpen} />

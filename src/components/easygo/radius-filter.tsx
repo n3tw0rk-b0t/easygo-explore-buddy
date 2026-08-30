@@ -15,7 +15,7 @@ export function RadiusFilter() {
       <div
         role="radiogroup"
         aria-labelledby="radius-label"
-        className="no-scrollbar -mx-1 mt-2 flex gap-2 overflow-x-auto px-1 pb-1"
+        className="no-scrollbar -mx-1 mt-2 flex gap-2 overflow-x-auto px-1 pb-1 lg:flex-wrap lg:overflow-visible"
       >
         {RADIUS_OPTIONS.map((option: RadiusOption) => {
           const active = option === radius;
