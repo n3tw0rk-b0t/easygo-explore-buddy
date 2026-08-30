@@ -30,4 +30,4 @@ export const CITIES: City[] = [
 export const DEFAULT_CITY_ID: CityId = "baku";
 
 export const getCity = (id: CityId): City =>
-  CITIES.find((c) => c.id === id) ?? CITIES[0];
+  CITIES.find((c) => c.id === id) ?? (CITIES[0] as City);

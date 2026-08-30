@@ -8,7 +8,7 @@ interface BaseProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
-  description?: string;
+  description?: string | undefined;
   closeLabel: string;
   children: ReactNode;
   className?: string;
@@ -117,7 +117,7 @@ export function ConfirmDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
-  description?: string;
+  description?: string | undefined;
   confirmLabel: string;
   cancelLabel: string;
   onConfirm: () => void;
