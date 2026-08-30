@@ -4,15 +4,20 @@ export type Localized = Record<Lang, string>;
 
 export type CategoryId =
   | "popular"
-  | "historic"
-  | "museums"
-  | "parks"
-  | "nature"
+  | "hotels"
   | "restaurants"
-  | "shopping"
+  | "cafes"
+  | "pubs"
+  | "malls"
   | "entertainment"
-  | "family"
-  | "free";
+  | "museums"
+  | "historic"
+  | "religious"
+  | "bazaars"
+  | "markets"
+  | "parks"
+  | "zoos"
+  | "photopoints";
 
 export type CityId = "baku" | "istanbul" | "bratislava" | "vienna";
 

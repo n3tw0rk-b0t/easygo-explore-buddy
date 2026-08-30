@@ -7,30 +7,79 @@ export interface Category {
 }
 
 export const CATEGORIES: Category[] = [
-  { id: "popular", label: { az: "Məşhur", en: "Popular", ru: "Популярное" }, icon: "Sparkles" },
   {
-    id: "historic",
-    label: { az: "Tarixi məkanlar", en: "Historic places", ru: "Исторические места" },
-    icon: "Landmark",
+    id: "popular",
+    label: { az: "Məşhur", en: "Popular", ru: "Популярное" },
+    icon: "Sparkles",
   },
-  { id: "museums", label: { az: "Muzeylər", en: "Museums", ru: "Музеи" }, icon: "Building2" },
-  { id: "parks", label: { az: "Parklar", en: "Parks", ru: "Парки" }, icon: "Trees" },
-  { id: "nature", label: { az: "Təbiət", en: "Nature", ru: "Природа" }, icon: "Mountain" },
+  {
+    id: "hotels",
+    label: { az: "Hotellər", en: "Hotels", ru: "Отели" },
+    icon: "BedDouble",
+  },
   {
     id: "restaurants",
     label: { az: "Restoranlar", en: "Restaurants", ru: "Рестораны" },
     icon: "UtensilsCrossed",
   },
-  { id: "shopping", label: { az: "Ticarət", en: "Shopping", ru: "Шопинг" }, icon: "ShoppingBag" },
+  {
+    id: "cafes",
+    label: { az: "Kafelər", en: "Cafes", ru: "Кафе" },
+    icon: "Coffee",
+  },
+  {
+    id: "pubs",
+    label: { az: "Publar", en: "Pubs", ru: "Пабы" },
+    icon: "Beer",
+  },
+  {
+    id: "malls",
+    label: { az: "Mall / AVM", en: "Malls", ru: "Торговые центры" },
+    icon: "ShoppingBag",
+  },
   {
     id: "entertainment",
-    label: { az: "Əyləncə", en: "Entertainment", ru: "Развлечения" },
+    label: { az: "Əyləncə mərkəzləri", en: "Entertainment centres", ru: "Развлекательные центры" },
     icon: "Ticket",
   },
-  { id: "family", label: { az: "Ailə üçün", en: "For family", ru: "Для семьи" }, icon: "Users" },
   {
-    id: "free",
-    label: { az: "Pulsuz məkanlar", en: "Free places", ru: "Бесплатные места" },
-    icon: "BadgeCheck",
+    id: "museums",
+    label: { az: "Muzeylər", en: "Museums", ru: "Музеи" },
+    icon: "Building2",
+  },
+  {
+    id: "historic",
+    label: { az: "Tarixi abidələr", en: "Historic landmarks", ru: "Исторические памятники" },
+    icon: "Landmark",
+  },
+  {
+    id: "religious",
+    label: { az: "Məscid və kilsələr", en: "Mosques & churches", ru: "Мечети и церкви" },
+    icon: "Church",
+  },
+  {
+    id: "bazaars",
+    label: { az: "Bazarlar", en: "Bazaars", ru: "Базары" },
+    icon: "Store",
+  },
+  {
+    id: "markets",
+    label: { az: "Marketlər", en: "Markets", ru: "Магазины" },
+    icon: "ShoppingCart",
+  },
+  {
+    id: "parks",
+    label: { az: "Parklar", en: "Parks", ru: "Парки" },
+    icon: "Trees",
+  },
+  {
+    id: "zoos",
+    label: { az: "Zooparklar", en: "Zoos", ru: "Зоопарки" },
+    icon: "PawPrint",
+  },
+  {
+    id: "photopoints",
+    label: { az: "Fotopointlər", en: "Photo points", ru: "Фототочки" },
+    icon: "Camera",
   },
 ];
