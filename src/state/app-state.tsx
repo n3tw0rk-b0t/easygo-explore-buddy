@@ -19,9 +19,15 @@ const STORAGE = {
   customCity: "easygo.customCity",
   radius: "easygo.radius",
   favorites: "easygo.favorites",
+  theme: "easygo.theme",
 } as const;
 
+export type Theme = "light" | "dark";
+
 interface AppStateValue {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
   lang: Lang;
   setLang: (lang: Lang) => void;
   t: (key: TranslationKey) => string;
@@ -66,6 +72,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [customCity, setCustomCityState] = useState<string | null>(null);
   const [radius, setRadiusState] = useState<RadiusOption>(DEFAULT_RADIUS);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [theme, setThemeState] = useState<Theme>("light");
 
   // Hydration-safe: read persisted preferences only in the browser.
   useEffect(() => {
@@ -84,6 +91,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setRadiusState(storedRadius as RadiusOption);
     }
 
+    const storedTheme = read(STORAGE.theme);
+    if (storedTheme === "light" || storedTheme === "dark") {
+      setThemeState(storedTheme);
+    } else if (
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-color-scheme: dark)").matches
+    ) {
+      setThemeState("dark");
+    }
+
     const storedFavorites = read(STORAGE.favorites);
     if (storedFavorites) {
       try {
@@ -98,6 +115,25 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (typeof document !== "undefined") document.documentElement.lang = lang;
   }, [lang]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    document.documentElement.style.colorScheme = theme;
+  }, [theme]);
+
+  const setTheme = useCallback((next: Theme) => {
+    setThemeState(next);
+    write(STORAGE.theme, next);
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    setThemeState((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      write(STORAGE.theme, next);
+      return next;
+    });
+  }, []);
 
   const setLang = useCallback((next: Lang) => {
     setLangState(next);
@@ -135,6 +171,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const value = useMemo<AppStateValue>(() => {
     const city = getCity(cityId);
     return {
+      theme,
+      setTheme,
+      toggleTheme,
       lang,
       setLang,
       t: (key) => translate(lang, key),
@@ -152,6 +191,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       toggleFavorite,
     };
   }, [
+    theme,
+    setTheme,
+    toggleTheme,
     lang,
     setLang,
     cityId,
