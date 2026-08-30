@@ -72,16 +72,16 @@ export function SearchPanel({ onExplore }: { onExplore: () => void }) {
           >
             <SendHorizonal className="h-5 w-5" aria-hidden="true" />
           </button>
+        </div>
+
         <button
           type="button"
           onClick={onExplore}
-          aria-label={t("explore")}
-          className="inline-flex min-h-[60px] shrink-0 items-center justify-center gap-2 rounded-3xl border border-primary bg-warm px-3 text-sm font-bold text-primary transition-colors hover:bg-secondary"
+          className="inline-flex min-h-[63px] shrink-0 items-center justify-center gap-2 rounded-3xl border border-primary bg-warm px-3 text-sm font-bold text-primary transition-colors hover:bg-secondary"
         >
           <Compass className="h-5 w-5" aria-hidden="true" />
-          <span className="hidden xs:inline">{t("explore")}</span>
+          {t("explore")}
         </button>
-        </div>
 
         {suggestions.length > 0 ? (
           <ul className="absolute inset-x-0 top-full z-20 mt-2 max-h-80 overflow-y-auto rounded-3xl border border-border bg-card p-2 shadow-lift">
