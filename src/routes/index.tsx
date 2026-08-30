@@ -51,12 +51,12 @@ function Home() {
           <CitySelector />
         </div>
 
-        <main className="mt-6 lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-start lg:gap-10">
-          <section className="lg:rounded-4xl lg:border lg:border-border lg:bg-card lg:p-8 lg:shadow-soft">
-            <h1 className="text-center font-display text-3xl font-extrabold leading-tight text-foreground lg:text-left lg:text-4xl">
+        <main className="mt-6 lg:mt-10">
+          <section className="mx-auto w-full lg:max-w-[720px] lg:rounded-4xl lg:border lg:border-border lg:bg-card lg:p-8 lg:shadow-soft">
+            <h1 className="text-center font-display text-3xl font-extrabold leading-tight text-foreground lg:text-4xl">
               {t("mainQuestion")}
             </h1>
-            <p className="mx-auto mt-2 max-w-sm text-center text-sm text-muted-foreground lg:mx-0 lg:max-w-none lg:text-left lg:text-base">
+            <p className="mx-auto mt-2 max-w-sm text-center text-sm text-muted-foreground lg:max-w-md lg:text-base">
               {t("mainHelper")}
             </p>
 
@@ -64,10 +64,11 @@ function Home() {
             <RadiusFilter />
           </section>
 
-          <section className="lg:mt-0">
+          <section className="mx-auto w-full lg:mt-10 lg:max-w-[960px]">
             <NearbyPlaces />
           </section>
         </main>
+
 
         <p className="mt-10 pb-4 text-center text-xs text-muted-foreground">{t("tagline")}</p>
       </div>
