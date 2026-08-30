@@ -14,7 +14,7 @@ export function NearbyPlaces() {
   const places = getPlacesByCity(cityId).filter((place) => place.distanceKm <= radius);
 
   return (
-    <section aria-labelledby="nearby-heading" className="mt-8">
+    <section aria-labelledby="nearby-heading" className="mt-8 lg:mt-0">
       <button
         type="button"
         onClick={() => toast(t("tripPlanningSoon"))}
