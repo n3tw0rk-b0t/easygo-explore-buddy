@@ -1,24 +1,71 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import { CitySelector } from "@/components/easygo/city-selector";
+import { ExploreSheet } from "@/components/easygo/explore-sheet";
+import { HelpFab } from "@/components/easygo/help-fab";
+import { Logo } from "@/components/easygo/logo";
+import { MenuDrawer } from "@/components/easygo/menu-drawer";
+import { NearbyPlaces } from "@/components/easygo/nearby-places";
+import { RadiusFilter } from "@/components/easygo/radius-filter";
+import { SearchPanel } from "@/components/easygo/search-panel";
+import { useAppState } from "@/state/app-state";
+
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "EasyGo AI — Hara gedirsən?" },
+      {
+        name: "description",
+        content:
+          "EasyGo AI helps locals and travellers find places nearby and spend their time at the destination, not on the road.",
+      },
+      { property: "og:title", content: "EasyGo AI — Hara gedirsən?" },
+      {
+        property: "og:description",
+        content: "Find places nearby, explore your city and plan your trip with EasyGo AI.",
+      },
+    ],
+  }),
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Home() {
+  const { t } = useAppState();
+  const [exploreOpen, setExploreOpen] = useState(false);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background">
+      <div className="mx-auto w-full max-w-[560px] px-4 pb-28 pt-4">
+        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+          <div className="flex min-w-0 justify-center pl-11">
+            <Logo />
+          </div>
+          <MenuDrawer />
+        </header>
+
+        <div className="mt-4 flex justify-center">
+          <CitySelector />
+        </div>
+
+        <main className="mt-6">
+          <h1 className="text-center font-display text-3xl font-extrabold leading-tight text-foreground">
+            {t("mainQuestion")}
+          </h1>
+          <p className="mx-auto mt-2 max-w-sm text-center text-sm text-muted-foreground">
+            {t("mainHelper")}
+          </p>
+
+          <SearchPanel onExplore={() => setExploreOpen(true)} />
+          <RadiusFilter />
+          <NearbyPlaces />
+
+          <p className="mt-10 text-center text-xs text-muted-foreground">{t("tagline")}</p>
+        </main>
+      </div>
+
+      <ExploreSheet open={exploreOpen} onOpenChange={setExploreOpen} />
+      <HelpFab />
     </div>
   );
 }
