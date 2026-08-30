@@ -45,7 +45,14 @@ interface AppStateValue {
   toggleFavorite: (id: string) => boolean;
 }
 
-const AppStateContext = createContext<AppStateValue | null>(null);
+// Keep a single context instance even if this module is re-evaluated (HMR / duplicate chunk),
+// otherwise consumers read a different context than the provider writes to.
+const globalStore = globalThis as unknown as {
+  __easygoAppStateContext?: React.Context<AppStateValue | null>;
+};
+const AppStateContext =
+  globalStore.__easygoAppStateContext ??
+  (globalStore.__easygoAppStateContext = createContext<AppStateValue | null>(null));
 
 const read = (key: string): string | null => {
   if (typeof window === "undefined") return null;
