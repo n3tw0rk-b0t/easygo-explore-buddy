@@ -149,7 +149,7 @@ const dictionaries = {
     favorites: "Избранное",
     support: "Поддержка",
     logout: "Выйти",
-    logoutMessage: "Реальные аккаунты в этом прототипе不 активны.".replace("不 ", "не "),
+    logoutMessage: "Реальные аккаунты в этом прототипе не активны.",
     placeholderSection: "Этот раздел будет добавлен на следующем этапе.",
     chooseCity: "Выберите город",
     manualCity: "Ввести город вручную",
