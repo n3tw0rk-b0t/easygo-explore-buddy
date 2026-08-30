@@ -1,4 +1,6 @@
+import { Route as RouteIcon } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { getPlacesByCity } from "@/data/places";
 import { useAppState } from "@/state/app-state";
@@ -13,6 +15,15 @@ export function NearbyPlaces() {
 
   return (
     <section aria-labelledby="nearby-heading" className="mt-8">
+      <button
+        type="button"
+        onClick={() => toast(t("tripPlanningSoon"))}
+        className="mb-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-3xl border border-primary bg-warm px-4 text-sm font-bold text-primary transition-colors hover:bg-secondary"
+      >
+        <RouteIcon className="h-5 w-5" aria-hidden="true" />
+        {t("tripPlanning")}
+      </button>
+
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
         <div className="min-w-0">
           <h2 id="nearby-heading" className="truncate font-display text-lg font-bold text-foreground">
