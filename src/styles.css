@@ -130,6 +130,22 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+
+  /* Native-app feel on touch devices: no text selection drag, no callout. */
+  @media (max-width: 1023px) and (pointer: coarse) {
+    body {
+      -webkit-touch-callout: none;
+      user-select: none;
+    }
+
+    input,
+    textarea,
+    [contenteditable="true"] {
+      user-select: text;
+    }
   }
 
   h1,
@@ -150,6 +166,20 @@
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* Respect device notches / home indicator when installed as an app. */
+@utility safe-top {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+
+@utility safe-bottom {
+  padding-bottom: max(7rem, calc(6rem + env(safe-area-inset-bottom)));
+}
+
+@utility safe-x {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
 }
 
 @keyframes easygo-dot {
