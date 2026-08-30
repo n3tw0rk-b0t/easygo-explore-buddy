@@ -43,8 +43,8 @@ export function SearchPanel({ onExplore }: { onExplore: () => void }) {
       <label htmlFor={inputId} className="px-1 text-sm font-semibold text-foreground">
         {t("searchLabel")}
       </label>
-      <div className="relative mt-2">
-        <div className="flex items-center gap-2 rounded-3xl border border-border bg-card p-2 shadow-soft focus-within:border-primary">
+      <div className="relative mt-2 flex items-start gap-2">
+        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-3xl border border-border bg-card p-2 shadow-soft focus-within:border-primary">
           <input
             id={inputId}
             value={query}
@@ -73,6 +73,15 @@ export function SearchPanel({ onExplore }: { onExplore: () => void }) {
             <SendHorizonal className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
+
+        <button
+          type="button"
+          onClick={onExplore}
+          className="inline-flex min-h-[63px] shrink-0 items-center justify-center gap-2 rounded-3xl border border-primary bg-warm px-3 text-sm font-bold text-primary transition-colors hover:bg-secondary"
+        >
+          <Compass className="h-5 w-5" aria-hidden="true" />
+          {t("explore")}
+        </button>
 
         {suggestions.length > 0 ? (
           <ul className="absolute inset-x-0 top-full z-20 mt-2 max-h-80 overflow-y-auto rounded-3xl border border-border bg-card p-2 shadow-lift">
@@ -119,14 +128,6 @@ export function SearchPanel({ onExplore }: { onExplore: () => void }) {
         </p>
       ) : null}
 
-      <button
-        type="button"
-        onClick={onExplore}
-        className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-3xl border border-primary bg-warm px-4 text-sm font-bold text-primary transition-colors hover:bg-secondary sm:w-auto sm:px-6"
-      >
-        <Compass className="h-5 w-5" aria-hidden="true" />
-        {t("explore")}
-      </button>
     </section>
   );
 }
