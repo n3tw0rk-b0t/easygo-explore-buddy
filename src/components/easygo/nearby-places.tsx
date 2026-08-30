@@ -1,4 +1,6 @@
+import { Route as RouteIcon } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { getPlacesByCity } from "@/data/places";
 import { useAppState } from "@/state/app-state";
