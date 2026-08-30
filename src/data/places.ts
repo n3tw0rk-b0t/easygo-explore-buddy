@@ -1,9 +1,29 @@
-import flameTowers from "@/assets/baku-flame-towers.jpg";
-import oldCity from "@/assets/baku-old-city.jpg";
-import boulevard from "@/assets/baku-boulevard.jpg";
-import modernMuseum from "@/assets/modern-museum.jpg";
-import hilltopPark from "@/assets/hilltop-park.jpg";
-import oldTownSquare from "@/assets/old-town-square.jpg";
+import imgAlovQulleleri from "@/assets/places/alov-qulleleri.jpg";
+import imgDagustuPark from "@/assets/places/dagustu-park.jpg";
+import imgIcerisheher from "@/assets/places/icerisheher.jpg";
+import imgQizQalasi from "@/assets/places/qiz-qalasi.jpg";
+import imgHeyderEliyevMerkezi from "@/assets/places/heyder-eliyev-merkezi.jpg";
+import imgBakiBulvari from "@/assets/places/baki-bulvari.jpg";
+import imgAzerbaycanXalcaMuzeyi from "@/assets/places/azerbaycan-xalca-muzeyi.jpg";
+import imgBakiZoolojiParki from "@/assets/places/baki-zooloji-parki.jpg";
+import imgSultanahmet from "@/assets/places/sultanahmet.jpg";
+import imgGalataQullesi from "@/assets/places/galata-qullesi.jpg";
+import imgBosforSahili from "@/assets/places/bosfor-sahili.jpg";
+import imgIstanbulMuasirMuzeyi from "@/assets/places/istanbul-muasir-muzeyi.jpg";
+import imgBratislavaKohneSeher from "@/assets/places/bratislava-kohne-seher.jpg";
+import imgBratislavaQalasi from "@/assets/places/bratislava-qalasi.jpg";
+import imgDunaySahili from "@/assets/places/dunay-sahili.jpg";
+import imgSlovakiyaMilliQalereyasi from "@/assets/places/slovakiya-milli-qalereyasi.jpg";
+import imgSchonbrunn from "@/assets/places/schonbrunn.jpg";
+import imgVyanaTarixiMerkezi from "@/assets/places/vyana-tarixi-merkezi.jpg";
+import imgPrater from "@/assets/places/prater.jpg";
+import imgDunayParki from "@/assets/places/dunay-parki.jpg";
+import imgNizamiKucesiKafeleri from "@/assets/places/nizami-kucesi-kafeleri.jpg";
+import imgSahilPublari from "@/assets/places/sahil-publari.jpg";
+import imgMerkeziMall from "@/assets/places/merkezi-mall.jpg";
+import imgYasilBazar from "@/assets/places/yasil-bazar.jpg";
+import imgTezePirMescidi from "@/assets/places/teze-pir-mescidi.jpg";
+import imgSahilHotel from "@/assets/places/sahil-hotel.jpg";
 
 import { CITIES } from "./cities";
 import type { CityId, Place } from "./types";
@@ -31,7 +51,7 @@ export const PLACES: Place[] = [
       ru: "Три башни, ставшие символом Баку, и самый узнаваемый ночной вид города.",
     },
     categories: ["popular", "entertainment", "photopoints"],
-    image: flameTowers,
+    image: imgAlovQulleleri,
     rating: 4.7,
     reviewCount: 18240,
     distanceKm: 2.4,
@@ -50,7 +70,7 @@ export const PLACES: Place[] = [
       ru: "Парк на возвышении с панорамным видом на город и Каспийское море.",
     },
     categories: ["popular", "parks", "photopoints"],
-    image: hilltopPark,
+    image: imgDagustuPark,
     rating: 4.8,
     reviewCount: 12980,
     distanceKm: 1.8,
@@ -69,7 +89,7 @@ export const PLACES: Place[] = [
       ru: "Узкие улицы, караван-сараи и музеи внутри исторических крепостных стен.",
     },
     categories: ["popular", "historic"],
-    image: oldCity,
+    image: imgIcerisheher,
     rating: 4.8,
     reviewCount: 21430,
     distanceKm: 1.2,
@@ -88,7 +108,7 @@ export const PLACES: Place[] = [
       ru: "Древняя башня из списка ЮНЕСКО и самый известный памятник города.",
     },
     categories: ["historic", "museums", "popular", "photopoints"],
-    image: oldCity,
+    image: imgQizQalasi,
     rating: 4.6,
     reviewCount: 15620,
     distanceKm: 1.4,
@@ -111,7 +131,7 @@ export const PLACES: Place[] = [
       ru: "Культурный центр и выставочное пространство, известный архитектурой Захи Хадид.",
     },
     categories: ["museums", "popular"],
-    image: modernMuseum,
+    image: imgHeyderEliyevMerkezi,
     rating: 4.7,
     reviewCount: 16110,
     distanceKm: 4.6,
@@ -130,7 +150,7 @@ export const PLACES: Place[] = [
       ru: "Прогулочная набережная вдоль Каспия с кафе и парками.",
     },
     categories: ["parks", "popular", "photopoints"],
-    image: boulevard,
+    image: imgBakiBulvari,
     rating: 4.7,
     reviewCount: 19870,
     distanceKm: 0.9,
@@ -153,7 +173,7 @@ export const PLACES: Place[] = [
       ru: "Здание в форме свёрнутого ковра с богатой коллекцией ковров.",
     },
     categories: ["museums"],
-    image: modernMuseum,
+    image: imgAzerbaycanXalcaMuzeyi,
     rating: 4.5,
     reviewCount: 6420,
     distanceKm: 1.6,
@@ -172,7 +192,7 @@ export const PLACES: Place[] = [
       ru: "Зоопарк для семейного отдыха и зелёная зона.",
     },
     categories: ["parks", "entertainment", "zoos"],
-    image: hilltopPark,
+    image: imgBakiZoolojiParki,
     rating: 4.1,
     reviewCount: 3980,
     distanceKm: 7.8,
@@ -192,7 +212,7 @@ export const PLACES: Place[] = [
       ru: "Исторический центр Стамбула и самая посещаемая площадь города.",
     },
     categories: ["historic", "popular", "photopoints"],
-    image: oldTownSquare,
+    image: imgSultanahmet,
     rating: 4.8,
     reviewCount: 45210,
     distanceKm: 1.1,
@@ -211,7 +231,7 @@ export const PLACES: Place[] = [
       ru: "Средневековая башня с панорамным видом на город.",
     },
     categories: ["historic", "popular", "museums", "photopoints"],
-    image: hilltopPark,
+    image: imgGalataQullesi,
     rating: 4.6,
     reviewCount: 32100,
     distanceKm: 2.7,
@@ -230,7 +250,7 @@ export const PLACES: Place[] = [
       ru: "Прогулка вдоль воды с рыбными ресторанами и видом на паромы.",
     },
     categories: ["parks", "restaurants"],
-    image: boulevard,
+    image: imgBosforSahili,
     rating: 4.7,
     reviewCount: 28740,
     distanceKm: 3.5,
@@ -249,7 +269,7 @@ export const PLACES: Place[] = [
       ru: "Выставки современного искусства в здании с террасой у воды.",
     },
     categories: ["museums", "popular"],
-    image: modernMuseum,
+    image: imgIstanbulMuasirMuzeyi,
     rating: 4.5,
     reviewCount: 9840,
     distanceKm: 4.2,
@@ -269,7 +289,7 @@ export const PLACES: Place[] = [
       ru: "Компактный исторический центр с кафе и пешеходными улицами.",
     },
     categories: ["historic", "popular", "restaurants"],
-    image: oldTownSquare,
+    image: imgBratislavaKohneSeher,
     rating: 4.7,
     reviewCount: 14210,
     distanceKm: 0.8,
@@ -288,7 +308,7 @@ export const PLACES: Place[] = [
       ru: "Белый замок над Дунаем с панорамой города.",
     },
     categories: ["historic", "museums", "popular", "photopoints"],
-    image: hilltopPark,
+    image: imgBratislavaQalasi,
     rating: 4.6,
     reviewCount: 18930,
     distanceKm: 1.9,
@@ -307,7 +327,7 @@ export const PLACES: Place[] = [
       ru: "Спокойная набережная с велодорожками и прогулочными тропами.",
     },
     categories: ["parks"],
-    image: boulevard,
+    image: imgDunaySahili,
     rating: 4.5,
     reviewCount: 7320,
     distanceKm: 1.3,
@@ -330,7 +350,7 @@ export const PLACES: Place[] = [
       ru: "Галерея, объединяющая классическое и современное искусство.",
     },
     categories: ["museums"],
-    image: modernMuseum,
+    image: imgSlovakiyaMilliQalereyasi,
     rating: 4.4,
     reviewCount: 4120,
     distanceKm: 1.1,
@@ -350,7 +370,7 @@ export const PLACES: Place[] = [
       ru: "Императорский дворец с обширными садами — главная достопримечательность города.",
     },
     categories: ["historic", "popular", "parks", "photopoints"],
-    image: modernMuseum,
+    image: imgSchonbrunn,
     rating: 4.8,
     reviewCount: 52310,
     distanceKm: 5.4,
@@ -369,7 +389,7 @@ export const PLACES: Place[] = [
       ru: "Исторические улицы и кафе вокруг собора Святого Стефана.",
     },
     categories: ["historic", "popular", "restaurants"],
-    image: oldTownSquare,
+    image: imgVyanaTarixiMerkezi,
     rating: 4.8,
     reviewCount: 39870,
     distanceKm: 0.7,
@@ -388,7 +408,7 @@ export const PLACES: Place[] = [
       ru: "Парк развлечений с историческим колесом обозрения и большой зелёной зоной.",
     },
     categories: ["entertainment", "parks"],
-    image: hilltopPark,
+    image: imgPrater,
     rating: 4.6,
     reviewCount: 28110,
     distanceKm: 3.2,
@@ -407,7 +427,7 @@ export const PLACES: Place[] = [
       ru: "Тихий просторный бесплатный парк на севере города.",
     },
     categories: ["parks"],
-    image: boulevard,
+    image: imgDunayParki,
     rating: 4.5,
     reviewCount: 8640,
     distanceKm: 6.1,
@@ -426,7 +446,7 @@ export const PLACES: Place[] = [
       ru: "Кафе, кондитерские и кофейни вдоль пешеходной улицы.",
     },
     categories: ["cafes", "restaurants", "popular"],
-    image: oldTownSquare,
+    image: imgNizamiKucesiKafeleri,
     rating: 4.5,
     reviewCount: 7840,
     distanceKm: 1.0,
@@ -445,7 +465,7 @@ export const PLACES: Place[] = [
       ru: "Пабы и бары с живой музыкой рядом с бульваром.",
     },
     categories: ["pubs", "entertainment"],
-    image: boulevard,
+    image: imgSahilPublari,
     rating: 4.3,
     reviewCount: 2310,
     distanceKm: 1.5,
@@ -464,7 +484,7 @@ export const PLACES: Place[] = [
       ru: "Большой торговый центр с магазинами, кинотеатром и фуд-кортом.",
     },
     categories: ["malls", "entertainment", "markets"],
-    image: modernMuseum,
+    image: imgMerkeziMall,
     rating: 4.4,
     reviewCount: 9120,
     distanceKm: 2.1,
@@ -483,7 +503,7 @@ export const PLACES: Place[] = [
       ru: "Традиционный базар с местными фруктами, овощами и специями.",
     },
     categories: ["bazaars", "markets", "photopoints"],
-    image: oldCity,
+    image: imgYasilBazar,
     rating: 4.2,
     reviewCount: 3410,
     distanceKm: 2.6,
@@ -502,7 +522,7 @@ export const PLACES: Place[] = [
       ru: "Историческая мечеть и место паломничества в центре города.",
     },
     categories: ["religious", "historic"],
-    image: oldCity,
+    image: imgTezePirMescidi,
     rating: 4.7,
     reviewCount: 5210,
     distanceKm: 1.7,
@@ -521,7 +541,7 @@ export const PLACES: Place[] = [
       ru: "Центральный отель с видом на бульвар.",
     },
     categories: ["hotels", "popular"],
-    image: boulevard,
+    image: imgSahilHotel,
     rating: 4.5,
     reviewCount: 1840,
     distanceKm: 1.2,
