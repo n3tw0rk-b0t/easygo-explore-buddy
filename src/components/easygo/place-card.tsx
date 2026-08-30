@@ -16,7 +16,7 @@ export function PlaceCard({ place, variant = "carousel" }: { place: Place; varia
     <article
       className={cn(
         "relative shrink-0 overflow-hidden rounded-3xl border border-border bg-card shadow-soft",
-        variant === "carousel" ? "w-[248px]" : "w-full",
+        variant === "carousel" ? "w-[248px] lg:w-full" : "w-full",
       )}
     >
       <Link

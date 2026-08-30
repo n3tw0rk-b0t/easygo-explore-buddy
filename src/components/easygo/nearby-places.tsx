@@ -53,7 +53,7 @@ export function NearbyPlaces() {
           ))}
         </div>
       ) : (
-        <div className="no-scrollbar -mx-4 mt-3 flex gap-3 overflow-x-auto px-4 pb-2">
+        <div className="no-scrollbar -mx-4 mt-3 flex gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:px-0">
           {places.map((place) => (
             <PlaceCard key={place.id} place={place} />
           ))}
