@@ -3,6 +3,7 @@ import { Compass, Heart, MapPin } from "lucide-react";
 import { useState } from "react";
 
 import heroImage from "@/assets/places/world-landmarks-hero.png";
+import { AiRecommendations } from "@/components/easygo/ai-recommendations";
 import { CitySelector } from "@/components/easygo/city-selector";
 import { ExploreSheet } from "@/components/easygo/explore-sheet";
 import { HelpFab } from "@/components/easygo/help-fab";
@@ -104,6 +105,10 @@ function Home() {
               <div className="mt-4 [&>section]:mt-0">
                 <RadiusFilter />
               </div>
+            </section>
+
+            <section className="mt-4 rounded-[2rem] border border-primary-foreground/20 bg-background/95 p-4 shadow-lift backdrop-blur-xl dark:border-foreground/15 lg:p-5">
+              <AiRecommendations />
             </section>
 
             <section className="mt-4 rounded-[2rem] border border-primary-foreground/20 bg-background/95 p-4 shadow-lift backdrop-blur-xl dark:border-foreground/15 lg:p-5">
