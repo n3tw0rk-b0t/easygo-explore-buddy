@@ -8,7 +8,7 @@ import type { Lang } from "@/data/types";
 import { getRecommendations } from "@/lib/recommend.functions";
 import { useAppState } from "@/state/app-state";
 
-const COPY: Record<Lang, Record<string, string>> = {
+const COPY: Record<Lang, { title: string; helper: string; placeholder: string; action: string; loading: string; short: string; empty: string }> = {
   az: {
     title: "AI ilə kəşf et",
     helper: "Nəyi sevdiyinizi yazın — sizə uyğun məkanları seçək.",

@@ -22,7 +22,7 @@ export async function recommendPlaces(input: {
   cityId: CityId;
   lang: Lang;
 }): Promise<Recommendation[]> {
-  const apiKey = process.env.LOVABLE_API_KEY;
+  const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new GatewayError(401, "AI is not configured.");
 
   const candidates = PLACES.filter((p) => p.cityId === input.cityId);
