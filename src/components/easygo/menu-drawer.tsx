@@ -1,4 +1,6 @@
+import { Link } from "@tanstack/react-router";
 import {
+  Home,
   Heart,
   Globe,
   LifeBuoy,
