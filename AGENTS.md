@@ -17,3 +17,6 @@
 - SSR-rendered numbers/dates must not use locale formatting (`toLocaleString`) — why: server and browser locales differ and break hydration.
 - Additional demo gallery photos and source credits live in `src/data/place-gallery.ts`, imported from Lovable Assets pointers and merged into `Place.images` — why: one shared gallery catalog preserves primary card photos and licensed attribution.
 - Shared menu, help and non-home search live in `AppChrome` mounted inside the root providers — why: controls persist across all pages without duplicating drawers, while Home keeps its original search placement.
+- Community address and opening hours use the shared client/server place schema and persisted place fields — why: entered venue facts must survive reloads without substituting demo details.
+- Real reviews use public reads and validated server-only writes with transactional rate limiting; never mix them with demo reviews — why: anonymous contributions appear immediately while keeping demo data and private abuse-control identifiers separate.
+- Place map actions use encoded Google Maps search URLs with venue name and address — why: working external maps need no embedded map or location integration.

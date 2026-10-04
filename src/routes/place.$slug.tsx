@@ -1,6 +1,7 @@
 import { Link, createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, Clock, Heart, Lightbulb, MapPin, Share2, Star, Ticket } from "lucide-react";
 import { useState } from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { BottomSheet } from "@/components/easygo/sheet";
@@ -20,8 +21,13 @@ import { useAllPlaces } from "@/hooks/use-all-places";
 import { PLACE_DETAIL_COPY } from "@/i18n/place-details";
 import { cn } from "@/lib/utils";
 import { useAppState } from "@/state/app-state";
+import { Button } from "@/components/ui/button";
+import { CommunityReviews } from "@/components/easygo/community-reviews";
+import { placeMapUrl } from "@/lib/place-input";
+import { placeReviewsQuery } from "@/lib/reviews-query";
 
 export const Route = createFileRoute("/place/$slug")({
+  loader: ({ context, params }) => context.queryClient.ensureQueryData(placeReviewsQuery(params.slug)),
   head: ({ params }) => {
     const place = PLACES.find((p) => p.slug === params.slug);
     const title = place ? `${place.name.en} — EasyGo AI` : "Place details — EasyGo AI";
@@ -52,6 +58,7 @@ function PlaceDetail() {
   const [expanded, setExpanded] = useState(false);
   const [reviewsOpen, setReviewsOpen] = useState(false);
   const place = useAllPlaces().find((p) => p.slug === slug);
+  const { data: realReviews } = useSuspenseQuery(placeReviewsQuery(slug));
 
   const goBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) router.history.back();
@@ -76,6 +83,8 @@ function PlaceDetail() {
   const category = CATEGORIES.find((cat) => cat.id === place.categories[0]);
   const secondCategory = CATEGORIES.find((cat) => cat.id === place.categories[1]);
   const address = details ? tr(details.address) : place.address;
+  const hours = place.openingHours || (details ? tr(details.hours) : "");
+  const realRating = realReviews.length ? realReviews.reduce((sum, r) => sum + r.rating, 0) / realReviews.length : 0;
   const price = getPriceInfo(place);
   const reviews = getDemoReviews(place);
   const favorite = isFavorite(place.id);
@@ -162,7 +171,9 @@ function PlaceDetail() {
             <p className="mt-1 text-sm text-muted-foreground">
               {tr(place.city)}, {tr(place.country)}
             </p>
-            {!place.isCommunity ? (
+            {realReviews.length > 0 ? (
+              <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground"><Star className="h-4 w-4 fill-attention text-attention" aria-hidden="true" />{realRating.toFixed(1)}<span className="font-normal text-muted-foreground">· {realReviews.length} {c.reviewsWord}</span></p>
+            ) : !place.isCommunity ? (
               <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground">
                 <Star className="h-4 w-4 fill-attention text-attention" aria-hidden="true" />
                 {place.rating.toFixed(1)}
@@ -226,16 +237,18 @@ function PlaceDetail() {
               <div className="lg:col-span-2">
                 <InfoCard icon={<MapPin className="h-5 w-5" />} label={c.address}>
                   <p>{address}</p>
-                  <button type="button" onClick={() => toast(c.mapSoon)} className="mt-1 min-h-11 text-sm font-semibold text-primary">
+                  <Button asChild variant="link" className="mt-1 min-h-11 px-0">
+                    <a href={placeMapUrl(tr(place.name), address, tr(place.city), tr(place.country))} target="_blank" rel="noopener noreferrer">
                     {c.viewMap}
-                  </button>
-                  <MapPreview label={tr(place.name)} badge={c.demoMap} />
+                    </a>
+                  </Button>
+                  {!place.isCommunity ? <MapPreview label={tr(place.name)} badge={c.demoMap} /> : null}
                 </InfoCard>
               </div>
             ) : null}
-            {details ? (
+            {hours ? (
               <InfoCard icon={<Clock className="h-5 w-5" />} label={c.hours}>
-                {tr(details.hours)}
+                <p className="whitespace-pre-line">{hours}</p>
               </InfoCard>
             ) : null}
             {price ? (
@@ -246,10 +259,11 @@ function PlaceDetail() {
           </div>
 
           {/* Reviews */}
+          <CommunityReviews key={slug} slug={slug} />
           {reviews.length > 0 ? (
             <section aria-labelledby="reviews-h">
               <div className="flex items-center justify-between gap-2">
-                <h2 id="reviews-h" className="font-display text-lg font-bold text-foreground">{c.reviews}</h2>
+                <h2 id="reviews-h" className="font-display text-lg font-bold text-foreground">{c.demoReviews}</h2>
                 <DemoBadge>{c.demoReviews}</DemoBadge>
               </div>
               <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted-foreground">

@@ -11,6 +11,8 @@ import type { CityId, Lang } from "@/data/types";
 import { communityPlacesQuery } from "@/hooks/use-all-places";
 import { addCommunityPlace } from "@/lib/community.functions";
 import { useAppState } from "@/state/app-state";
+import { Button } from "@/components/ui/button";
+import { communityPlaceSchema } from "@/lib/place-input";
 
 export const Route = createFileRoute("/add-place")({
   head: () => ({
@@ -39,7 +41,10 @@ async function resizeImage(file: File): Promise<string> {
   const canvas = document.createElement("canvas");
   canvas.width = Math.round(bitmap.width * scale);
   canvas.height = Math.round(bitmap.height * scale);
-  canvas.getContext("2d")!.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("Could not process image");
+  context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
   return canvas.toDataURL("image/jpeg", 0.82);
 }
 
@@ -55,6 +60,7 @@ function AddPlace() {
   const [cityId, setCityId] = useState<CityId>(currentCity);
   const [category, setCategory] = useState("parks");
   const [address, setAddress] = useState("");
+  const [openingHours, setOpeningHours] = useState("");
   const [description, setDescription] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -65,11 +71,12 @@ function AddPlace() {
     e.preventDefault();
     if (busy) return;
     if (!image) return setError(c.needPhoto);
-    if (name.trim().length < 2 || description.trim().length < 10) return setError(c.invalid);
+    const parsed = communityPlaceSchema.safeParse({ name, description, address, openingHours, cityId, category, image });
+    if (!parsed.success) return setError(lang === "az" ? "Ad (2+), təsvir (10+), ünvan (5+) və iş saatları (3+ simvol) tələb olunur." : lang === "ru" ? "Заполните название (2+), описание (10+), адрес (5+) и часы работы (3+ символов)." : "Enter a name (2+), description (10+), address (5+) and opening hours (3+ characters).");
     setBusy(true);
     setError(null);
     try {
-      const res = await save({ data: { name, description, address, cityId, category, image } });
+      const res = await save({ data: parsed.data });
       if (!res.ok) return setError(res.message);
       await queryClient.invalidateQueries({ queryKey: communityPlacesQuery.queryKey });
       toast(c.ok);
@@ -138,8 +145,13 @@ function AddPlace() {
           </div>
 
           <label className="grid gap-1 text-sm font-semibold text-foreground">
-            {c.address}
-            <input value={address} onChange={(e) => setAddress(e.target.value)} maxLength={160} className={field} />
+            {lang === "az" ? "Tam ünvan" : lang === "ru" ? "Полный адрес" : "Full address"}
+            <input required minLength={5} value={address} onChange={(e) => setAddress(e.target.value)} maxLength={160} className={field} />
+          </label>
+
+          <label className="grid gap-1 text-sm font-semibold text-foreground">
+            {lang === "az" ? "İş saatları" : lang === "ru" ? "Часы работы" : "Opening hours"}
+            <textarea required minLength={3} maxLength={300} rows={3} value={openingHours} onChange={(e) => setOpeningHours(e.target.value)} placeholder={lang === "az" ? "B.e.–Cümə: 09:00–18:00; Şənbə–Bazar: bağlı" : lang === "ru" ? "Пн–Пт: 09:00–18:00; Сб–Вс: закрыто" : "Mon–Fri: 09:00–18:00; Sat–Sun: closed"} className={`${field} resize-none`} />
           </label>
 
           <label className="grid gap-1 text-sm font-semibold text-foreground">
@@ -149,10 +161,10 @@ function AddPlace() {
 
           {error ? <p role="alert" className="text-sm font-medium text-destructive">{error}</p> : null}
 
-          <button type="submit" disabled={busy} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:bg-primary-hover disabled:opacity-70">
+          <Button type="submit" disabled={busy} className="min-h-12">
             {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
             {busy ? c.saving : c.save}
-          </button>
+          </Button>
         </form>
       </div>
     </div>

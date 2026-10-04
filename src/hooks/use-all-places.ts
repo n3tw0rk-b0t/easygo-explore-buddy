@@ -36,6 +36,7 @@ export function useAllPlaces(): Place[] {
         isFavoriteByDefault: false,
         isCommunity: true,
         address: c.address,
+        openingHours: c.openingHours,
       };
     });
     return [...community, ...PLACES];

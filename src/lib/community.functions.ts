@@ -1,10 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { z } from "zod";
-
-import { CATEGORIES } from "@/data/categories";
-
-const CITY = z.enum(["baku", "istanbul", "bratislava", "vienna"]);
-const CATEGORY_IDS = CATEGORIES.map((c) => c.id).filter((id) => id !== "popular") as [string, ...string[]];
+import { communityPlaceSchema } from "./place-input";
 
 export const listCommunityPlaces = createServerFn({ method: "GET" }).handler(async () => {
   const { fetchCommunityPlaces } = await import("./community.server");
@@ -28,22 +23,7 @@ const slugify = (s: string) =>
     .slice(0, 40) || "mekan";
 
 export const addCommunityPlace = createServerFn({ method: "POST" })
-  .inputValidator((data) =>
-    z
-      .object({
-        name: z.string().trim().min(2).max(80),
-        description: z.string().trim().min(10).max(600),
-        address: z.string().trim().max(160).optional(),
-        cityId: CITY,
-        category: z.enum(CATEGORY_IDS),
-        // JPEG data URL produced by the client (resized)
-        image: z
-          .string()
-          .max(4_000_000)
-          .regex(/^data:image\/(jpeg|png|webp);base64,/),
-      })
-      .parse(data),
-  )
+  .inputValidator((data) => communityPlaceSchema.parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const [meta = "", b64 = ""] = data.image.split(",", 2);
@@ -68,6 +48,7 @@ export const addCommunityPlace = createServerFn({ method: "POST" })
       name: data.name,
       description: data.description,
       address: data.address || null,
+      opening_hours: data.openingHours,
       category: data.category,
       image_url: path,
     });
