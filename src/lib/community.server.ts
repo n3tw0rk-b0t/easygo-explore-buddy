@@ -6,6 +6,7 @@ export interface CommunityPlaceDTO {
   name: string;
   description: string;
   address: string | null;
+  openingHours: string | null;
   category: CategoryId;
   imageUrl: string;
   createdAt: string;
@@ -17,7 +18,7 @@ export async function fetchCommunityPlaces(cityId?: CityId): Promise<CommunityPl
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   let query = supabaseAdmin
     .from("community_places")
-    .select("slug, city_id, name, description, address, category, image_url, created_at")
+    .select("slug, city_id, name, description, address, opening_hours, category, image_url, created_at")
     .order("created_at", { ascending: false })
     .limit(200);
   if (cityId) query = query.eq("city_id", cityId);
@@ -40,6 +41,7 @@ export async function fetchCommunityPlaces(cityId?: CityId): Promise<CommunityPl
     name: r.name,
     description: r.description,
     address: r.address,
+    openingHours: r.opening_hours,
     category: r.category as CategoryId,
     imageUrl: urlByPath.get(r.image_url) ?? "",
     createdAt: r.created_at,

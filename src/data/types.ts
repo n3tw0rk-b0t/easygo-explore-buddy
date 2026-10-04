@@ -50,4 +50,5 @@ export interface Place {
   /** True for places added by users. */
   isCommunity?: boolean;
   address?: string | null;
+  openingHours?: string | null;
 }
