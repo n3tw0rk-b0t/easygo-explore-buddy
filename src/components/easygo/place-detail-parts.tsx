@@ -1,40 +1,72 @@
-import { MapPin, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, MapPin, Star } from "lucide-react";
 import { useRef, useState, type ReactNode } from "react";
 
 import fallbackImage from "@/assets/places/dagustu-park.jpg";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export function PlaceGallery({ images, alt, photoLabel }: { images: string[]; alt: string; photoLabel: string }) {
+export function PlaceGallery({ images, alt, photoLabel, previousLabel, nextLabel, credits = [] }: {
+  images: string[];
+  alt: string;
+  photoLabel: string;
+  previousLabel: string;
+  nextLabel: string;
+  credits?: { image: string; artist: string; license: string; source: string }[];
+}) {
   const [index, setIndex] = useState(0);
+  const [failed, setFailed] = useState<string[]>([]);
   const ref = useRef<HTMLDivElement>(null);
+  const visibleImages = images.filter((src) => !failed.includes(src));
+  const activeIndex = Math.min(index, Math.max(0, visibleImages.length - 1));
+  const credit = credits.find((c) => c.image === visibleImages[activeIndex]);
+  const move = (next: number) => {
+    const el = ref.current;
+    if (!el) return;
+    el.scrollTo({ left: el.clientWidth * next, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  };
   return (
-    <div className="relative">
+    <div className="relative" role="region" aria-label={`${alt} — ${photoLabel}`} aria-roledescription="carousel">
       <div
         ref={ref}
         onScroll={(e) => {
           const el = e.currentTarget;
-          setIndex(Math.round(el.scrollLeft / el.clientWidth));
+            if (el.clientWidth > 0) setIndex(Math.round(el.scrollLeft / el.clientWidth));
+        }}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+          e.preventDefault();
+          move(Math.max(0, Math.min(visibleImages.length - 1, activeIndex + (e.key === "ArrowRight" ? 1 : -1))));
         }}
         className="no-scrollbar flex aspect-[4/3] snap-x snap-mandatory overflow-x-auto rounded-b-[2rem] sm:aspect-[16/10] lg:rounded-[2rem]"
       >
-        {images.map((src, i) => (
+        {(visibleImages.length ? visibleImages : [fallbackImage]).map((src, i) => (
           <img
             key={src + i}
             src={src}
-            alt={images.length > 1 ? `${alt} — ${photoLabel} ${i + 1}` : alt}
+            alt={`${alt} — ${photoLabel} ${i + 1}`}
             loading={i === 0 ? "eager" : "lazy"}
             onError={(e) => {
-              if (e.currentTarget.src !== fallbackImage) e.currentTarget.src = fallbackImage;
+              if (src !== fallbackImage) setFailed((prev) => [...prev, src]);
             }}
-            className="h-full w-full shrink-0 snap-center object-cover"
+            className={cn("h-full w-full shrink-0 snap-center bg-foreground", i === 0 ? "object-cover" : "object-contain")}
           />
         ))}
       </div>
-      {images.length > 1 ? (
-        <span className="absolute bottom-3 right-4 rounded-full bg-foreground/70 px-2.5 py-1 text-xs font-semibold text-background">
-          {index + 1} / {images.length}
-        </span>
+      {visibleImages.length > 1 ? (
+        <>
+          <Button type="button" variant="ghost" size="icon" aria-label={previousLabel} title={previousLabel} disabled={activeIndex === 0} onClick={() => move(activeIndex - 1)} className="absolute left-3 top-1/2 h-11 w-11 -translate-y-1/2 rounded-full bg-card/90 text-foreground shadow-soft hover:bg-card">
+            <ChevronLeft aria-hidden="true" />
+          </Button>
+          <Button type="button" variant="ghost" size="icon" aria-label={nextLabel} title={nextLabel} disabled={activeIndex === visibleImages.length - 1} onClick={() => move(activeIndex + 1)} className="absolute right-3 top-1/2 h-11 w-11 -translate-y-1/2 rounded-full bg-card/90 text-foreground shadow-soft hover:bg-card">
+            <ChevronRight aria-hidden="true" />
+          </Button>
+          <span aria-live="polite" aria-atomic="true" className="absolute bottom-3 right-4 rounded-full bg-foreground/70 px-2.5 py-1 text-xs font-semibold text-background">
+            {activeIndex + 1} / {visibleImages.length}
+          </span>
+        </>
       ) : null}
+      {credit ? <a href={credit.source} target="_blank" rel="noopener noreferrer" className="absolute bottom-3 left-4 max-w-[calc(100%-6rem)] rounded bg-foreground/70 px-2 py-1 text-[10px] leading-tight text-background underline underline-offset-2">© {credit.artist} · {credit.license}</a> : null}
     </div>
   );
 }

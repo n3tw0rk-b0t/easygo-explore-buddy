@@ -32,6 +32,7 @@ import imgStefanKilsesi from "@/assets/places/stefan-kilsesi.jpg";
 import imgNaschmarkt from "@/assets/places/naschmarkt.jpg";
 
 import { CITIES } from "./cities";
+import { PLACE_GALLERY_PHOTOS } from "./place-gallery";
 import type { CityId, Place } from "./types";
 
 const cityMeta = (id: CityId) => {
@@ -44,7 +45,7 @@ const cityMeta = (id: CityId) => {
  * Replace with a real Places API response in a later phase — the shape
  * (id/slug/localised text/category/rating/distance) is intentionally stable.
  */
-export const PLACES: Place[] = [
+const DEMO_PLACES: Place[] = [
   {
     id: "az-1",
     slug: "alov-qulleleri",
@@ -669,6 +670,11 @@ export const PLACES: Place[] = [
     isFavoriteByDefault: false,
   },
 ];
+
+export const PLACES: Place[] = DEMO_PLACES.map((place) => ({
+  ...place,
+  images: [place.image, ...(PLACE_GALLERY_PHOTOS[place.slug] ?? []).map((photo) => photo.image)],
+}));
 
 export const getPlacesByCity = (cityId: CityId) => PLACES.filter((p) => p.cityId === cityId);
 
