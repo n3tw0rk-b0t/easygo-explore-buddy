@@ -15,3 +15,4 @@
 - Place Details UI pieces live in `src/components/easygo/place-detail-parts.tsx`, its copy in `src/i18n/place-details.ts`, demo price/reviews in `src/data/place-extras.ts` — why: reusable, one data source shared with Home cards.
 - Travel Options placeholder is `src/routes/place_.$slug.travel.tsx` (URL `/place/$slug/travel`, not nested) — why: keeps the details page a leaf route.
 - SSR-rendered numbers/dates must not use locale formatting (`toLocaleString`) — why: server and browser locales differ and break hydration.
+- Additional demo gallery photos and source credits live in `src/data/place-gallery.ts`, imported from Lovable Assets pointers and merged into `Place.images` — why: one shared gallery catalog preserves primary card photos and licensed attribution.

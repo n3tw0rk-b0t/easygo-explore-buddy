@@ -13,6 +13,7 @@ import {
 } from "@/components/easygo/place-detail-parts";
 import { CATEGORIES } from "@/data/categories";
 import { PLACE_DETAILS } from "@/data/place-details";
+import { PLACE_GALLERY_PHOTOS } from "@/data/place-gallery";
 import { getDemoReviews, getPriceInfo } from "@/data/place-extras";
 import { PLACES } from "@/data/places";
 import { useAllPlaces } from "@/hooks/use-all-places";
@@ -117,7 +118,7 @@ function PlaceDetail() {
       <div className="relative mx-auto w-full max-w-[560px] pb-32 lg:max-w-[860px] lg:px-8 lg:pt-6">
         {/* Hero + overlay nav */}
         <div className="relative">
-          <PlaceGallery images={images} alt={tr(place.name)} photoLabel={c.photo} />
+          <PlaceGallery key={place.slug} images={images} alt={tr(place.name)} photoLabel={c.photo} previousLabel={c.previousPhoto} nextLabel={c.nextPhoto} credits={PLACE_GALLERY_PHOTOS[place.slug]} />
           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 safe-x">
             <button type="button" onClick={goBack} aria-label={c.back} className={iconBtn}>
               <ArrowLeft className="h-5 w-5" aria-hidden="true" />
