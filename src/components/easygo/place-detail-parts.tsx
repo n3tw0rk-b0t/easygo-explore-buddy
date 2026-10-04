@@ -49,7 +49,7 @@ export function PlaceGallery({ images, alt, photoLabel, previousLabel, nextLabel
             onError={(e) => {
               if (src !== fallbackImage) setFailed((prev) => [...prev, src]);
             }}
-            className="h-full w-full shrink-0 snap-center object-cover"
+            className={cn("h-full w-full shrink-0 snap-center bg-foreground", i === 0 ? "object-cover" : "object-contain")}
           />
         ))}
       </div>

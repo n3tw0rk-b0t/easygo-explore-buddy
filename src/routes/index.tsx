@@ -28,6 +28,8 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Find places nearby, explore your city and plan your trip with EasyGo AI.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Home,
