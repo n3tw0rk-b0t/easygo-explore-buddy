@@ -45,4 +45,7 @@ export interface Place {
   /** Placeholder coordinates, not used for real calculations yet. */
   coordinates: { lat: number | null; lng: number | null };
   isFavoriteByDefault: boolean;
+  /** True for places added by users. */
+  isCommunity?: boolean;
+  address?: string | null;
 }
