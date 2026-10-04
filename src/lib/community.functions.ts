@@ -23,7 +23,7 @@ const slugify = (s: string) =>
     .slice(0, 40) || "mekan";
 
 export const addCommunityPlace = createServerFn({ method: "POST" })
-  .inputValidator((data) => communityPlaceSchema.parse(data))
+  .validator((data) => communityPlaceSchema.parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const [meta = "", b64 = ""] = data.image.split(",", 2);
