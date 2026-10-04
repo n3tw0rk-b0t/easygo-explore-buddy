@@ -18,7 +18,7 @@ const COPY: Record<Lang, Copy> = {
 export function TaxiProviderCard({ provider, quote, c }: { provider: TransportProvider; quote: TaxiQuote; c: Copy }) {
   const hasPrice = quote.priceStatus !== "unavailable" && quote.fareMin != null && quote.currency;
   return (
-    <article className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft">
+    <article className="flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft">
       {provider.logo ? (
         <img src={provider.logo} alt="" className="h-11 w-11 shrink-0 rounded-xl object-contain" />
       ) : (
@@ -40,7 +40,7 @@ export function TaxiProviderCard({ provider, quote, c }: { provider: TransportPr
             : c.noPrice}
         </p>
       </div>
-      <Button size="sm" className="shrink-0 rounded-full" onClick={() => toast(c.redirect)}>
+      <Button size="sm" className="min-h-11 w-full shrink-0 rounded-full sm:w-auto" onClick={() => toast(c.redirect)}>
         {hasPrice ? c.open : c.seePrice}
       </Button>
     </article>
