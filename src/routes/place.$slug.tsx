@@ -118,7 +118,7 @@ function PlaceDetail() {
       <div className="relative mx-auto w-full max-w-[560px] pb-32 lg:max-w-[860px] lg:px-8 lg:pt-6">
         {/* Hero + overlay nav */}
         <div className="relative">
-          <PlaceGallery key={place.slug} images={images} alt={tr(place.name)} photoLabel={c.photo} previousLabel={c.previousPhoto} nextLabel={c.nextPhoto} credits={PLACE_GALLERY_PHOTOS[place.slug]} />
+          <PlaceGallery key={place.slug} images={images} alt={tr(place.name)} photoLabel={c.photo} previousLabel={c.previousPhoto} nextLabel={c.nextPhoto} credits={PLACE_GALLERY_PHOTOS[place.slug] ?? []} />
           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 safe-x">
             <button type="button" onClick={goBack} aria-label={c.back} className={iconBtn}>
               <ArrowLeft className="h-5 w-5" aria-hidden="true" />
