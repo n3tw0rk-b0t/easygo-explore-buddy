@@ -8,4 +8,4 @@
 - [x] Mount one persistent menu and help control in the root layout.
 - [x] Show existing search and Explore above every non-home page; preserve Home search.
 - [x] Reserve bottom space so the place travel action never overlaps Help.
-- [ ] Verify search, menu, help and page transitions in the running app.
+- [x] Verify search, menu, help and page transitions in the running app; all four pages show one search, and travel CTA does not overlap Help.
