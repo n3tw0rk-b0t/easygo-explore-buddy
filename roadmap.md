@@ -1,3 +1,8 @@
+# Automatic external reviews
+- [ ] Resolve a secure, licensed way to display Google ratings/review samples without visitor sign-in; never expose a public billable Maps proxy.
+- [ ] Integrate Booking hotel reviews after approved partner access is supplied.
+- [ ] Integrate Tripadvisor ratings/reviews after licensed API access is supplied.
+
 # Photo galleries
 - [x] Download and validate distinct real place photos; preserve source credits.
 - [x] Connect photo arrays to existing details galleries; add accessible previous/next controls.
