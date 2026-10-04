@@ -26,7 +26,8 @@ export const Route = createFileRoute("/add-place")({
   component: AddPlace,
 });
 
-const COPY: Record<Lang, Record<string, string>> = {
+const COPY_KEYS = ["title","helper","photo","name","city","category","address","desc","save","saving","ok","needPhoto","invalid"] as const;
+const COPY: Record<Lang, Record<(typeof COPY_KEYS)[number], string>> = {
   az: { title: "Yeni məkan əlavə et", helper: "Sevdiyiniz məkanı paylaşın — hamı görə biləcək.", photo: "Şəkil seç", name: "Məkanın adı", city: "Şəhər", category: "Kateqoriya", address: "Ünvan (istəyə bağlı)", desc: "Qısa təsvir", save: "Əlavə et", saving: "Yüklənir…", ok: "Məkan əlavə edildi!", needPhoto: "Zəhmət olmasa şəkil seçin.", invalid: "Ad (2+) və təsvir (10+ simvol) tələb olunur." },
   en: { title: "Add a new place", helper: "Share a place you love — everyone will be able to see it.", photo: "Choose photo", name: "Place name", city: "City", category: "Category", address: "Address (optional)", desc: "Short description", save: "Add place", saving: "Uploading…", ok: "Place added!", needPhoto: "Please choose a photo.", invalid: "Name (2+) and description (10+ characters) are required." },
   ru: { title: "Добавить новое место", helper: "Поделитесь любимым местом — его увидят все.", photo: "Выбрать фото", name: "Название места", city: "Город", category: "Категория", address: "Адрес (необязательно)", desc: "Краткое описание", save: "Добавить", saving: "Загрузка…", ok: "Место добавлено!", needPhoto: "Пожалуйста, выберите фото.", invalid: "Нужны название (2+) и описание (10+ символов)." },

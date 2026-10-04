@@ -46,7 +46,7 @@ export const addCommunityPlace = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const [meta, b64] = data.image.split(",", 2);
+    const [meta = "", b64 = ""] = data.image.split(",", 2);
     const mime = meta.slice(5, meta.indexOf(";"));
     const ext = mime.split("/")[1];
     const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
