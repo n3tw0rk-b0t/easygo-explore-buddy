@@ -24,6 +24,7 @@ export type Database = {
           id: string
           image_url: string
           name: string
+          opening_hours: string | null
           slug: string
         }
         Insert: {
@@ -35,6 +36,7 @@ export type Database = {
           id?: string
           image_url: string
           name: string
+          opening_hours?: string | null
           slug: string
         }
         Update: {
@@ -46,7 +48,38 @@ export type Database = {
           id?: string
           image_url?: string
           name?: string
+          opening_hours?: string | null
           slug?: string
+        }
+        Relationships: []
+      }
+      place_reviews: {
+        Row: {
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          place_slug: string
+          rating: number
+          submission_key: string
+        }
+        Insert: {
+          author_name: string
+          body: string
+          created_at?: string
+          id?: string
+          place_slug: string
+          rating: number
+          submission_key: string
+        }
+        Update: {
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          place_slug?: string
+          rating?: number
+          submission_key?: string
         }
         Relationships: []
       }
@@ -55,7 +88,30 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      submit_place_review: {
+        Args: {
+          p_author: string
+          p_body: string
+          p_key: string
+          p_rating: number
+          p_slug: string
+        }
+        Returns: {
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          place_slug: string
+          rating: number
+          submission_key: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "place_reviews"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       [_ in never]: never
