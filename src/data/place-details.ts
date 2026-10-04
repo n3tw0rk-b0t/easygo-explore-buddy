@@ -149,9 +149,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Просп. Микаила Гусейнова, 28, Баку"
     },
     "hours": {
-      "az": "Ziyarət saatları təsdiqlənməyib. Getməzdən əvvəl məkanla dəqiqləşdirin.",
-      "en": "Visiting hours are not confirmed. Check with the venue before visiting.",
-      "ru": "Часы посещения не подтверждены. Уточните перед визитом."
+      "az": "Ekspozisiya: ç.a.–c. 10:00–19:00; ş.–b. 11:00–20:00\nKassa: ç.a.–c. 10:00–18:00; ş.–b. 11:00–19:00\nBazar ertəsi bağlıdır",
+      "en": "Exhibition: Tue–Fri 10:00–19:00; Sat–Sun 11:00–20:00\nTicket office: Tue–Fri 10:00–18:00; Sat–Sun 11:00–19:00\nClosed Monday",
+      "ru": "Экспозиция: вт–пт 10:00–19:00; сб–вс 11:00–20:00\nКасса: вт–пт 10:00–18:00; сб–вс 11:00–19:00\nПонедельник — выходной"
     },
     "about": {
       "az": "1967-ci ildə yaradılan muzey Azərbaycan xalçaçılığının regional məktəblərini və toxuculuq ənənələrini təqdim edir. 2014-cü ildən kolleksiya bükülmüş xalçanı xatırladan sahilyanı binada nümayiş olunur.",
@@ -162,7 +162,8 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Canlı toxuculuq nümayişinin vaxtını girişdə soruşun.",
       "en": "Ask at reception when a live weaving demonstration is available.",
       "ru": "Уточните на входе время демонстрации ручного ткачества."
-    }
+    },
+    "source": "https://azcarpetmuseum.az/en/ticket"
   },
   "baki-zooloji-parki": {
     "address": {
@@ -708,9 +709,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Wienzeile, 1060 Вена"
     },
     "hours": {
-      "az": "Ziyarət saatları təsdiqlənməyib. Getməzdən əvvəl məkanla dəqiqləşdirin.",
-      "en": "Visiting hours are not confirmed. Check with the venue before visiting.",
-      "ru": "Часы посещения не подтверждены. Уточните перед визитом."
+      "az": "Piştaxtaların icazə verilən maksimum saatları: b.e.–c. 06:00–21:00; ş. 06:00–18:00\nRestoran/barlar: b.e.–ş. 06:00–23:00; bazar və bayramlar 09:00–21:00\nFərdi məkanların saatları dəyişə bilər",
+      "en": "Maximum permitted stall hours: Mon–Fri 06:00–21:00; Sat 06:00–18:00\nRestaurants/bars: Mon–Sat 06:00–23:00; Sun & holidays 09:00–21:00\nIndividual opening hours may vary",
+      "ru": "Максимально разрешённые часы прилавков: пн–пт 06:00–21:00; сб 06:00–18:00\nРестораны/бары: пн–сб 06:00–23:00; вс и праздники 09:00–21:00\nЧасы отдельных заведений могут отличаться"
     },
     "about": {
       "az": "Naschmarkt Vyananın ən tanınmış ərzaq bazarıdır və kökləri XVI əsrə gedib çıxır. Piştaxtalarda təzə məhsullar, pendirlər, ədviyyatlar və beynəlxalq delikateslər satılır; şənbə günləri yaxınlıqda bit bazarı qurulur.",
@@ -721,6 +722,7 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Ərzaq alış-verişi üçün səhər gəlin, çünki bəzi piştaxtalar rəsmi bağlanışdan əvvəl işini bitirir.",
       "en": "Come in the morning for food shopping, as some stalls close before the official closing time.",
       "ru": "За продуктами приходите утром: некоторые прилавки закрываются раньше официального окончания работы."
-    }
+    },
+    "source": "https://www.wien.gv.at/freizeit/naschmarkt"
   }
 };

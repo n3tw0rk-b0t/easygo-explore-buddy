@@ -16,6 +16,6 @@
 - [x] Verify immediate review visibility and reload persistence, saved address/hours, encoded maps links, desktop and mobile layouts; remove temporary test records.
 
 # Existing place facts and full-screen mobile pages
-- [ ] Verify named venues against official sources; replace indicative address/hours and disclose unknown facts.
-- [ ] Use real visitor reviews and working map links on existing place pages.
-- [ ] Adapt Home, place details, add-place fields and review forms to full-width phones; verify mobile and desktop.
+- [x] Verify available official venue sources; replace confirmed address/hours, link sources, and disclose unknown schedules and unspecified venues.
+- [x] Use only submitted visitor reviews and working Google Maps links on existing place pages.
+- [x] Adapt Home, place details, add-place fields and review forms to full-width phones; verified at 320, 390, 628 and 1280px without horizontal overflow or page errors.
