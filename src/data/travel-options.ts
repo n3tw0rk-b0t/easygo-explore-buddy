@@ -1,102 +1,89 @@
 import type { CityId } from "./types";
 
-/** Central transport config & demo route data. Everything here is demo — replaceable by APIs later. */
+/** Central transport config. Operators are real public services; distances/durations remain estimates. */
 export type TransportModeId = "taxi" | "bus" | "metro" | "scooter" | "bicycle" | "walking";
 
 export const TRANSPORT_MODE_ORDER: TransportModeId[] = ["taxi", "bus", "metro", "scooter", "bicycle", "walking"];
 
-/** Demo availability per city (not verified real availability). */
-export const CITY_TRANSPORT_MODES: Record<CityId, TransportModeId[]> = {
-  baku: ["taxi", "bus", "metro", "scooter", "walking"],
-  istanbul: ["taxi", "bus", "metro", "scooter", "bicycle", "walking"],
-  bratislava: ["taxi", "bus", "scooter", "bicycle", "walking"],
-  vienna: ["taxi", "bus", "metro", "scooter", "bicycle", "walking"],
+export interface TransportOperator {
+  id: string;
+  name: string;
+  /** Official website / app landing page. */
+  url: string;
+}
+
+type OperatorModes = "bus" | "metro" | "scooter" | "bicycle";
+
+/** Real operators per city (public sources). Empty list = mode hidden for that city. */
+export const CITY_OPERATORS: Record<CityId, Record<OperatorModes, TransportOperator[]>> = {
+  baku: {
+    bus: [{ id: "ayna", name: "AYNA — Bakı avtobusları", url: "https://ayna.gov.az" }, { id: "bakubus", name: "BakuBus", url: "https://bakubus.az" }],
+    metro: [{ id: "baku-metro", name: "Bakı Metropoliteni", url: "https://metro.gov.az" }],
+    scooter: [],
+    bicycle: [],
+  },
+  istanbul: {
+    bus: [{ id: "iett", name: "İETT", url: "https://iett.istanbul" }],
+    metro: [{ id: "metro-istanbul", name: "Metro İstanbul", url: "https://www.metro.istanbul" }],
+    scooter: [{ id: "marti", name: "Martı", url: "https://www.marti.tech" }, { id: "binbin", name: "BinBin", url: "https://binbin.tech" }],
+    bicycle: [{ id: "isbike", name: "İsbike", url: "https://isbike.istanbul" }],
+  },
+  bratislava: {
+    bus: [{ id: "dpb", name: "DPB — Dopravný podnik Bratislava", url: "https://dpb.sk" }],
+    metro: [],
+    scooter: [{ id: "bolt-scooter", name: "Bolt", url: "https://bolt.eu/en/scooters/" }, { id: "lime", name: "Lime", url: "https://www.li.me" }],
+    bicycle: [{ id: "slovnaft-bajk", name: "Slovnaft BAjk", url: "https://slovnaftbajk.sk" }],
+  },
+  vienna: {
+    bus: [{ id: "wiener-linien-bus", name: "Wiener Linien", url: "https://www.wienerlinien.at" }],
+    metro: [{ id: "wiener-linien-u", name: "Wiener Linien U-Bahn", url: "https://www.wienerlinien.at" }],
+    scooter: [{ id: "lime-wien", name: "Lime", url: "https://www.li.me" }, { id: "bolt-wien", name: "Bolt", url: "https://bolt.eu/en/scooters/" }],
+    bicycle: [{ id: "wienmobil-rad", name: "WienMobil Rad", url: "https://www.wienerlinien.at/wienmobil-rad" }],
+  },
 };
 
-export interface TransitStep {
-  kind: "walk" | "ride" | "transfer";
-  minutes: number;
-  /** Line label (e.g. bus number) for ride steps. */
-  line?: string;
-  stops?: number;
+export function getCityModes(cityId: CityId, hasTaxi: boolean): TransportModeId[] {
+  const ops = CITY_OPERATORS[cityId];
+  return TRANSPORT_MODE_ORDER.filter((m) =>
+    m === "walking" ? true : m === "taxi" ? hasTaxi : (ops?.[m]?.length ?? 0) > 0,
+  );
 }
 
-export interface TransitRoute {
-  id: string;
-  mode: "bus" | "metro";
-  line: string;
-  totalMinutes: number;
-  walkingMinutes: number;
-  transferCount: number;
-  steps: TransitStep[];
-  isDemo: true;
-}
+export type NavMode = "transit" | "walking" | "driving" | "bicycling";
 
-export interface MicroMobilityOption {
-  id: string;
-  mode: "scooter" | "bicycle";
-  providerName: string;
-  nearestDistanceM: number | null;
-  rideMinutes: number | null;
-  fareMin: number | null;
-  fareMax: number | null;
-  currency: string | null;
-  isDemo: true;
+/** Real directions links to the destination (user location is used as origin by the app). */
+export function directionsUrl(app: "google" | "apple" | "waze", destination: string, mode: NavMode): string {
+  const q = encodeURIComponent(destination);
+  if (app === "apple") {
+    const flag = mode === "walking" ? "w" : mode === "transit" ? "r" : "d";
+    return `https://maps.apple.com/?daddr=${q}&dirflg=${flag}`;
+  }
+  if (app === "waze") return `https://waze.com/ul?q=${q}&navigate=yes`;
+  return `https://www.google.com/maps/dir/?api=1&destination=${q}&travelmode=${mode}`;
 }
 
 export interface NavigationApp {
   id: "google" | "apple" | "waze";
   name: string;
-  platforms: ("ios" | "android" | "web")[];
 }
 
 export const NAVIGATION_APPS: NavigationApp[] = [
-  { id: "google", name: "Google Maps", platforms: ["ios", "android", "web"] },
-  { id: "apple", name: "Apple Maps", platforms: ["ios"] },
-  { id: "waze", name: "Waze", platforms: ["ios", "android"] },
+  { id: "google", name: "Google Maps" },
+  { id: "apple", name: "Apple Maps" },
+  { id: "waze", name: "Waze" },
 ];
 
 export interface TravelSummary {
   distanceKm: number;
-  /** Rough demo durations per mode, in minutes. */
   durations: Partial<Record<TransportModeId, number>>;
 }
 
-/** Demo estimate from the place's demo distance — not real routing. */
+/** Rough estimate from the place's catalog distance — not real routing. */
 export function getDemoTravelSummary(distanceKm: number): TravelSummary {
   const d = Math.max(0.3, distanceKm);
   const r = (n: number) => Math.max(1, Math.round(n));
   return {
     distanceKm: Math.round(d * 10) / 10,
-    durations: {
-      taxi: r(d * 2.5 + 3),
-      bus: r(d * 4 + 8),
-      metro: r(d * 3 + 10),
-      scooter: r(d * 4),
-      bicycle: r(d * 4.5),
-      walking: r(d * 12),
-    },
+    durations: { taxi: r(d * 2.5 + 3), bus: r(d * 4 + 8), metro: r(d * 3 + 10), scooter: r(d * 4), bicycle: r(d * 4.5), walking: r(d * 12) },
   };
-}
-
-export function getDemoTransitRoutes(mode: "bus" | "metro", summary: TravelSummary): TransitRoute[] {
-  const total = summary.durations[mode] ?? 20;
-  const walkA = 4;
-  const walkB = 3;
-  if (mode === "bus") {
-    return [
-      { id: "bus-a", mode, line: "5", totalMinutes: total, walkingMinutes: walkA + walkB, transferCount: 0, isDemo: true,
-        steps: [{ kind: "walk", minutes: walkA }, { kind: "ride", line: "5", stops: 4, minutes: total - walkA - walkB }, { kind: "walk", minutes: walkB }] },
-      { id: "bus-b", mode, line: "12 → 88", totalMinutes: total + 6, walkingMinutes: 5, transferCount: 1, isDemo: true,
-        steps: [{ kind: "walk", minutes: 2 }, { kind: "ride", line: "12", stops: 2, minutes: 8 }, { kind: "transfer", minutes: 3 }, { kind: "ride", line: "88", stops: 3, minutes: total - 10 }, { kind: "walk", minutes: 3 }] },
-    ];
-  }
-  return [
-    { id: "metro-a", mode, line: "M1", totalMinutes: total, walkingMinutes: 9, transferCount: 1, isDemo: true,
-      steps: [{ kind: "walk", minutes: 5 }, { kind: "ride", line: "M1", stops: 3, minutes: 7 }, { kind: "transfer", minutes: 3 }, { kind: "ride", line: "M2", stops: 2, minutes: Math.max(3, total - 19) }, { kind: "walk", minutes: 4 }] },
-  ];
-}
-
-export function getDemoMicroMobility(mode: "scooter" | "bicycle"): MicroMobilityOption[] {
-  return [{ id: `${mode}-demo`, mode, providerName: mode === "scooter" ? "Demo Scooter" : "Demo Bike", nearestDistanceM: null, rideMinutes: null, fareMin: null, fareMax: null, currency: null, isDemo: true }];
 }

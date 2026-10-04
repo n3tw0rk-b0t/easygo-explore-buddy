@@ -48,20 +48,29 @@ const base = {
   isActive: true,
 };
 
-/** Demo mapping — not verified real availability. */
+/** Real ride-hailing/taxi services per city (public sources). deepLink "{dest}" is replaced with the encoded destination. */
 export const TRANSPORT_PROVIDERS: TransportProvider[] = [
-  { ...base, id: "bolt", name: "Bolt", supportedCountries: ["AZ", "SK", "AT"], supportedCities: ["baku", "bratislava", "vienna"] },
-  { ...base, id: "yango", name: "Yango", supportedCountries: ["AZ"], supportedCities: ["baku"] },
-  { ...base, id: "uber", name: "Uber", supportedCountries: ["AZ", "TR", "SK", "AT"], supportedCities: ["baku", "istanbul", "bratislava", "vienna"] },
-  { ...base, id: "bitaksi", name: "BiTaksi", supportedCountries: ["TR"], supportedCities: ["istanbul"] },
-  { ...base, id: "hopin", name: "Hopin", supportedCountries: ["SK"], supportedCities: ["bratislava"] },
-  { ...base, id: "taxi40100", name: "Taxi 40100", supportedCountries: ["AT"], supportedCities: ["vienna"] },
+  { ...base, id: "bolt", name: "Bolt", deepLink: "https://bolt.eu/en/rides/", supportedCountries: ["AZ", "SK", "AT"], supportedCities: ["baku", "bratislava", "vienna"] },
+  { ...base, id: "uber", name: "Uber", deepLink: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[formatted_address]={dest}", supportedCountries: ["AZ", "TR", "SK", "AT"], supportedCities: ["baku", "istanbul", "bratislava", "vienna"] },
+  { ...base, id: "yango", name: "Yango", deepLink: "https://yango.com", supportedCountries: ["AZ"], supportedCities: ["baku"] },
+  { ...base, id: "bitaksi", name: "BiTaksi", deepLink: "https://www.bitaksi.com", supportedCountries: ["TR"], supportedCities: ["istanbul"] },
+  { ...base, id: "hopin", name: "Hopin", deepLink: "https://hopintaxi.com", supportedCountries: ["SK"], supportedCities: ["bratislava"] },
+  { ...base, id: "taxi40100", name: "Taxi 40100", deepLink: "https://www.40100.at", supportedCountries: ["AT"], supportedCities: ["vienna"] },
 ];
+
+export function providerUrl(p: TransportProvider, destination: string): string | null {
+  return p.deepLink ? p.deepLink.replace("{dest}", encodeURIComponent(destination)) : null;
+}
+
+export function cityHasTaxi(cityId: CityId): boolean {
+  return TRANSPORT_PROVIDERS.some((p) => p.isActive && p.supportedCities.includes(cityId));
+}
 
 export interface TaxiContext {
   cityId: CityId | null;
   countryCode: string | null;
   destinationSlug: string;
+  destination: string;
   origin: { lat: number; lng: number } | { address: string } | null;
 }
 
