@@ -1,7 +1,7 @@
 # Automatic external reviews
 - [ ] Resolve a secure, licensed way to display Google ratings/review samples without visitor sign-in; managed Maps calls must remain authenticated, and review snapshots cannot be stored as a workaround.
-- [ ] Integrate Booking hotel reviews: blocked pending the user's approved Demand API partner access and affiliate ID.
-- [ ] Integrate Tripadvisor ratings/reviews: blocked pending the user's licensed Content API access.
+- [ ] Booking hotel reviews: deferred by user decision (2026-10-04) until they obtain Demand API partner access and an affiliate ID.
+- [ ] Tripadvisor ratings/reviews: deferred by user decision (2026-10-04) until they obtain licensed Terra/Content API access; continue with Google only for now.
 
 # Photo galleries
 - [x] Download and validate distinct real place photos; preserve source credits.

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { reviewSchema } from "./place-input";
 
 export const listPlaceReviews = createServerFn({ method: "GET" })
-  .inputValidator((data) => z.object({ slug: reviewSchema.shape.slug }).parse(data))
+  .validator((data) => z.object({ slug: reviewSchema.shape.slug }).parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: rows, error } = await supabaseAdmin.from("place_reviews")
@@ -14,7 +14,7 @@ export const listPlaceReviews = createServerFn({ method: "GET" })
   });
 
 export const submitPlaceReview = createServerFn({ method: "POST" })
-  .inputValidator((data) => reviewSchema.parse(data))
+  .validator((data) => reviewSchema.parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { PLACES } = await import("@/data/places");

@@ -4,7 +4,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export const searchGooglePlace = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input) => z.object({ query: z.string().trim().min(3).max(400), lang: z.enum(["az", "en", "ru"]) }).parse(input))
+  .validator((input) => z.object({ query: z.string().trim().min(3).max(400), lang: z.enum(["az", "en", "ru"]) }).parse(input))
   .handler(async ({ data }) => {
     const { googlePlacesRequest } = await import("./google-places.server");
     return googlePlacesRequest("/places/v1/places:searchText", "places.id,places.displayName,places.formattedAddress", {
@@ -14,7 +14,7 @@ export const searchGooglePlace = createServerFn({ method: "POST" })
 
 export const getGoogleReviews = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input) => z.object({ placeId: z.string().min(5).max(200).regex(/^[A-Za-z0-9_-]+$/), lang: z.enum(["az", "en", "ru"]) }).parse(input))
+  .validator((input) => z.object({ placeId: z.string().min(5).max(200).regex(/^[A-Za-z0-9_-]+$/), lang: z.enum(["az", "en", "ru"]) }).parse(input))
   .handler(async ({ data }) => {
     const { googlePlacesRequest } = await import("./google-places.server");
     return googlePlacesRequest(`/places/v1/places/${encodeURIComponent(data.placeId)}?languageCode=${data.lang}`, "id,displayName,formattedAddress,googleMapsUri,rating,userRatingCount,reviews,attributions,location") as Promise<GooglePlaceReviews>;
