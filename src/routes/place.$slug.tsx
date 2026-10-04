@@ -22,6 +22,8 @@ import { Button } from "@/components/ui/button";
 import { CommunityReviews } from "@/components/easygo/community-reviews";
 import { placeMapUrl } from "@/lib/place-input";
 import { placeReviewsQuery } from "@/lib/reviews-query";
+import { PlaceMiniMap } from "@/components/easygo/place-mini-map";
+import { PlaceGoogleReviews } from "@/components/easygo/place-google-reviews";
 
 export const Route = createFileRoute("/place/$slug")({
   loader: ({ context, params }) => context.queryClient.ensureQueryData(placeReviewsQuery(params.slug)),
@@ -224,6 +226,7 @@ function PlaceDetail() {
               <div className="lg:col-span-2">
                 <InfoCard icon={<MapPin className="h-5 w-5" />} label={c.address}>
                   <p>{address}</p>
+                  <PlaceMiniMap query={[tr(place.name), address, tr(place.city), tr(place.country)].join(", ")} label={tr(place.name)} href={placeMapUrl(tr(place.name), address, tr(place.city), tr(place.country))} lang={lang} />
                   <Button asChild variant="outline" className="mt-3 min-h-11 w-full whitespace-normal text-left">
                     <a href={placeMapUrl(tr(place.name), address, tr(place.city), tr(place.country))} target="_blank" rel="noopener noreferrer">
                     <MapPin className="shrink-0" aria-hidden="true" />{c.viewMap}<ExternalLink className="shrink-0" aria-hidden="true" />
@@ -247,6 +250,8 @@ function PlaceDetail() {
 
           {/* Reviews */}
           <CommunityReviews key={slug} slug={slug} />
+          <PlaceGoogleReviews key={`google-${slug}`} slug={slug} query={[tr(place.name), address, tr(place.city), tr(place.country)].filter(Boolean).join(", ").slice(0, 400)} />
+          {place.categories.includes("hotels") ? <Button asChild variant="outline" className="min-h-11 w-full whitespace-normal"><a href={`https://www.booking.com/searchresults.html?ss=${encodeURIComponent([tr(place.name), tr(place.city)].join(", "))}`} target="_blank" rel="noopener noreferrer">{lang === "az" ? "Booking.com-da axtar" : lang === "ru" ? "Найти на Booking.com" : "Search on Booking.com"}<ExternalLink className="shrink-0" aria-hidden="true" /></a></Button> : null}
         </main>
       </div>
 
