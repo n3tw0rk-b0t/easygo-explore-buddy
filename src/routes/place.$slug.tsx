@@ -24,6 +24,7 @@ import { placeMapUrl } from "@/lib/place-input";
 import { placeReviewsQuery } from "@/lib/reviews-query";
 import { PlaceMiniMap } from "@/components/easygo/place-mini-map";
 import { PlaceGoogleReviews } from "@/components/easygo/place-google-reviews";
+import { PlaceTripadvisorReviews } from "@/components/easygo/place-tripadvisor-reviews";
 
 export const Route = createFileRoute("/place/$slug")({
   loader: ({ context, params }) => context.queryClient.ensureQueryData(placeReviewsQuery(params.slug)),
@@ -251,6 +252,19 @@ function PlaceDetail() {
           {/* Reviews */}
           <CommunityReviews key={slug} slug={slug} />
           <PlaceGoogleReviews key={`google-${slug}`} slug={slug} query={[tr(place.name), address, tr(place.city), tr(place.country)].filter(Boolean).join(", ").slice(0, 400)} />
+          <PlaceTripadvisorReviews
+            key={`tripadvisor-${slug}`}
+            slug={slug}
+            query={tr(place.name)}
+            geoName={tr(place.city)}
+            category={
+              place.categories.includes("hotels")
+                ? "HOTEL"
+                : place.categories.some((cat) => ["restaurants", "cafes", "pubs"].includes(cat))
+                  ? "RESTAURANT"
+                  : "ATTRACTION"
+            }
+          />
           {place.categories.includes("hotels") ? <Button asChild variant="outline" className="min-h-11 w-full whitespace-normal"><a href={`https://www.booking.com/searchresults.html?ss=${encodeURIComponent([tr(place.name), tr(place.city)].join(", "))}`} target="_blank" rel="noopener noreferrer">{lang === "az" ? "Booking.com-da axtar" : lang === "ru" ? "Найти на Booking.com" : "Search on Booking.com"}<ExternalLink className="shrink-0" aria-hidden="true" /></a></Button> : null}
         </main>
       </div>
