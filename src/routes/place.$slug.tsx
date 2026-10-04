@@ -235,6 +235,7 @@ function PlaceDetail() {
             {hours ? (
               <InfoCard icon={<Clock className="h-5 w-5" />} label={c.hours}>
                 <p className="whitespace-pre-line">{hours}</p>
+                {details?.source ? <Button asChild variant="link" className="mt-1 min-h-11 max-w-full whitespace-normal px-0"><a href={details.source} target="_blank" rel="noopener noreferrer">{lang === "az" ? "Rəsmi mənbə" : lang === "ru" ? "Официальный источник" : "Official source"}<ExternalLink className="shrink-0" aria-hidden="true" /></a></Button> : null}
               </InfoCard>
             ) : null}
             {price ? (
