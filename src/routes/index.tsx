@@ -6,9 +6,7 @@ import heroImage from "@/assets/places/world-landmarks-hero.png";
 import { AiRecommendations } from "@/components/easygo/ai-recommendations";
 import { CitySelector } from "@/components/easygo/city-selector";
 import { ExploreSheet } from "@/components/easygo/explore-sheet";
-import { HelpFab } from "@/components/easygo/help-fab";
 import { Logo } from "@/components/easygo/logo";
-import { MenuDrawer } from "@/components/easygo/menu-drawer";
 import { NearbyPlaces } from "@/components/easygo/nearby-places";
 import { RadiusFilter } from "@/components/easygo/radius-filter";
 import { SearchPanel } from "@/components/easygo/search-panel";
@@ -58,9 +56,7 @@ function Home() {
             <div className="rounded-full border border-attention/35 bg-foreground/70 px-4 py-2 shadow-soft backdrop-blur-md dark:border-attention/35 dark:bg-background/75">
               <Logo />
             </div>
-            <div className="flex justify-end">
-              <MenuDrawer />
-            </div>
+            <div aria-hidden="true" />
           </header>
 
           <div className="mt-3 flex justify-center">
@@ -127,7 +123,6 @@ function Home() {
       </div>
 
       <ExploreSheet open={exploreOpen} onOpenChange={setExploreOpen} />
-      <HelpFab />
     </div>
   );
 }

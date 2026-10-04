@@ -115,7 +115,7 @@ function PlaceDetail() {
 
   return (
     <div className="min-h-[100dvh] bg-background">
-      <div className="relative mx-auto w-full max-w-[560px] pb-32 lg:max-w-[860px] lg:px-8 lg:pt-6">
+      <div className="relative mx-auto w-full max-w-[560px] pb-48 lg:max-w-[860px] lg:px-8 lg:pt-6">
         {/* Hero + overlay nav */}
         <div className="relative">
           <PlaceGallery key={place.slug} images={images} alt={tr(place.name)} photoLabel={c.photo} previousLabel={c.previousPhoto} nextLabel={c.nextPhoto} credits={PLACE_GALLERY_PHOTOS[place.slug] ?? []} />
@@ -282,7 +282,7 @@ function PlaceDetail() {
       </div>
 
       {/* Fixed CTA */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-md">
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 pb-20 backdrop-blur-md">
         <div className="mx-auto w-full max-w-[560px] px-4 pt-3 lg:max-w-[860px] lg:px-8" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
           <Link
             to="/place/$slug/travel"
