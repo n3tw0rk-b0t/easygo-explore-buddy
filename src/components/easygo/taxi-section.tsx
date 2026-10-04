@@ -1,47 +1,45 @@
 import { useQuery } from "@tanstack/react-query";
-import { Car, Clock } from "lucide-react";
+import { ArrowUpRight, CarFront, Clock, Route } from "lucide-react";
 
+import { DemoBadge } from "@/components/easygo/place-detail-parts";
+import { TransportModeIcon } from "@/components/easygo/transport-mode-icon";
 import { Button } from "@/components/ui/button";
 import { getTaxiOptions, providerUrl, type TaxiContext, type TaxiQuote, type TransportProvider } from "@/data/transport-providers";
 import type { Lang } from "@/data/types";
 import { useAppState } from "@/state/app-state";
 
-const AZ = { title: "", demoNote: "", open: "", seePrice: "", noPrice: "", estimate: "", demo: "", min: "", sponsored: "", empty: "", error: "", retry: "", redirect: "" };
+const AZ = { title: "", demoNote: "", open: "", seePrice: "", noPrice: "", estimate: "", demo: "", min: "", sponsored: "", empty: "", error: "", retry: "", redirect: "", pickup: "", trip: "" };
 type Copy = typeof AZ;
 const COPY: Record<Lang, Copy> = {
-  az: { title: "Taksi", demoNote: "Şəhərdə fəaliyyət göstərən xidmətlər. Qiymət və vaxt tətbiqdə göstərilir.", open: "Tətbiqdə aç", seePrice: "Tətbiqdə qiymətə bax", noPrice: "Qiymət məlumatı mövcud deyil", estimate: "Təxmini qiymət", demo: "Demo qiymət", min: "dəq ərzində", sponsored: "Sponsorlu", empty: "Bu şəhərdə dəstəklənən taksi xidməti tapılmadı.", error: "Taksi xidmətlərini yükləmək mümkün olmadı.", retry: "Yenidən cəhd et", redirect: "Taksi tətbiqinə keçid gələcək inteqrasiya mərhələsində aktiv ediləcək." },
-  en: { title: "Taxi", demoNote: "Services operating in this city. Price and ETA are shown in the app.", open: "Open in app", seePrice: "See price in app", noPrice: "Price information unavailable", estimate: "Estimated price", demo: "Demo price", min: "min away", sponsored: "Sponsored", empty: "No supported taxi service was found in this city.", error: "Couldn't load taxi services.", retry: "Try again", redirect: "Taxi app redirect will be enabled in a future integration stage." },
-  ru: { title: "Такси", demoNote: "Сервисы, работающие в городе. Цена и время — в приложении.", open: "Открыть в приложении", seePrice: "Цена в приложении", noPrice: "Информация о цене недоступна", estimate: "Примерная цена", demo: "Демо-цена", min: "мин до подачи", sponsored: "Спонсор", empty: "В этом городе не найден поддерживаемый сервис такси.", error: "Не удалось загрузить сервисы такси.", retry: "Повторить", redirect: "Переход в приложение такси будет активирован на следующем этапе интеграции." },
+  az: { pickup: "Gəlmə vaxtı", trip: "Səfər", title: "Taksi", demoNote: "Qiymət, gəlmə və səfər vaxtları demo təxminlərdir, canlı məlumat deyil.", open: "Tətbiqdə aç", seePrice: "Tətbiqdə qiymətə bax", noPrice: "Qiymət məlumatı mövcud deyil", estimate: "Təxmini qiymət", demo: "Demo qiymət", min: "dəq", sponsored: "Sponsorlu", empty: "Bu şəhərdə dəstəklənən taksi xidməti tapılmadı.", error: "Taksi xidmətlərini yükləmək mümkün olmadı.", retry: "Yenidən cəhd et", redirect: "Taksi tətbiqinə keçid gələcək inteqrasiya mərhələsində aktiv ediləcək." },
+  en: { pickup: "Pickup", trip: "Trip", title: "Taxi", demoNote: "Prices, pickup and trip times are illustrative demo estimates, not live data.", open: "Open in app", seePrice: "See price in app", noPrice: "Price information unavailable", estimate: "Estimated price", demo: "Demo price", min: "min", sponsored: "Sponsored", empty: "No supported taxi service was found in this city.", error: "Couldn't load taxi services.", retry: "Try again", redirect: "Taxi app redirect will be enabled in a future integration stage." },
+  ru: { pickup: "Подача", trip: "В пути", title: "Такси", demoNote: "Цена, время подачи и поездки — демо-оценки, не актуальные данные.", open: "Открыть в приложении", seePrice: "Цена в приложении", noPrice: "Информация о цене недоступна", estimate: "Примерная цена", demo: "Демо-цена", min: "мин", sponsored: "Спонсор", empty: "В этом городе не найден поддерживаемый сервис такси.", error: "Не удалось загрузить сервисы такси.", retry: "Повторить", redirect: "Переход в приложение такси будет активирован на следующем этапе интеграции." },
 };
 
 export function TaxiProviderCard({ provider, quote, c, destination }: { provider: TransportProvider; quote: TaxiQuote; c: Copy; destination: string }) {
   const hasPrice = quote.priceStatus !== "unavailable" && quote.fareMin != null && quote.currency;
+  const url = providerUrl(provider, destination);
   return (
-    <article className="flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft">
-      {provider.logo ? (
-        <img src={provider.logo} alt="" className="h-11 w-11 shrink-0 rounded-xl object-contain" />
-      ) : (
-        <span aria-hidden="true" className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-sm font-bold text-primary">
-          {provider.name.slice(0, 2)}
-        </span>
-      )}
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-2">
-          <h3 className="truncate font-semibold text-foreground">{provider.name}</h3>
-          {provider.isSponsored ? <span className="rounded-full border border-border px-2 text-[11px] text-muted-foreground">{c.sponsored}</span> : null}
+    <article data-mode="taxi" className="transport-tone rounded-xl border border-border bg-card p-4 shadow-soft">
+      <div className="flex items-center gap-3">
+        {provider.logo ? <img src={provider.logo} alt={`${provider.name} logo`} className="h-14 w-14 shrink-0 rounded-xl object-contain" /> : <TransportModeIcon mode="taxi" className="h-14 w-14" />}
+        <div className="min-w-0 flex-1">
+          <h3 className="font-display text-lg font-bold text-foreground">{provider.name}</h3>
+          {quote.priceStatus === "demo" ? <DemoBadge>{c.demo}</DemoBadge> : null}
+          {provider.isSponsored ? <span className="ml-2 text-xs text-muted-foreground">{c.sponsored}</span> : null}
         </div>
-        {quote.pickupEtaMin != null ? (
-          <p className="mt-0.5 flex items-center gap-1 text-sm text-alt-foreground"><Clock className="h-3.5 w-3.5" aria-hidden="true" />{quote.pickupEtaMin} {c.min}</p>
-        ) : null}
-        <p className="mt-0.5 text-sm text-muted-foreground">
-          {hasPrice
-            ? `${quote.priceStatus === "demo" ? c.demo : c.estimate} · ${quote.fareMin}–${quote.fareMax} ${quote.currency}`
-            : c.noPrice}
-        </p>
       </div>
-      <Button asChild size="sm" className="min-h-11 w-full shrink-0 rounded-full sm:w-auto">
-        <a href={providerUrl(provider, destination) ?? "#"} target="_blank" rel="noopener noreferrer">{hasPrice ? c.open : c.seePrice}</a>
-      </Button>
+      <div className="mt-4 flex flex-wrap items-end justify-between gap-3 border-t border-border pt-3">
+        <div>
+          <p className="text-xs text-muted-foreground">{hasPrice ? c.estimate : c.noPrice}</p>
+          {hasPrice ? <p className="mt-1 font-display text-2xl font-extrabold text-foreground">{quote.fareMin}–{quote.fareMax} <span className="text-sm font-semibold text-muted-foreground">{quote.currency}</span></p> : null}
+        </div>
+        <dl className="flex flex-wrap gap-4">
+          {quote.pickupEtaMin != null ? <div><dt className="flex items-center gap-1 text-xs text-muted-foreground"><Clock className="h-3.5 w-3.5" aria-hidden="true" />{c.pickup}</dt><dd className="mt-1 text-sm font-semibold text-foreground">{quote.pickupEtaMin} {c.min}</dd></div> : null}
+          {quote.tripDurationMin != null ? <div><dt className="flex items-center gap-1 text-xs text-muted-foreground"><Route className="h-3.5 w-3.5" aria-hidden="true" />{c.trip}</dt><dd className="mt-1 text-sm font-semibold text-foreground">{quote.tripDurationMin} {c.min}</dd></div> : null}
+        </dl>
+      </div>
+      {url ? <Button asChild variant="outline" className="mt-4 min-h-11 w-full rounded-lg border-transport/25 bg-transport-soft text-transport hover:bg-transport/15 hover:text-transport"><a href={url} target="_blank" rel="noopener noreferrer">{hasPrice ? c.open : c.seePrice}<ArrowUpRight aria-hidden="true" /></a></Button> : <Button disabled variant="outline" className="mt-4 min-h-11 w-full">{c.noPrice}</Button>}
     </article>
   );
 }
@@ -49,12 +47,12 @@ export function TaxiProviderCard({ provider, quote, c, destination }: { provider
 export function TaxiSection({ context }: { context: TaxiContext }) {
   const { lang } = useAppState();
   const c = COPY[lang];
-  const q = useQuery({ queryKey: ["taxi", context.cityId, context.destinationSlug], queryFn: () => getTaxiOptions(context) });
+  const q = useQuery({ queryKey: ["taxi", context.cityId, context.destinationSlug, context.distanceKm], queryFn: () => getTaxiOptions(context) });
 
   return (
     <section aria-labelledby="taxi-title" className="mt-6">
       <h2 id="taxi-title" className="flex items-center gap-2 font-display text-lg font-bold text-foreground">
-        <Car className="h-5 w-5 text-primary" aria-hidden="true" />{c.title}
+        <CarFront className="h-5 w-5 text-primary" aria-hidden="true" />{c.title}
       </h2>
       <p className="mt-1 text-xs text-muted-foreground">{c.demoNote}</p>
       <div className="mt-3 space-y-3">

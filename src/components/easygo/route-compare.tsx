@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowRight, Bike, Bus, Car, Clock, Coins, Footprints, Lightbulb, MapPin, Repeat, Route as RouteIcon, Sparkles, TrainFront, Zap, type LucideIcon } from "lucide-react";
+import { ArrowRight, Clock, Coins, Footprints, Lightbulb, MapPin, Repeat, Route as RouteIcon, Sparkles, type LucideIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { DemoBadge } from "@/components/easygo/place-detail-parts";
+import { TransportModeIcon } from "@/components/easygo/transport-mode-icon";
 import { Button } from "@/components/ui/button";
 import { PREFERENCES, getDemoRoutes, scoreRoutes, type Preference, type ScoredRoute } from "@/data/route-compare";
 import type { TransportModeId } from "@/data/travel-options";
@@ -18,7 +19,6 @@ const COPY = {
 } satisfies Record<Lang, Record<string, string>>;
 type Copy = (typeof COPY)["en"];
 
-const ICONS: Record<TransportModeId, LucideIcon> = { taxi: Car, bus: Bus, metro: TrainFront, scooter: Zap, bicycle: Bike, walking: Footprints };
 const modeLabel = (c: Copy, m: TransportModeId) => (m === "walking" ? c.walkingMode : c[m]);
 
 export function RouteCompare({ cityId, cityName, destination, distanceKm, lang, onChoose }: {
@@ -40,7 +40,7 @@ export function RouteCompare({ cityId, cityName, destination, distanceKm, lang, 
 
   return (
     <section className="mt-5 space-y-4" aria-labelledby="rc-title">
-      <div className="rounded-3xl border border-border bg-card p-4 shadow-soft">
+      <div className="border-b border-border pb-4">
         <DemoBadge>{c.demo}</DemoBadge>
         <h2 id="rc-title" className="mt-2 font-display text-xl font-extrabold text-foreground">{c.title}</h2>
         <p className="mt-1 flex flex-wrap items-center gap-2 text-sm font-semibold text-alt-foreground">
@@ -49,19 +49,19 @@ export function RouteCompare({ cityId, cityName, destination, distanceKm, lang, 
         </p>
       </div>
 
-      <div className="rounded-3xl border border-primary/40 bg-warm p-4 shadow-soft">
+      <div className="border-l-4 border-coral bg-coral/5 px-4 py-4">
         <div className="flex items-center gap-2">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground"><Sparkles className="h-4 w-4" aria-hidden="true" /></span>
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-coral/15 text-coral"><Sparkles className="h-4 w-4" aria-hidden="true" /></span>
           <h3 className="font-display text-lg font-bold text-foreground">{c.ai}</h3>
         </div>
         <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{c.priority}</p>
         <div role="group" aria-label={c.priority} className="mt-2 flex flex-wrap gap-2">
           {PREFERENCES.map((p) => (
-            <button key={p} type="button" aria-pressed={pref === p} onClick={() => setPref(p)}
+            <Button variant="outline" key={p} type="button" aria-pressed={pref === p} onClick={() => setPref(p)}
               className={cn("min-h-10 rounded-full border px-3 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 pref === p ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-primary hover:bg-secondary")}>
               {c[p]}
-            </button>
+            </Button>
           ))}
         </div>
         <div className="mt-4" aria-live="polite">
@@ -91,7 +91,6 @@ export function RouteCompare({ cityId, cityName, destination, distanceKm, lang, 
 }
 
 function RouteCard({ route, c, recommended, ai, onChoose }: { route: ScoredRoute; c: Copy; recommended: boolean; ai: boolean; onChoose: () => void }) {
-  const Icon = ICONS[route.mode];
   const metrics: { icon: LucideIcon; label: string; value: string }[] = [
     { icon: Clock, label: c.time, value: `${route.durationMinutes} ${c.min}` },
     { icon: Coins, label: c.price, value: route.price === 0 ? c.free : `${route.price} ${route.currency}` },
@@ -101,10 +100,10 @@ function RouteCard({ route, c, recommended, ai, onChoose }: { route: ScoredRoute
     { icon: Sparkles, label: c.score, value: `${route.score}/100` },
   ];
   return (
-    <article className={cn("flex min-w-0 flex-col gap-3 rounded-2xl border bg-card p-4 shadow-soft", ai ? "border-primary ring-2 ring-primary/30" : "border-border")}>
+    <article data-mode={route.mode} className={cn("transport-tone flex min-w-0 flex-col gap-4 rounded-xl border border-t-4 border-t-transport bg-card p-4 shadow-soft", ai ? "border-transport ring-2 ring-transport/20" : "border-border")}>
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex min-w-0 items-center gap-3">
-          <span aria-hidden="true" className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-secondary text-primary"><Icon className="h-5 w-5" /></span>
+          <TransportModeIcon mode={route.mode} />
           <div className="min-w-0">
             <h4 className="font-display text-base font-bold text-foreground">{modeLabel(c, route.mode)}</h4>
             <p className="text-xs text-muted-foreground">{c.demo}</p>
@@ -112,7 +111,7 @@ function RouteCard({ route, c, recommended, ai, onChoose }: { route: ScoredRoute
         </div>
         <div className="flex flex-wrap justify-end gap-1.5">
           {ai ? <span className="inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground"><Sparkles className="h-3 w-3" aria-hidden="true" />{c.aiBadge}</span> : null}
-          {recommended ? <span className="rounded-full bg-warm px-2.5 py-0.5 text-xs font-semibold text-primary">{c.recommended}</span> : null}
+          {recommended ? <span className="rounded-full bg-transport-soft px-2.5 py-0.5 text-xs font-semibold text-transport">{c.recommended}</span> : null}
         </div>
       </div>
       <dl className="grid grid-cols-3 gap-2">
@@ -123,7 +122,7 @@ function RouteCard({ route, c, recommended, ai, onChoose }: { route: ScoredRoute
           </div>
         ))}
       </dl>
-      <Button className="min-h-11 w-full rounded-full" onClick={onChoose}>{c.choose}</Button>
+      <Button variant="outline" className="min-h-11 w-full rounded-lg border-transport/25 bg-transport-soft text-transport hover:bg-transport/15 hover:text-transport" onClick={onChoose}>{c.choose}<ArrowRight aria-hidden="true" /></Button>
     </article>
   );
 }

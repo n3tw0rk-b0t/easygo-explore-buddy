@@ -1,9 +1,10 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowLeft, Bike, Bus, Car, Check, Footprints, MapPin, Navigation, TrainFront, Zap, type LucideIcon } from "lucide-react";
+import { ArrowLeft, Bike, Bus, Car, Footprints, MapPin, Navigation, TrainFront, Zap, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 
 import { DemoBadge } from "@/components/easygo/place-detail-parts";
 import { RouteCompare } from "@/components/easygo/route-compare";
+import { TransportModeIcon } from "@/components/easygo/transport-mode-icon";
 import { TaxiSection } from "@/components/easygo/taxi-section";
 import { Button } from "@/components/ui/button";
 import { getCity } from "@/data/cities";
@@ -75,7 +76,7 @@ function TravelOptionsPage() {
           <ArrowLeft className="h-5 w-5" aria-hidden="true" />
         </Link>
 
-        <section className="mt-4 flex gap-4 rounded-3xl border border-border bg-card p-3 shadow-soft">
+        <section className="mt-4 flex gap-4 border-b border-border pb-5">
           <img src={place.image} alt="" className="h-20 w-20 shrink-0 rounded-2xl object-cover" />
           <div className="min-w-0 flex-1 py-1">
             <h1 className="truncate font-display text-lg font-extrabold text-foreground">{tr(place.name)}</h1>
@@ -94,22 +95,21 @@ function TravelOptionsPage() {
         <h2 className="sr-only">{c.modes}</h2>
         <div id="travel-modes" role="tablist" aria-label={c.modes} className="no-scrollbar -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
           {modes.map((m) => {
-            const Icon = MODE_ICONS[m];
             const active = m === mode;
             return (
-              <button key={m} type="button" role="tab" aria-selected={active} onClick={() => setChosen(m)}
-                className={cn("inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none",
-                  active ? "border-primary bg-warm text-primary" : "border-border bg-card text-alt-foreground hover:bg-secondary")}>
-                {active ? <Check className="h-4 w-4" aria-hidden="true" /> : <Icon className="h-4 w-4" aria-hidden="true" />}
+              <Button variant="outline" key={m} type="button" role="tab" data-mode={m} aria-selected={active} onClick={() => setChosen(m)}
+                className={cn("transport-tone inline-flex h-auto min-h-16 shrink-0 items-center gap-2 rounded-xl border px-3 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none",
+                  active ? "border-transport bg-transport-soft text-transport hover:bg-transport-soft hover:text-transport" : "border-border bg-card text-alt-foreground hover:bg-secondary")}>
+                <TransportModeIcon mode={m} className="h-9 w-9 rounded-lg [&_svg]:h-5 [&_svg]:w-5" />
                 {c[m]}
-              </button>
+              </Button>
             );
           })}
         </div>
 
         <div role="tabpanel" className="animate-in fade-in duration-200 motion-reduce:animate-none" key={mode}>
           {mode === "taxi" ? (
-            <TaxiSection context={{ cityId: place.cityId, countryCode: city.countryCode, destinationSlug: place.slug, destination, origin: null }} />
+            <TaxiSection context={{ cityId: place.cityId, countryCode: city.countryCode, destinationSlug: place.slug, destination, distanceKm: place.distanceKm, origin: null }} />
           ) : mode === "bus" || mode === "metro" ? (
             <OperatorList mode={mode} cityId={place.cityId} destination={destination} c={c} navMode="transit" />
           ) : mode === "scooter" || mode === "bicycle" ? (
@@ -133,19 +133,19 @@ function OperatorList({ mode, cityId, destination, c, navMode }: { mode: "bus" |
   const ops = CITY_OPERATORS[cityId]?.[mode] ?? [];
   const Icon = MODE_ICONS[mode];
   return (
-    <section>
+    <section data-mode={mode} className="transport-tone">
       <SectionTitle icon={Icon}>{c[mode]}</SectionTitle>
       <p className="mt-1 text-xs text-muted-foreground">{c.realNote}</p>
       <a href={directionsUrl("google", destination, navMode)} target="_blank" rel="noopener noreferrer"
-        className="mt-3 flex min-h-14 items-center gap-3 rounded-2xl border border-primary bg-warm p-4 font-semibold text-primary shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        className="mt-3 flex min-h-14 items-center gap-3 rounded-xl border border-transport/20 bg-transport-soft p-4 font-semibold text-transport shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
         <Navigation className="h-5 w-5 shrink-0" aria-hidden="true" />{c.routeGoogle}
       </a>
       <div className="mt-3 space-y-3">
         {ops.map((o) => (
-          <article key={o.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft">
-            <span aria-hidden="true" className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary"><Icon className="h-5 w-5" /></span>
+          <article key={o.id} className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-soft">
+            <TransportModeIcon mode={mode} />
             <h3 className="min-w-0 flex-1 truncate font-semibold text-foreground">{o.name}</h3>
-            <Button asChild size="sm" className="min-h-11 shrink-0 rounded-full">
+            <Button asChild size="sm" variant="outline" className="min-h-11 shrink-0 rounded-lg border-transport/25 text-transport hover:bg-transport-soft hover:text-transport">
               <a href={o.url} target="_blank" rel="noopener noreferrer">{c.openApp}</a>
             </Button>
           </article>
@@ -157,14 +157,14 @@ function OperatorList({ mode, cityId, destination, c, navMode }: { mode: "bus" |
 
 function WalkingList({ c, minutes, destination }: { c: Copy; minutes: number | undefined; destination: string }) {
   return (
-    <section>
+    <section data-mode="walking" className="transport-tone">
       <SectionTitle icon={Footprints}>{c.walkingTitle}</SectionTitle>
       {minutes ? <p className="mt-1 text-sm text-muted-foreground">{c.about} {minutes} {c.min} {c.walk}</p> : null}
       <div className="mt-3 space-y-3">
         {NAVIGATION_APPS.map((app) => (
           <a key={app.id} href={directionsUrl(app.id, destination, "walking")} target="_blank" rel="noopener noreferrer"
-            className="flex min-h-14 w-full items-center gap-3 rounded-2xl border border-border bg-card p-4 text-left shadow-soft transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            <span aria-hidden="true" className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary"><Navigation className="h-5 w-5" /></span>
+            className="flex min-h-14 w-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left shadow-soft transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <TransportModeIcon mode="walking" />
             <span className="min-w-0 flex-1 font-semibold text-foreground">{c.openIn === "-də aç" ? `${app.name}${c.openIn}` : `${c.openIn}${app.name}`}</span>
           </a>
         ))}
