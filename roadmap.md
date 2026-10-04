@@ -1,3 +1,7 @@
+# Shared branding and backdrop
+- [ ] Keep the Home logo in the same top position on every content page.
+- [ ] Show Home's landmark image blurred behind other pages and verify mobile/desktop layouts.
+
 # Transport presentation
 - [x] Add real Bolt, Uber and Yango app logos and clearly labeled demo fare, pickup and trip-time details.
 - [x] Refresh transport mode icons, colors and cards; verify mobile/desktop rendering and selection.

@@ -65,7 +65,7 @@ function PlaceDetail() {
 
   if (!place) {
     return (
-      <div className="min-h-[100dvh] bg-background">
+      <div className="min-h-[100dvh]">
         <div className="mx-auto flex min-h-[100dvh] max-w-[560px] flex-col items-center justify-center gap-3 safe-x text-center">
           <h1 className="font-display text-xl font-bold text-foreground">{c.notFound}</h1>
           <p className="text-sm text-muted-foreground">{c.notFoundHelp}</p>
@@ -119,7 +119,7 @@ function PlaceDetail() {
     "inline-flex h-11 w-11 items-center justify-center rounded-full bg-card/90 text-foreground shadow-soft backdrop-blur transition-colors hover:bg-card";
 
   return (
-    <div className="min-h-[100dvh] bg-background">
+    <div className="min-h-[100dvh]">
       <div className="relative mx-auto w-full pb-28 sm:max-w-[640px] lg:max-w-[860px] lg:px-8 lg:pt-6">
         {/* Hero + overlay nav */}
         <div className="relative">
