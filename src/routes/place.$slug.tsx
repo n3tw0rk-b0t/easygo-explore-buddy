@@ -59,8 +59,7 @@ function PlaceDetail() {
   const { data: realReviews } = useSuspenseQuery(placeReviewsQuery(slug));
 
   const goBack = () => {
-    if (typeof window !== "undefined" && window.history.length > 1) router.history.back();
-    else void navigate({ to: "/" });
+    void navigate({ to: "/" });
   };
 
   if (!place) {
