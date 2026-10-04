@@ -1,8 +1,8 @@
-import { Bike, BusFront, CarTaxi, PersonStanding, TramFront, Zap } from "lucide-react";
+import { Bike, BusFront, CarFront, PersonStanding, TramFront, Zap } from "lucide-react";
 import type { TransportModeId } from "@/data/travel-options";
 import { cn } from "@/lib/utils";
 
-const ICONS = { taxi: CarTaxi, bus: BusFront, metro: TramFront, scooter: Zap, bicycle: Bike, walking: PersonStanding };
+const ICONS = { taxi: CarFront, bus: BusFront, metro: TramFront, scooter: Zap, bicycle: Bike, walking: PersonStanding };
 
 export function TransportModeIcon({ mode, className }: { mode: TransportModeId; className?: string }) {
   const Icon = ICONS[mode];

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ArrowUpRight, CarTaxi, Clock, Route } from "lucide-react";
+import { ArrowUpRight, CarFront, Clock, Route } from "lucide-react";
 
 import { DemoBadge } from "@/components/easygo/place-detail-parts";
 import { TransportModeIcon } from "@/components/easygo/transport-mode-icon";
@@ -52,7 +52,7 @@ export function TaxiSection({ context }: { context: TaxiContext }) {
   return (
     <section aria-labelledby="taxi-title" className="mt-6">
       <h2 id="taxi-title" className="flex items-center gap-2 font-display text-lg font-bold text-foreground">
-        <CarTaxi className="h-5 w-5 text-primary" aria-hidden="true" />{c.title}
+        <CarFront className="h-5 w-5 text-primary" aria-hidden="true" />{c.title}
       </h2>
       <p className="mt-1 text-xs text-muted-foreground">{c.demoNote}</p>
       <div className="mt-3 space-y-3">
