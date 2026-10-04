@@ -13,14 +13,14 @@ export function AppChrome() {
 
   return (
     <>
-      <div className="pointer-events-none fixed inset-x-0 top-0 z-40 mx-auto w-full max-w-[560px] safe-x safe-top lg:top-[26px] lg:px-6 lg:pt-5">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-40 mx-auto w-full max-w-[1120px] safe-x safe-top lg:px-8">
         <div className="pointer-events-auto ml-auto w-fit">
           <MenuDrawer />
         </div>
       </div>
       {pathname !== "/" ? (
-        <header className="relative z-30 border-b border-border bg-background pb-4 pt-20 lg:pt-28">
-          <div className="mx-auto w-full max-w-[560px] safe-x [&>section]:mt-0">
+        <header className="relative z-30 border-b border-border bg-background pb-4 pt-16 lg:pt-20">
+          <div className="mx-auto w-full max-w-[860px] safe-x [&>section]:mt-0">
             <SearchPanel key={pathname} onExplore={() => setExploreOpen(true)} />
           </div>
         </header>

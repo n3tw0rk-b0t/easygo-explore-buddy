@@ -1,21 +1,18 @@
 import { Link, createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
-import { ArrowLeft, Clock, Heart, Lightbulb, MapPin, Share2, Star, Ticket } from "lucide-react";
+import { ArrowLeft, Clock, ExternalLink, Heart, Lightbulb, MapPin, Share2, Star, Ticket } from "lucide-react";
 import { useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { BottomSheet } from "@/components/easygo/sheet";
 import {
   DemoBadge,
   InfoCard,
-  MapPreview,
   PlaceGallery,
-  ReviewCard,
 } from "@/components/easygo/place-detail-parts";
 import { CATEGORIES } from "@/data/categories";
 import { PLACE_DETAILS } from "@/data/place-details";
 import { PLACE_GALLERY_PHOTOS } from "@/data/place-gallery";
-import { getDemoReviews, getPriceInfo } from "@/data/place-extras";
+import { getPriceInfo } from "@/data/place-extras";
 import { PLACES } from "@/data/places";
 import { useAllPlaces } from "@/hooks/use-all-places";
 import { PLACE_DETAIL_COPY } from "@/i18n/place-details";
@@ -44,10 +41,9 @@ export const Route = createFileRoute("/place/$slug")({
     };
   },
   component: PlaceDetail,
+  errorComponent: () => <div className="safe-x py-12 text-center"><p>Rəylər yüklənmədi. / Could not load reviews.</p><Button asChild variant="link"><Link to="/">EasyGo AI</Link></Button></div>,
+  notFoundComponent: () => <div className="safe-x py-12 text-center"><Button asChild variant="link"><Link to="/">EasyGo AI</Link></Button></div>,
 });
-
-/** Locale-independent grouping so server and browser render the same text. */
-const formatCount = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202f");
 
 function PlaceDetail() {
   const { slug } = Route.useParams();
@@ -56,7 +52,6 @@ function PlaceDetail() {
   const router = useRouter();
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
-  const [reviewsOpen, setReviewsOpen] = useState(false);
   const place = useAllPlaces().find((p) => p.slug === slug);
   const { data: realReviews } = useSuspenseQuery(placeReviewsQuery(slug));
 
@@ -82,16 +77,14 @@ function PlaceDetail() {
   const details = PLACE_DETAILS[slug];
   const category = CATEGORIES.find((cat) => cat.id === place.categories[0]);
   const secondCategory = CATEGORIES.find((cat) => cat.id === place.categories[1]);
-  const address = details ? tr(details.address) : place.address;
+  const address = place.address || (details ? tr(details.address) : "");
   const hours = place.openingHours || (details ? tr(details.hours) : "");
   const realRating = realReviews.length ? realReviews.reduce((sum, r) => sum + r.rating, 0) / realReviews.length : 0;
   const price = getPriceInfo(place);
-  const reviews = getDemoReviews(place);
   const favorite = isFavorite(place.id);
   const images = place.images?.length ? place.images : [place.image];
   const description = tr(place.description);
   const about = details ? tr(details.about) : "";
-  const fmt = (daysAgo: number) => c.daysAgo.replace("{n}", String(daysAgo));
 
   const onFavorite = () => {
     const added = toggleFavorite(place.id);
@@ -124,19 +117,19 @@ function PlaceDetail() {
 
   return (
     <div className="min-h-[100dvh] bg-background">
-      <div className="relative mx-auto w-full max-w-[560px] pb-48 lg:max-w-[860px] lg:px-8 lg:pt-6">
+      <div className="relative mx-auto w-full pb-28 sm:max-w-[640px] lg:max-w-[860px] lg:px-8 lg:pt-6">
         {/* Hero + overlay nav */}
         <div className="relative">
           <PlaceGallery key={place.slug} images={images} alt={tr(place.name)} photoLabel={c.photo} previousLabel={c.previousPhoto} nextLabel={c.nextPhoto} credits={PLACE_GALLERY_PHOTOS[place.slug] ?? []} />
           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 safe-x">
-            <button type="button" onClick={goBack} aria-label={c.back} className={iconBtn}>
+            <Button variant="ghost" size="icon" type="button" onClick={goBack} aria-label={c.back} className={iconBtn}>
               <ArrowLeft className="h-5 w-5" aria-hidden="true" />
-            </button>
+            </Button>
             <div className="flex gap-2">
-              <button type="button" onClick={onShare} aria-label={c.share} className={iconBtn}>
+              <Button variant="ghost" size="icon" type="button" onClick={onShare} aria-label={c.share} className={iconBtn}>
                 <Share2 className="h-5 w-5" aria-hidden="true" />
-              </button>
-              <button
+              </Button>
+              <Button variant="ghost" size="icon"
                 type="button"
                 onClick={onFavorite}
                 aria-label={favorite ? c.favoriteRemove : c.favoriteAdd}
@@ -144,7 +137,7 @@ function PlaceDetail() {
                 className={iconBtn}
               >
                 <Heart className={cn("h-5 w-5", favorite && "fill-coral text-coral")} aria-hidden="true" />
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -165,7 +158,7 @@ function PlaceDetail() {
                 <DemoBadge>{t("demoData")}</DemoBadge>
               )}
             </div>
-            <h1 className="mt-3 font-display text-[1.75rem] font-extrabold leading-tight text-foreground lg:text-4xl">
+            <h1 className="mt-3 break-words font-display text-2xl font-extrabold leading-tight text-foreground [overflow-wrap:anywhere] lg:text-4xl">
               {tr(place.name)}
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -173,34 +166,28 @@ function PlaceDetail() {
             </p>
             {realReviews.length > 0 ? (
               <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground"><Star className="h-4 w-4 fill-attention text-attention" aria-hidden="true" />{realRating.toFixed(1)}<span className="font-normal text-muted-foreground">· {realReviews.length} {c.reviewsWord}</span></p>
-            ) : !place.isCommunity ? (
-              <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground">
-                <Star className="h-4 w-4 fill-attention text-attention" aria-hidden="true" />
-                {place.rating.toFixed(1)}
-                <span className="font-normal text-muted-foreground">
-                  · {formatCount(place.reviewCount)} {c.reviewsWord}
-                </span>
-              </p>
             ) : null}
 
             <div className="mt-4 grid grid-cols-2 gap-2">
-              <button
+              <Button variant="outline"
                 type="button"
                 onClick={onFavorite}
                 aria-pressed={favorite}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-3 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
+                aria-label={favorite ? c.favoriteRemove : c.favoriteAdd}
+                title={favorite ? c.favoriteRemove : c.favoriteAdd}
+                className="min-h-11 min-w-0 gap-2 rounded-lg px-2 text-sm font-semibold"
               >
                 <Heart className={cn("h-4 w-4", favorite && "fill-coral text-coral")} aria-hidden="true" />
-                <span className="truncate">{favorite ? c.favoriteRemove : c.favoriteAdd}</span>
-              </button>
-              <button
+                <span>{lang === "az" ? (favorite ? "Saxlanıldı" : "Saxla") : lang === "ru" ? (favorite ? "Сохранено" : "Сохранить") : (favorite ? "Saved" : "Save")}</span>
+              </Button>
+              <Button variant="outline"
                 type="button"
                 onClick={onShare}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-3 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
+                className="min-h-11 min-w-0 gap-2 rounded-lg px-2 text-sm font-semibold"
               >
                 <Share2 className="h-4 w-4" aria-hidden="true" />
                 {c.share}
-              </button>
+              </Button>
             </div>
           </header>
 
@@ -211,20 +198,20 @@ function PlaceDetail() {
             {about ? (
               <>
                 {expanded ? <p className="mt-2 text-[15px] leading-relaxed text-alt-foreground">{about}</p> : null}
-                <button
+                <Button variant="link"
                   type="button"
                   onClick={() => setExpanded((v) => !v)}
                   aria-expanded={expanded}
-                  className="mt-1 min-h-11 text-sm font-semibold text-primary"
+                  className="mt-1 min-h-11 px-0 text-sm font-semibold"
                 >
                   {expanded ? c.less : c.more}
-                </button>
+                </Button>
               </>
             ) : null}
             {details ? (
-              <div className="mt-2 flex gap-3 rounded-2xl bg-warm p-4 text-sm text-alt-foreground">
+              <div className="mt-2 flex gap-3 border-l-2 border-attention bg-warm p-4 text-sm text-alt-foreground">
                 <Lightbulb className="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-                <div>
+                <div className="min-w-0 break-words">
                   <p className="font-semibold text-foreground">{c.tip}</p>
                   <p className="mt-1">{tr(details.tip)}</p>
                 </div>
@@ -237,12 +224,11 @@ function PlaceDetail() {
               <div className="lg:col-span-2">
                 <InfoCard icon={<MapPin className="h-5 w-5" />} label={c.address}>
                   <p>{address}</p>
-                  <Button asChild variant="link" className="mt-1 min-h-11 px-0">
+                  <Button asChild variant="outline" className="mt-3 min-h-11 w-full whitespace-normal text-left">
                     <a href={placeMapUrl(tr(place.name), address, tr(place.city), tr(place.country))} target="_blank" rel="noopener noreferrer">
-                    {c.viewMap}
+                    <MapPin className="shrink-0" aria-hidden="true" />{c.viewMap}<ExternalLink className="shrink-0" aria-hidden="true" />
                     </a>
                   </Button>
-                  {!place.isCommunity ? <MapPreview label={tr(place.name)} badge={c.demoMap} /> : null}
                 </InfoCard>
               </div>
             ) : null}
@@ -260,51 +246,20 @@ function PlaceDetail() {
 
           {/* Reviews */}
           <CommunityReviews key={slug} slug={slug} />
-          {reviews.length > 0 ? (
-            <section aria-labelledby="reviews-h">
-              <div className="flex items-center justify-between gap-2">
-                <h2 id="reviews-h" className="font-display text-lg font-bold text-foreground">{c.demoReviews}</h2>
-                <DemoBadge>{c.demoReviews}</DemoBadge>
-              </div>
-              <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Star className="h-4 w-4 fill-attention text-attention" aria-hidden="true" />
-                <span className="font-semibold text-foreground">{place.rating.toFixed(1)}</span>·{" "}
-                {formatCount(place.reviewCount)} {c.reviewsWord}
-              </p>
-              <div className="mt-3 grid gap-3">
-                {reviews.slice(0, 3).map((r) => (
-                  <ReviewCard key={r.id} author={r.author} rating={r.rating} date={fmt(r.daysAgo)} text={tr(r.text)} />
-                ))}
-              </div>
-              <button
-                type="button"
-                onClick={() => setReviewsOpen(true)}
-                className="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-2xl border border-border bg-card text-sm font-semibold text-primary transition-colors hover:bg-secondary"
-              >
-                {c.allReviews}
-              </button>
-              <BottomSheet open={reviewsOpen} onOpenChange={setReviewsOpen} title={c.reviews} description={c.demoReviews} closeLabel={c.close}>
-                <div className="grid gap-3">
-                  {reviews.map((r) => (
-                    <ReviewCard key={r.id} author={r.author} rating={r.rating} date={fmt(r.daysAgo)} text={tr(r.text)} />
-                  ))}
-                </div>
-              </BottomSheet>
-            </section>
-          ) : null}
         </main>
       </div>
 
       {/* Fixed CTA */}
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 pb-20 backdrop-blur-md">
-        <div className="mx-auto w-full max-w-[560px] px-4 pt-3 lg:max-w-[860px] lg:px-8" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 backdrop-blur-md">
+        <div className="mx-auto w-full py-3 pl-4 pr-20 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:max-w-[860px] lg:pl-8">
+          <Button asChild className="min-h-12 w-full rounded-lg text-base font-bold shadow-lift">
           <Link
             to="/place/$slug/travel"
             params={{ slug: place.slug }}
-            className="flex min-h-12 w-full items-center justify-center rounded-2xl bg-primary px-4 text-base font-bold text-primary-foreground shadow-lift transition-colors hover:bg-primary-hover"
           >
             {c.readyToGo}
           </Link>
+          </Button>
         </div>
       </div>
     </div>

@@ -20,3 +20,5 @@
 - Community address and opening hours use the shared client/server place schema and persisted place fields — why: entered venue facts must survive reloads without substituting demo details.
 - Real reviews use public reads and validated server-only writes with transactional rate limiting; never mix them with demo reviews — why: anonymous contributions appear immediately while keeping demo data and private abuse-control identifiers separate.
 - Place map actions use encoded Google Maps search URLs with venue name and address — why: working external maps need no embedded map or location integration.
+- Place details display only submitted visitor reviews; demo review generators remain separate from live pages — why: invented reviews must not be presented alongside real contributions.
+- Home and public forms use full-width mobile bands with bounded desktop content — why: phones must not inherit a decorative desktop device frame.
