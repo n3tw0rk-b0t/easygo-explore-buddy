@@ -1,3 +1,7 @@
+# Transport presentation
+- [ ] Add real Bolt, Uber and Yango app logos and clearly labeled demo fare, pickup and trip-time details.
+- [ ] Refresh transport mode icons, colors and cards; verify mobile/desktop rendering and selection.
+
 # Automatic external reviews
 - [ ] Resolve a secure, licensed way to display Google ratings/review samples without visitor sign-in; managed Maps calls must remain authenticated, and review snapshots cannot be stored as a workaround.
 - [ ] Booking hotel reviews: deferred by user decision (2026-10-04) until they obtain Demand API partner access and an affiliate ID.
