@@ -38,6 +38,8 @@ export interface Place {
   city: Localized;
   categories: CategoryId[];
   image: string;
+  /** Optional extra gallery images (first = hero). */
+  images?: string[];
   rating: number;
   reviewCount: number;
   /** Demo distance in km — replaced by real geo distance in a later phase. */
