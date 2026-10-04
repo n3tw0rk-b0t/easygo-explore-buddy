@@ -1,4 +1,6 @@
+import { Link } from "@tanstack/react-router";
 import {
+  Home,
   Heart,
   Globe,
   LifeBuoy,
@@ -47,6 +49,17 @@ export function MenuDrawer() {
       <SideDrawer open={open} onOpenChange={setOpen} title={t("menu")} closeLabel={t("close")}>
         <nav>
           <ul className="space-y-1">
+            <li>
+              <Link
+                to="/"
+                onClick={() => setOpen(false)}
+                className="flex min-h-12 w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-medium text-alt-foreground transition-colors hover:bg-secondary"
+              >
+                <Home className="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                {t("home")}
+              </Link>
+            </li>
+
             <li>
               <div className="rounded-2xl border border-border p-3">
                 <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
