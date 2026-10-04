@@ -121,6 +121,17 @@ export function MenuDrawer() {
               </div>
             </li>
 
+            <li>
+              <Link
+                to="/"
+                onClick={() => setOpen(false)}
+                className="flex min-h-12 w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-medium text-alt-foreground transition-colors hover:bg-secondary"
+              >
+                <Home className="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                {t("home")}
+              </Link>
+            </li>
+
             {items.map(({ key, icon: Icon, onClick }) => (
               <li key={key}>
                 <button
