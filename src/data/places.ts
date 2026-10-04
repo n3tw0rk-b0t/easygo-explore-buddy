@@ -581,7 +581,7 @@ export const PLACES: Place[] = [
     name: { az: "Qapalı Çarşı", en: "Grand Bazaar", ru: "Гранд-базар" },
     description: {
       az: "4000-dən çox dükanı olan, dünyanın ən qədim örtülü bazarlarından biri.",
-      en: "One of the world"s oldest covered markets with over 4,000 shops.",
+      en: "One of the world's oldest covered markets with over 4,000 shops.",
       ru: "Один из старейших крытых рынков мира — более 4000 лавок.",
     },
     categories: ["bazaars", "popular", "historic"],
@@ -635,10 +635,10 @@ export const PLACES: Place[] = [
     slug: "stefan-kilsesi",
     cityId: "vienna",
     ...cityMeta("vienna"),
-    name: { az: "Müqəddəs Stefan Kilsəsi", en: "St. Stephen"s Cathedral", ru: "Собор Святого Стефана" },
+    name: { az: "Müqəddəs Stefan Kilsəsi", en: "St. Stephen's Cathedral", ru: "Собор Святого Стефана" },
     description: {
       az: "Vyananın mərkəzində rəngli kirəmitli damı ilə məşhur qotik kafedral.",
-      en: "Vienna"s Gothic cathedral famous for its colourful tiled roof.",
+      en: "Vienna's Gothic cathedral famous for its colourful tiled roof.",
       ru: "Готический собор в центре Вены, знаменитый своей пёстрой черепичной крышей.",
     },
     categories: ["religious", "historic", "popular"],
@@ -657,7 +657,7 @@ export const PLACES: Place[] = [
     name: { az: "Naşmarkt", en: "Naschmarkt", ru: "Нашмаркт" },
     description: {
       az: "Təzə meyvə, ədviyyat və küçə yeməkləri ilə Vyananın ən məşhur açıq bazarı.",
-      en: "Vienna"s best known open-air market for fresh produce, spices and street food.",
+      en: "Vienna's best known open-air market for fresh produce, spices and street food.",
       ru: "Самый известный рынок Вены: свежие продукты, специи и уличная еда.",
     },
     categories: ["markets", "restaurants", "popular"],
