@@ -1,23 +1,22 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowLeft, Bike, Bus, Car, Check, Footprints, MapPin, Navigation, TrainFront, Zap, type LucideIcon } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 
 import { DemoBadge } from "@/components/easygo/place-detail-parts";
 import { TaxiSection } from "@/components/easygo/taxi-section";
 import { Button } from "@/components/ui/button";
 import { getCity } from "@/data/cities";
+import { cityHasTaxi } from "@/data/transport-providers";
 import {
-  CITY_TRANSPORT_MODES,
+  CITY_OPERATORS,
   NAVIGATION_APPS,
-  TRANSPORT_MODE_ORDER,
-  getDemoMicroMobility,
-  getDemoTransitRoutes,
+  directionsUrl,
+  getCityModes,
   getDemoTravelSummary,
+  type NavMode,
   type TransportModeId,
-  type TravelSummary,
 } from "@/data/travel-options";
-import type { Lang } from "@/data/types";
+import type { Lang, Place } from "@/data/types";
 import { useAllPlaces } from "@/hooks/use-all-places";
 import { cn } from "@/lib/utils";
 import { useAppState } from "@/state/app-state";
@@ -37,9 +36,9 @@ export const Route = createFileRoute("/place_/$slug/travel")({
 });
 
 const COPY = {
-  az: { back: "Məkan səhifəsinə qayıt", notFound: "Məkan tapılmadı", home: "Ana səhifəyə", demo: "Demo məlumat", about: "təxminən", min: "dəq", modes: "Nəqliyyat növü", taxi: "Taksi", bus: "Avtobus", metro: "Metro", scooter: "Skuter", bicycle: "Velosiped", walking: "Piyada", walk: "piyada", stops: "dayanacaq", transfer: "Transfer", transfers: "transfer", noTransfer: "Transfersiz", line: "Xətt", total: "Ümumi", nearest: "Ən yaxın nəqliyyat vasitəsi", noInfo: "Məlumat tətbiqdə göstəriləcək", openApp: "Tətbiqdə aç", openIn: "-də aç", walkingTitle: "Naviqasiya tətbiqi seçin", microSoon: "Mikromobillik tətbiqinə keçid növbəti inteqrasiya mərhələsində aktiv ediləcək.", navSoon: "Naviqasiya tətbiqinə keçid növbəti inteqrasiya mərhələsində aktiv ediləcək.", metroEmpty: "Bu şəhərdə metro xidməti mövcud deyil.", generic: "Bu nəqliyyat növü üçün hazırda məlumat yoxdur." },
-  en: { back: "Back to place", notFound: "Place not found", home: "Go home", demo: "Demo data", about: "about", min: "min", modes: "Transport mode", taxi: "Taxi", bus: "Bus", metro: "Metro", scooter: "Scooter", bicycle: "Bicycle", walking: "Walking", walk: "walk", stops: "stops", transfer: "Transfer", transfers: "transfer", noTransfer: "No transfers", line: "Line", total: "Total", nearest: "Nearest vehicle", noInfo: "Details shown in the app", openApp: "Open in app", openIn: "Open in ", walkingTitle: "Choose a navigation app", microSoon: "Micromobility app redirect will be enabled in a later integration stage.", navSoon: "Navigation app redirect will be enabled in a later integration stage.", metroEmpty: "Metro service is not available in this city.", generic: "No information is currently available for this transport mode." },
-  ru: { back: "Назад к месту", notFound: "Место не найдено", home: "На главную", demo: "Демо-данные", about: "около", min: "мин", modes: "Вид транспорта", taxi: "Такси", bus: "Автобус", metro: "Метро", scooter: "Самокат", bicycle: "Велосипед", walking: "Пешком", walk: "пешком", stops: "остановки", transfer: "Пересадка", transfers: "пересадка", noTransfer: "Без пересадок", line: "Линия", total: "Всего", nearest: "Ближайший транспорт", noInfo: "Данные будут в приложении", openApp: "Открыть в приложении", openIn: "Открыть в ", walkingTitle: "Выберите навигатор", microSoon: "Переход в приложение будет добавлен на следующем этапе интеграции.", navSoon: "Переход в навигационное приложение будет добавлен на следующем этапе.", metroEmpty: "В этом городе метро недоступно.", generic: "Для этого вида транспорта пока нет информации." },
+  az: { back: "Məkan səhifəsinə qayıt", notFound: "Məkan tapılmadı", home: "Ana səhifəyə", demo: "Demo məlumat", about: "təxminən", min: "dəq", modes: "Nəqliyyat növü", taxi: "Taksi", bus: "Avtobus", metro: "Metro", scooter: "Skuter", bicycle: "Velosiped", walking: "Piyada", walk: "piyada", stops: "dayanacaq", transfer: "Transfer", transfers: "transfer", noTransfer: "Transfersiz", line: "Xətt", total: "Ümumi", nearest: "Ən yaxın nəqliyyat vasitəsi", noInfo: "Məlumat tətbiqdə göstəriləcək", openApp: "Tətbiqdə aç", openIn: "-də aç", walkingTitle: "Naviqasiya tətbiqi seçin", microSoon: "Mikromobillik tətbiqinə keçid növbəti inteqrasiya mərhələsində aktiv ediləcək.", navSoon: "Naviqasiya tətbiqinə keçid növbəti inteqrasiya mərhələsində aktiv ediləcək.", metroEmpty: "Bu şəhərdə metro xidməti mövcud deyil.", generic: "Bu nəqliyyat növü üçün hazırda məlumat yoxdur.", realNote: "Şəhərin rəsmi operatorları. Canlı marşrut Google Maps-də açılır.", routeGoogle: "Marşrutu Google Maps-də aç" },
+  en: { back: "Back to place", notFound: "Place not found", home: "Go home", demo: "Demo data", about: "about", min: "min", modes: "Transport mode", taxi: "Taxi", bus: "Bus", metro: "Metro", scooter: "Scooter", bicycle: "Bicycle", walking: "Walking", walk: "walk", stops: "stops", transfer: "Transfer", transfers: "transfer", noTransfer: "No transfers", line: "Line", total: "Total", nearest: "Nearest vehicle", noInfo: "Details shown in the app", openApp: "Open in app", openIn: "Open in ", walkingTitle: "Choose a navigation app", microSoon: "Micromobility app redirect will be enabled in a later integration stage.", navSoon: "Navigation app redirect will be enabled in a later integration stage.", metroEmpty: "Metro service is not available in this city.", generic: "No information is currently available for this transport mode.", realNote: "Official city operators. Live route opens in Google Maps.", routeGoogle: "Open route in Google Maps" },
+  ru: { back: "Назад к месту", notFound: "Место не найдено", home: "На главную", demo: "Демо-данные", about: "около", min: "мин", modes: "Вид транспорта", taxi: "Такси", bus: "Автобус", metro: "Метро", scooter: "Самокат", bicycle: "Велосипед", walking: "Пешком", walk: "пешком", stops: "остановки", transfer: "Пересадка", transfers: "пересадка", noTransfer: "Без пересадок", line: "Линия", total: "Всего", nearest: "Ближайший транспорт", noInfo: "Данные будут в приложении", openApp: "Открыть в приложении", openIn: "Открыть в ", walkingTitle: "Выберите навигатор", microSoon: "Переход в приложение будет добавлен на следующем этапе интеграции.", navSoon: "Переход в навигационное приложение будет добавлен на следующем этапе.", metroEmpty: "В этом городе метро недоступно.", generic: "Для этого вида транспорта пока нет информации.", realNote: "Официальные операторы города. Маршрут открывается в Google Maps.", routeGoogle: "Открыть маршрут в Google Maps" },
 } satisfies Record<Lang, Record<string, string>>;
 type Copy = (typeof COPY)["en"];
 
@@ -50,7 +49,7 @@ function TravelOptionsPage() {
   const { tr, lang } = useAppState();
   const c = COPY[lang];
   const place = useAllPlaces().find((p) => p.slug === slug);
-  const modes = place ? TRANSPORT_MODE_ORDER.filter((m) => CITY_TRANSPORT_MODES[place.cityId]?.includes(m)) : [];
+  const modes = place ? getCityModes(place.cityId, cityHasTaxi(place.cityId)) : [];
   const [chosen, setChosen] = useState<TransportModeId>("taxi");
   const mode = modes.includes(chosen) ? chosen : modes[0];
 
@@ -65,6 +64,7 @@ function TravelOptionsPage() {
 
   const summary = getDemoTravelSummary(place.distanceKm);
   const city = getCity(place.cityId);
+  const destination = `${tr(place.name)}, ${tr(place.city)}, ${tr(city.country)}`;
 
   return (
     <div className="min-h-[100dvh] bg-background pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
@@ -105,13 +105,13 @@ function TravelOptionsPage() {
 
         <div role="tabpanel" className="animate-in fade-in duration-200 motion-reduce:animate-none" key={mode}>
           {mode === "taxi" ? (
-            <TaxiSection context={{ cityId: place.cityId, countryCode: city.countryCode, destinationSlug: place.slug, origin: null }} />
+            <TaxiSection context={{ cityId: place.cityId, countryCode: city.countryCode, destinationSlug: place.slug, destination, origin: null }} />
           ) : mode === "bus" || mode === "metro" ? (
-            <TransitList mode={mode} summary={summary} c={c} />
+            <OperatorList mode={mode} cityId={place.cityId} destination={destination} c={c} navMode="transit" />
           ) : mode === "scooter" || mode === "bicycle" ? (
-            <MicroList mode={mode} c={c} />
+            <OperatorList mode={mode} cityId={place.cityId} destination={destination} c={c} navMode={mode === "bicycle" ? "bicycling" : "walking"} />
           ) : mode === "walking" ? (
-            <WalkingList c={c} minutes={summary.durations.walking} />
+            <WalkingList c={c} minutes={summary.durations.walking} destination={destination} />
           ) : (
             <p className="mt-6 rounded-2xl border border-dashed border-border p-4 text-sm text-muted-foreground">{c.generic}</p>
           )}
@@ -125,48 +125,25 @@ function SectionTitle({ icon: Icon, children }: { icon: LucideIcon; children: st
   return <h2 className="mt-6 flex items-center gap-2 font-display text-lg font-bold text-foreground"><Icon className="h-5 w-5 text-primary" aria-hidden="true" />{children}</h2>;
 }
 
-function TransitList({ mode, summary, c }: { mode: "bus" | "metro"; summary: TravelSummary; c: Copy }) {
-  const routes = getDemoTransitRoutes(mode, summary);
+function OperatorList({ mode, cityId, destination, c, navMode }: { mode: "bus" | "metro" | "scooter" | "bicycle"; cityId: Place["cityId"]; destination: string; c: Copy; navMode: NavMode }) {
+  const ops = CITY_OPERATORS[cityId]?.[mode] ?? [];
+  const Icon = MODE_ICONS[mode];
   return (
     <section>
-      <SectionTitle icon={MODE_ICONS[mode]}>{c[mode]}</SectionTitle>
-      {routes.length === 0 ? <p className="mt-3 rounded-2xl border border-dashed border-border p-4 text-sm text-muted-foreground">{mode === "metro" ? c.metroEmpty : c.generic}</p> : null}
+      <SectionTitle icon={Icon}>{c[mode]}</SectionTitle>
+      <p className="mt-1 text-xs text-muted-foreground">{c.realNote}</p>
+      <a href={directionsUrl("google", destination, navMode)} target="_blank" rel="noopener noreferrer"
+        className="mt-3 flex min-h-14 items-center gap-3 rounded-2xl border border-primary bg-warm p-4 font-semibold text-primary shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        <Navigation className="h-5 w-5 shrink-0" aria-hidden="true" />{c.routeGoogle}
+      </a>
       <div className="mt-3 space-y-3">
-        {routes.map((r) => (
-          <article key={r.id} className="rounded-2xl border border-border bg-card p-4 shadow-soft">
-            <div className="flex items-center justify-between gap-3">
-              <p className="font-semibold text-foreground">{c.line} {r.line}</p>
-              <p className="text-sm font-bold text-primary">{r.totalMinutes} {c.min}</p>
-            </div>
-            <p className="mt-1 text-xs text-muted-foreground">{r.walkingMinutes} {c.min} {c.walk} · {r.transferCount === 0 ? c.noTransfer : `${r.transferCount} ${c.transfers}`}</p>
-            <ol className="mt-3 space-y-1.5 border-l-2 border-border pl-3 text-sm text-alt-foreground">
-              {r.steps.map((s, i) => (
-                <li key={i}>
-                  {s.kind === "walk" ? `${s.minutes} ${c.min} ${c.walk}` : s.kind === "transfer" ? `${c.transfer} · ${s.minutes} ${c.min}` : `${c.line} ${s.line} · ${s.stops} ${c.stops} · ${s.minutes} ${c.min}`}
-                </li>
-              ))}
-            </ol>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function MicroList({ mode, c }: { mode: "scooter" | "bicycle"; c: Copy }) {
-  const options = getDemoMicroMobility(mode);
-  return (
-    <section>
-      <SectionTitle icon={MODE_ICONS[mode]}>{c[mode]}</SectionTitle>
-      <div className="mt-3 space-y-3">
-        {options.map((o) => (
+        {ops.map((o) => (
           <article key={o.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft">
-            <span aria-hidden="true" className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">{(() => { const I = MODE_ICONS[mode]; return <I className="h-5 w-5" />; })()}</span>
-            <div className="min-w-0 flex-1">
-              <h3 className="truncate font-semibold text-foreground">{o.providerName}</h3>
-              <p className="text-sm text-muted-foreground">{o.nearestDistanceM != null ? `${c.nearest}: ${o.nearestDistanceM} m` : c.noInfo}</p>
-            </div>
-            <Button size="sm" className="min-h-11 shrink-0 rounded-full" onClick={() => toast(c.microSoon)}>{c.openApp}</Button>
+            <span aria-hidden="true" className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary"><Icon className="h-5 w-5" /></span>
+            <h3 className="min-w-0 flex-1 truncate font-semibold text-foreground">{o.name}</h3>
+            <Button asChild size="sm" className="min-h-11 shrink-0 rounded-full">
+              <a href={o.url} target="_blank" rel="noopener noreferrer">{c.openApp}</a>
+            </Button>
           </article>
         ))}
       </div>
@@ -174,18 +151,18 @@ function MicroList({ mode, c }: { mode: "scooter" | "bicycle"; c: Copy }) {
   );
 }
 
-function WalkingList({ c, minutes }: { c: Copy; minutes: number | undefined }) {
+function WalkingList({ c, minutes, destination }: { c: Copy; minutes: number | undefined; destination: string }) {
   return (
     <section>
       <SectionTitle icon={Footprints}>{c.walkingTitle}</SectionTitle>
       {minutes ? <p className="mt-1 text-sm text-muted-foreground">{c.about} {minutes} {c.min} {c.walk}</p> : null}
       <div className="mt-3 space-y-3">
         {NAVIGATION_APPS.map((app) => (
-          <button key={app.id} type="button" onClick={() => toast(c.navSoon)}
+          <a key={app.id} href={directionsUrl(app.id, destination, "walking")} target="_blank" rel="noopener noreferrer"
             className="flex min-h-14 w-full items-center gap-3 rounded-2xl border border-border bg-card p-4 text-left shadow-soft transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
             <span aria-hidden="true" className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary"><Navigation className="h-5 w-5" /></span>
             <span className="min-w-0 flex-1 font-semibold text-foreground">{c.openIn === "-də aç" ? `${app.name}${c.openIn}` : `${c.openIn}${app.name}`}</span>
-          </button>
+          </a>
         ))}
       </div>
     </section>
