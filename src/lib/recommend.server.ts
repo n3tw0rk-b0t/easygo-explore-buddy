@@ -25,15 +25,20 @@ export async function recommendPlaces(input: {
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new GatewayError(401, "AI is not configured.");
 
+  const { fetchCommunityPlaces } = await import("./community.server");
+  const community = await fetchCommunityPlaces(input.cityId).catch(() => []);
   const candidates = PLACES.filter((p) => p.cityId === input.cityId);
-  const catalog = candidates.map((p) => ({
+  const catalog = [
+    ...community.map((c) => ({ slug: c.slug, name: c.name, categories: [c.category], description: c.description, rating: null, distanceKm: null })),
+    ...candidates.map((p) => ({
     slug: p.slug,
     name: p.name.en,
     categories: p.categories,
     description: p.description.en,
     rating: p.rating,
     distanceKm: p.distanceKm,
-  }));
+    })),
+  ];
 
   const provider = createOpenAI({
     baseURL: "https://ai.gateway.lovable.dev/v1",
@@ -78,7 +83,7 @@ export async function recommendPlaces(input: {
   } catch {
     parsed = [];
   }
-  const valid = new Set(candidates.map((p) => p.slug));
+  const valid = new Set(catalog.map((p) => p.slug));
   const seen = new Set<string>();
   return (Array.isArray(parsed) ? parsed : [])
     .filter(

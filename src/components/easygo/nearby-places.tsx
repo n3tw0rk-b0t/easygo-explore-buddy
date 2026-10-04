@@ -1,28 +1,40 @@
-import { Route as RouteIcon } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Plus, Route as RouteIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { getPlacesByCity } from "@/data/places";
+import { useAllPlaces } from "@/hooks/use-all-places";
 import { useAppState } from "@/state/app-state";
 import { PlaceCard } from "./place-card";
 
 export function NearbyPlaces() {
-  const { t, cityId, radius, cityLabel } = useAppState();
+  const { t, cityId, radius, cityLabel, lang } = useAppState();
   const [showAll, setShowAll] = useState(false);
+  const all = useAllPlaces();
 
   // Demo filtering only — real distance calculation comes in a later phase.
-  const places = getPlacesByCity(cityId).filter((place) => place.distanceKm <= radius);
+  const places = all.filter((place) => place.cityId === cityId && place.distanceKm <= radius);
+  const addLabel = lang === "ru" ? "Добавить место" : lang === "en" ? "Add a place" : "Məkan əlavə et";
 
   return (
     <section aria-labelledby="nearby-heading" className="mt-8 lg:mt-0">
-      <button
-        type="button"
-        onClick={() => toast(t("tripPlanningSoon"))}
-        className="mb-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-3xl border border-primary bg-warm px-4 text-sm font-bold text-primary transition-colors hover:bg-secondary"
-      >
-        <RouteIcon className="h-5 w-5" aria-hidden="true" />
-        {t("tripPlanning")}
-      </button>
+      <div className="mb-4 grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={() => toast(t("tripPlanningSoon"))}
+          className="flex min-h-12 items-center justify-center gap-2 rounded-3xl border border-primary bg-warm px-3 text-sm font-bold text-primary transition-colors hover:bg-secondary"
+        >
+          <RouteIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
+          <span className="truncate">{t("tripPlanning")}</span>
+        </button>
+        <Link
+          to="/add-place"
+          className="flex min-h-12 items-center justify-center gap-2 rounded-3xl bg-primary px-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary-hover"
+        >
+          <Plus className="h-5 w-5 shrink-0" aria-hidden="true" />
+          <span className="truncate">{addLabel}</span>
+        </Link>
+      </div>
 
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
         <div className="min-w-0">

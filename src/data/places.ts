@@ -24,6 +24,12 @@ import imgMerkeziMall from "@/assets/places/merkezi-mall.jpg";
 import imgYasilBazar from "@/assets/places/yasil-bazar.jpg";
 import imgTezePirMescidi from "@/assets/places/teze-pir-mescidi.jpg";
 import imgSahilHotel from "@/assets/places/sahil-hotel.jpg";
+import imgAyasofya from "@/assets/places/ayasofya.jpg";
+import imgKapaliCarsi from "@/assets/places/kapali-carsi.jpg";
+import imgMaviKilse from "@/assets/places/mavi-kilse.jpg";
+import imgUfoKorpusu from "@/assets/places/ufo-korpusu.jpg";
+import imgStefanKilsesi from "@/assets/places/stefan-kilsesi.jpg";
+import imgNaschmarkt from "@/assets/places/naschmarkt.jpg";
 
 import { CITIES } from "./cities";
 import type { CityId, Place } from "./types";
@@ -545,6 +551,120 @@ export const PLACES: Place[] = [
     rating: 4.5,
     reviewCount: 1840,
     distanceKm: 1.2,
+    coordinates: { lat: null, lng: null },
+    isFavoriteByDefault: false,
+  },
+  {
+    id: "tr-5",
+    slug: "ayasofya",
+    cityId: "istanbul",
+    ...cityMeta("istanbul"),
+    name: { az: "Ayasofya", en: "Hagia Sophia", ru: "Айя-София" },
+    description: {
+      az: "Bizans və Osmanlı dövrlərini birləşdirən, nəhəng günbəzli dünya şöhrətli məbəd.",
+      en: "A world-famous domed landmark blending Byzantine and Ottoman heritage.",
+      ru: "Всемирно известный храм с огромным куполом, объединяющий византийское и османское наследие.",
+    },
+    categories: ["religious", "historic", "popular"],
+    image: imgAyasofya,
+    rating: 4.8,
+    reviewCount: 98000,
+    distanceKm: 1.1,
+    coordinates: { lat: null, lng: null },
+    isFavoriteByDefault: false,
+  },
+  {
+    id: "tr-6",
+    slug: "kapali-carsi",
+    cityId: "istanbul",
+    ...cityMeta("istanbul"),
+    name: { az: "Qapalı Çarşı", en: "Grand Bazaar", ru: "Гранд-базар" },
+    description: {
+      az: "4000-dən çox dükanı olan, dünyanın ən qədim örtülü bazarlarından biri.",
+      en: "One of the world's oldest covered markets with over 4,000 shops.",
+      ru: "Один из старейших крытых рынков мира — более 4000 лавок.",
+    },
+    categories: ["bazaars", "popular", "historic"],
+    image: imgKapaliCarsi,
+    rating: 4.5,
+    reviewCount: 64000,
+    distanceKm: 1.6,
+    coordinates: { lat: null, lng: null },
+    isFavoriteByDefault: false,
+  },
+  {
+    id: "sk-5",
+    slug: "mavi-kilse",
+    cityId: "bratislava",
+    ...cityMeta("bratislava"),
+    name: { az: "Mavi Kilsə", en: "Blue Church", ru: "Голубая церковь" },
+    description: {
+      az: "Art Nouveau üslubunda, tamamilə mavi rəngdə nağılvari kilsə.",
+      en: "A fairy-tale Art Nouveau church painted entirely in blue.",
+      ru: "Сказочная церковь в стиле модерн, полностью окрашенная в голубой цвет.",
+    },
+    categories: ["religious", "photopoints"],
+    image: imgMaviKilse,
+    rating: 4.6,
+    reviewCount: 7200,
+    distanceKm: 1.3,
+    coordinates: { lat: null, lng: null },
+    isFavoriteByDefault: false,
+  },
+  {
+    id: "sk-6",
+    slug: "ufo-korpusu",
+    cityId: "bratislava",
+    ...cityMeta("bratislava"),
+    name: { az: "UFO Körpüsü", en: "UFO Bridge", ru: "Мост СНП (НЛО)" },
+    description: {
+      az: "Dunay üzərində, zirvəsində seyr meydançası və restoranı olan körpü.",
+      en: "A Danube bridge topped by a saucer-shaped observation deck and restaurant.",
+      ru: "Мост через Дунай со смотровой площадкой и рестораном в форме тарелки.",
+    },
+    categories: ["photopoints", "restaurants", "entertainment"],
+    image: imgUfoKorpusu,
+    rating: 4.5,
+    reviewCount: 11800,
+    distanceKm: 0.9,
+    coordinates: { lat: null, lng: null },
+    isFavoriteByDefault: false,
+  },
+  {
+    id: "at-5",
+    slug: "stefan-kilsesi",
+    cityId: "vienna",
+    ...cityMeta("vienna"),
+    name: { az: "Müqəddəs Stefan Kilsəsi", en: "St. Stephen's Cathedral", ru: "Собор Святого Стефана" },
+    description: {
+      az: "Vyananın mərkəzində rəngli kirəmitli damı ilə məşhur qotik kafedral.",
+      en: "Vienna's Gothic cathedral famous for its colourful tiled roof.",
+      ru: "Готический собор в центре Вены, знаменитый своей пёстрой черепичной крышей.",
+    },
+    categories: ["religious", "historic", "popular"],
+    image: imgStefanKilsesi,
+    rating: 4.8,
+    reviewCount: 86000,
+    distanceKm: 0.4,
+    coordinates: { lat: null, lng: null },
+    isFavoriteByDefault: false,
+  },
+  {
+    id: "at-6",
+    slug: "naschmarkt",
+    cityId: "vienna",
+    ...cityMeta("vienna"),
+    name: { az: "Naşmarkt", en: "Naschmarkt", ru: "Нашмаркт" },
+    description: {
+      az: "Təzə meyvə, ədviyyat və küçə yeməkləri ilə Vyananın ən məşhur açıq bazarı.",
+      en: "Vienna's best known open-air market for fresh produce, spices and street food.",
+      ru: "Самый известный рынок Вены: свежие продукты, специи и уличная еда.",
+    },
+    categories: ["markets", "restaurants", "popular"],
+    image: imgNaschmarkt,
+    rating: 4.4,
+    reviewCount: 41000,
+    distanceKm: 1.5,
     coordinates: { lat: null, lng: null },
     isFavoriteByDefault: false,
   },

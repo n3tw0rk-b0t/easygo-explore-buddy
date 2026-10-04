@@ -8,7 +8,7 @@ import { useAppState } from "@/state/app-state";
 import { cn } from "@/lib/utils";
 
 export function PlaceCard({ place, variant = "carousel" }: { place: Place; variant?: "carousel" | "list" }) {
-  const { t, tr, isFavorite, toggleFavorite } = useAppState();
+  const { t, tr, lang, isFavorite, toggleFavorite } = useAppState();
   const favorite = isFavorite(place.id);
   const category = CATEGORIES.find((c) => c.id === place.categories[0]);
 
@@ -40,13 +40,21 @@ export function PlaceCard({ place, variant = "carousel" }: { place: Place; varia
             {category ? tr(category.label) : ""}
           </p>
           <div className="mt-2 flex items-center gap-3 text-xs text-alt-foreground">
-            <span className="inline-flex items-center gap-1">
-              <Star className="h-3.5 w-3.5 fill-attention text-attention" aria-hidden="true" />
-              <span className="font-semibold">{place.rating.toFixed(1)}</span>
-            </span>
-            <span>
-              {place.distanceKm} km {t("away")}
-            </span>
+            {place.isCommunity ? (
+              <span className="rounded-full bg-secondary px-2 py-0.5 font-semibold text-primary">
+                {lang === "ru" ? "Новое" : lang === "en" ? "New" : "Yeni"}
+              </span>
+            ) : (
+              <>
+                <span className="inline-flex items-center gap-1">
+                  <Star className="h-3.5 w-3.5 fill-attention text-attention" aria-hidden="true" />
+                  <span className="font-semibold">{place.rating.toFixed(1)}</span>
+                </span>
+                <span>
+                  {place.distanceKm} km {t("away")}
+                </span>
+              </>
+            )}
           </div>
         </div>
       </Link>

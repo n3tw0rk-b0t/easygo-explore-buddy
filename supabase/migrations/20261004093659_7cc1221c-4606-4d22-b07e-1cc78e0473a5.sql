@@ -1,0 +1,1 @@
+DELETE FROM public.community_places WHERE slug LIKE 'test-park-playwright-%';
