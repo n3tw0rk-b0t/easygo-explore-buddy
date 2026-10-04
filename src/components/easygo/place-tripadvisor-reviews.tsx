@@ -36,7 +36,7 @@ export function PlaceTripadvisorReviews({
   const [selectingId, setSelectingId] = useState<number>();
   const search = useServerFn(searchTripadvisorPlaces);
   const reviews = useServerFn(getTripadvisorReviews);
-  const select = useServerFn(selectTripadvisorPlacethird);
+  const select = useServerFn(selectTripadvisorPlace);
   const c =
     lang === "az"
       ? {
