@@ -7,13 +7,15 @@ import { getTaxiOptions, type TaxiContext, type TaxiQuote, type TransportProvide
 import type { Lang } from "@/data/types";
 import { useAppState } from "@/state/app-state";
 
-const COPY: Record<Lang, Record<string, string>> = {
+const AZ = { title: "", demoNote: "", open: "", seePrice: "", noPrice: "", estimate: "", demo: "", min: "", sponsored: "", empty: "", error: "", retry: "", redirect: "" };
+type Copy = typeof AZ;
+const COPY: Record<Lang, Copy> = {
   az: { title: "Taksi", demoNote: "Demo siyahı — real mövcudluq hələ təsdiqlənməyib.", open: "Tətbiqdə aç", seePrice: "Tətbiqdə qiymətə bax", noPrice: "Qiymət məlumatı mövcud deyil", estimate: "Təxmini qiymət", demo: "Demo qiymət", min: "dəq ərzində", sponsored: "Sponsorlu", empty: "Bu şəhərdə dəstəklənən taksi xidməti tapılmadı.", error: "Taksi xidmətlərini yükləmək mümkün olmadı.", retry: "Yenidən cəhd et", redirect: "Taksi tətbiqinə keçid gələcək inteqrasiya mərhələsində aktiv ediləcək." },
   en: { title: "Taxi", demoNote: "Demo list — real availability not yet verified.", open: "Open in app", seePrice: "See price in app", noPrice: "Price information unavailable", estimate: "Estimated price", demo: "Demo price", min: "min away", sponsored: "Sponsored", empty: "No supported taxi service was found in this city.", error: "Couldn't load taxi services.", retry: "Try again", redirect: "Taxi app redirect will be enabled in a future integration stage." },
   ru: { title: "Такси", demoNote: "Демо-список — реальная доступность ещё не проверена.", open: "Открыть в приложении", seePrice: "Цена в приложении", noPrice: "Информация о цене недоступна", estimate: "Примерная цена", demo: "Демо-цена", min: "мин до подачи", sponsored: "Спонсор", empty: "В этом городе не найден поддерживаемый сервис такси.", error: "Не удалось загрузить сервисы такси.", retry: "Повторить", redirect: "Переход в приложение такси будет активирован на следующем этапе интеграции." },
 };
 
-export function TaxiProviderCard({ provider, quote, c }: { provider: TransportProvider; quote: TaxiQuote; c: Record<string, string> }) {
+export function TaxiProviderCard({ provider, quote, c }: { provider: TransportProvider; quote: TaxiQuote; c: Copy }) {
   const hasPrice = quote.priceStatus !== "unavailable" && quote.fareMin != null && quote.currency;
   return (
     <article className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft">
