@@ -3,10 +3,33 @@ import { Link } from "@tanstack/react-router";
 import { Loader2, Sparkles, Star } from "lucide-react";
 import { useState } from "react";
 
-import { getPlaceBySlug } from "@/data/places";
+import { useAllPlaces } from "@/hooks/use-all-places";
 import type { Lang } from "@/data/types";
 import { getRecommendations } from "@/lib/recommend.functions";
 import { useAppState } from "@/state/app-state";
+
+const CHIPS: Record<Lang, { label: string; prompt: string }[]> = {
+  az: [
+    { label: "Tarix", prompt: "Tarixi yerləri və muzeyləri sevirəm" },
+    { label: "Mənzərə", prompt: "Gözəl mənzərə və şəkil çəkdirmək üçün yerlər istəyirəm" },
+    { label: "Ailə", prompt: "Uşaqlarla ailəvi gəzmək üçün yerlər" },
+    { label: "Yemək", prompt: "Dadlı yemək, kafe və bazarlar" },
+  ],
+  en: [
+    { label: "History", prompt: "I love historic sites and museums" },
+    { label: "Views", prompt: "I want great views and photo spots" },
+    { label: "Family", prompt: "Places for a family day out with kids" },
+    { label: "Food", prompt: "Tasty food, cafés and markets" },
+  ],
+  ru: [
+    { label: "История", prompt: "Люблю исторические места и музеи" },
+    { label: "Виды", prompt: "Хочу красивые виды и места для фото" },
+    { label: "Семья", prompt: "Места для семейной прогулки с детьми" },
+    { label: "Еда", prompt: "Вкусная еда, кафе и рынки" },
+  ],
+};
+
+const PICKS: Record<Lang, string> = { az: "Bu şəhərdə ən populyar", en: "Top picks in this city", ru: "Популярное в этом городе" };
 
 const COPY: Record<Lang, { title: string; helper: string; placeholder: string; action: string; loading: string; short: string; empty: string }> = {
   az: {
@@ -47,16 +70,24 @@ export function AiRecommendations() {
   const [error, setError] = useState<string | null>(null);
   const [items, setItems] = useState<{ slug: string; reason: string }[] | null>(null);
 
-  const submit = async () => {
+  const all = useAllPlaces();
+  const getPlaceBySlug = (slug: string) => all.find((p) => p.slug === slug);
+  const topPicks = all
+    .filter((p) => p.cityId === cityId && !p.isCommunity)
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 3);
+
+  const submit = async (override?: string) => {
+    const query = (override ?? text).trim();
     if (loading) return;
-    if (text.trim().length < 3) {
+    if (query.length < 3) {
       setError(c.short);
       return;
     }
     setLoading(true);
     setError(null);
     try {
-      const res = await fetchRecs({ data: { interests: text.trim().slice(0, 500), cityId, lang } });
+      const res = await fetchRecs({ data: { interests: query.slice(0, 500), cityId, lang } });
       if (res.ok) setItems(res.items);
       else setError(res.message);
     } catch {
@@ -73,6 +104,22 @@ export function AiRecommendations() {
         {c.title}
       </h2>
       <p className="mt-0.5 text-xs text-muted-foreground">{c.helper}</p>
+      <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto">
+        {CHIPS[lang].map((chip) => (
+          <button
+            key={chip.label}
+            type="button"
+            disabled={loading}
+            onClick={() => {
+              setText(chip.prompt);
+              void submit(chip.prompt);
+            }}
+            className="min-h-9 shrink-0 rounded-full border border-primary/40 bg-warm px-3 text-xs font-semibold text-primary transition-colors hover:bg-secondary disabled:opacity-60"
+          >
+            {chip.label}
+          </button>
+        ))}
+      </div>
       <textarea
         value={text}
         maxLength={500}
@@ -84,7 +131,7 @@ export function AiRecommendations() {
       />
       <button
         type="button"
-        onClick={submit}
+        onClick={() => submit()}
         disabled={loading}
         className="mt-2 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary-hover disabled:opacity-70"
       >
@@ -93,6 +140,30 @@ export function AiRecommendations() {
       </button>
       {error ? (
         <p role="alert" className="mt-2 text-sm font-medium text-destructive">{error}</p>
+      ) : null}
+      {!items && topPicks.length > 0 ? (
+        <div className="mt-3">
+          <p className="text-xs font-semibold text-muted-foreground">{PICKS[lang]}</p>
+          <ul className="mt-2 grid gap-2">
+            {topPicks.map((place) => (
+              <li key={place.slug}>
+                <Link to="/place/$slug" params={{ slug: place.slug }} className="flex min-h-16 gap-3 rounded-2xl border border-border bg-card p-2 transition-colors hover:bg-secondary">
+                  <img src={place.image} alt={tr(place.name)} loading="lazy" className="h-16 w-16 shrink-0 rounded-xl object-cover" />
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center justify-between gap-2">
+                      <span className="truncate text-sm font-semibold text-foreground">{tr(place.name)}</span>
+                      <span className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-alt-foreground">
+                        <Star className="h-3.5 w-3.5 fill-attention text-attention" aria-hidden="true" />
+                        {place.rating.toFixed(1)}
+                      </span>
+                    </span>
+                    <span className="mt-0.5 line-clamp-2 block text-xs text-muted-foreground">{tr(place.description)}</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : null}
       {items ? (
         items.length === 0 ? (
