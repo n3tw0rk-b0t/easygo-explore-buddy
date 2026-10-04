@@ -32,6 +32,7 @@ const AZ = {
   notFoundHelp: "Bu link köhnə ola bilər. Ana səhifədən başqa məkan seçin.",
   home: "Ana səhifə",
   photo: "Şəkil",
+  daysAgo: "{n} gün əvvəl",
 };
 
 export type PlaceDetailCopy = typeof AZ;
@@ -70,6 +71,7 @@ export const PLACE_DETAIL_COPY: Record<Lang, PlaceDetailCopy> = {
     notFoundHelp: "This link may be outdated. Pick another place from the home page.",
     home: "Home",
     photo: "Photo",
+    daysAgo: "{n} days ago",
   },
   ru: {
     back: "Назад",
@@ -103,5 +105,6 @@ export const PLACE_DETAIL_COPY: Record<Lang, PlaceDetailCopy> = {
     notFoundHelp: "Ссылка могла устареть. Выберите другое место на главной.",
     home: "Главная",
     photo: "Фото",
+    daysAgo: "{n} дн. назад",
   },
 };

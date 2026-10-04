@@ -15,7 +15,6 @@ import { CATEGORIES } from "@/data/categories";
 import { PLACE_DETAILS } from "@/data/place-details";
 import { getDemoReviews, getPriceInfo } from "@/data/place-extras";
 import { PLACES } from "@/data/places";
-import type { Lang } from "@/data/types";
 import { useAllPlaces } from "@/hooks/use-all-places";
 import { PLACE_DETAIL_COPY } from "@/i18n/place-details";
 import { cn } from "@/lib/utils";
@@ -40,7 +39,8 @@ export const Route = createFileRoute("/place/$slug")({
   component: PlaceDetail,
 });
 
-const LOCALE: Record<Lang, string> = { az: "az-AZ", en: "en-GB", ru: "ru-RU" };
+/** Locale-independent grouping so server and browser render the same text. */
+const formatCount = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202f");
 
 function PlaceDetail() {
   const { slug } = Route.useParams();
@@ -81,8 +81,7 @@ function PlaceDetail() {
   const images = place.images?.length ? place.images : [place.image];
   const description = tr(place.description);
   const about = details ? tr(details.about) : "";
-  const fmt = (daysAgo: number) =>
-    new Date(Date.now() - daysAgo * 86_400_000).toLocaleDateString(LOCALE[lang], { day: "numeric", month: "short", year: "numeric" });
+  const fmt = (daysAgo: number) => c.daysAgo.replace("{n}", String(daysAgo));
 
   const onFavorite = () => {
     const added = toggleFavorite(place.id);
@@ -167,7 +166,7 @@ function PlaceDetail() {
                 <Star className="h-4 w-4 fill-attention text-attention" aria-hidden="true" />
                 {place.rating.toFixed(1)}
                 <span className="font-normal text-muted-foreground">
-                  · {place.reviewCount.toLocaleString(LOCALE[lang])} {c.reviewsWord}
+                  · {formatCount(place.reviewCount)} {c.reviewsWord}
                 </span>
               </p>
             ) : null}
@@ -255,7 +254,7 @@ function PlaceDetail() {
               <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
                 <Star className="h-4 w-4 fill-attention text-attention" aria-hidden="true" />
                 <span className="font-semibold text-foreground">{place.rating.toFixed(1)}</span>·{" "}
-                {place.reviewCount.toLocaleString(LOCALE[lang])} {c.reviewsWord}
+                {formatCount(place.reviewCount)} {c.reviewsWord}
               </p>
               <div className="mt-3 grid gap-3">
                 {reviews.slice(0, 3).map((r) => (
