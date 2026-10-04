@@ -65,7 +65,7 @@ function AddPlace() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const field = "w-full rounded-2xl border border-border bg-card p-3 text-base text-foreground outline-none focus:border-primary";
+  const field = "w-full min-w-0 rounded-lg border border-border bg-card p-3 text-base text-foreground outline-none focus:border-primary";
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,7 +90,7 @@ function AddPlace() {
 
   return (
     <div className="min-h-[100dvh] bg-background">
-      <div className="mx-auto w-full max-w-[560px] safe-x px-4 pb-16 pt-4 lg:pt-8">
+      <div className="mx-auto w-full safe-x pb-28 pt-4 sm:max-w-[640px] lg:pt-8">
         <Link to="/" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-card px-4 text-sm font-semibold text-alt-foreground shadow-soft hover:bg-secondary">
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           {t("backHome")}
@@ -125,7 +125,7 @@ function AddPlace() {
             <input value={name} onChange={(e) => setName(e.target.value)} maxLength={80} className={field} />
           </label>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             <label className="grid gap-1 text-sm font-semibold text-foreground">
               {c.city}
               <select value={cityId} onChange={(e) => setCityId(e.target.value as CityId)} className={field}>

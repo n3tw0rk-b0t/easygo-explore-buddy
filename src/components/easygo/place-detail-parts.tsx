@@ -38,7 +38,7 @@ export function PlaceGallery({ images, alt, photoLabel, previousLabel, nextLabel
           e.preventDefault();
           move(Math.max(0, Math.min(visibleImages.length - 1, activeIndex + (e.key === "ArrowRight" ? 1 : -1))));
         }}
-        className="no-scrollbar flex aspect-[4/3] snap-x snap-mandatory overflow-x-auto rounded-b-[2rem] sm:aspect-[16/10] lg:rounded-[2rem]"
+        className="no-scrollbar flex aspect-[4/3] snap-x snap-mandatory overflow-x-auto sm:aspect-[16/10] lg:rounded-lg"
       >
         {(visibleImages.length ? visibleImages : [fallbackImage]).map((src, i) => (
           <img
@@ -91,16 +91,16 @@ export function InfoCard({
   badge?: ReactNode;
 }) {
   return (
-    <section className="flex gap-3 rounded-3xl border border-border bg-card p-4 shadow-soft">
-      <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-secondary text-primary" aria-hidden="true">
+    <section className="flex gap-3 border-t border-border py-4">
+      <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary" aria-hidden="true">
         {icon}
       </span>
       <div className="min-w-0 flex-1">
-        <div className="flex items-center justify-between gap-2">
-          <h2 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</h2>
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+          <h2 className="text-xs font-semibold uppercase text-muted-foreground">{label}</h2>
           {badge}
         </div>
-        <div className="mt-1 text-sm text-foreground">{children}</div>
+        <div className="mt-1 break-words text-sm leading-relaxed text-foreground [overflow-wrap:anywhere]">{children}</div>
       </div>
     </section>
   );
@@ -143,7 +143,7 @@ export function Stars({ value, className }: { value: number; className?: string 
 
 export function ReviewCard({ author, rating, date, text }: { author: string; rating: number; date: string; text: string }) {
   return (
-    <article className="rounded-3xl border border-border bg-card p-4">
+    <article className="rounded-lg border border-border bg-card p-4">
       <div className="flex items-center gap-3">
         <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-sm font-bold text-primary" aria-hidden="true">
           {author.slice(-2)}
@@ -156,7 +156,7 @@ export function ReviewCard({ author, rating, date, text }: { author: string; rat
           </div>
         </div>
       </div>
-      <p className="mt-3 text-sm leading-relaxed text-alt-foreground">“{text}”</p>
+      <p className="mt-3 break-words text-sm leading-relaxed text-alt-foreground [overflow-wrap:anywhere]">“{text}”</p>
     </article>
   );
 }

@@ -49,9 +49,9 @@ export function CommunityReviews({ slug }: { slug: string }) {
   const field = "w-full rounded-lg border border-border bg-background p-3 text-base font-normal text-foreground focus:border-primary outline-none";
   return (
     <section aria-labelledby="community-reviews-h" className="space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 id="community-reviews-h" className="font-display text-lg font-bold text-foreground">{c.title}</h2>
-        <Button variant="outline" onClick={() => setOpen(true)}><PenLine aria-hidden="true" />{c.write}</Button>
+      <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+        <h2 id="community-reviews-h" className="min-w-0 font-display text-lg font-bold text-foreground">{c.title}</h2>
+        <Button variant="outline" className="min-h-11 shrink-0" onClick={() => setOpen(true)}><PenLine aria-hidden="true" />{c.write}</Button>
       </div>
       {reviews.length ? <p className="flex items-center gap-1.5 text-sm text-foreground"><Star className="h-4 w-4 fill-attention text-attention" />{average.toFixed(1)} · {reviews.length} {c.count}</p> : <p className="text-sm text-muted-foreground">{c.empty}</p>}
       <div className="grid gap-3" aria-live="polite">

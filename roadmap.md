@@ -14,3 +14,8 @@
 - [x] Save and display entered addresses and opening hours; open the place in Google Maps.
 - [x] Add validated public review submissions, real ratings and separate demo reviews.
 - [x] Verify immediate review visibility and reload persistence, saved address/hours, encoded maps links, desktop and mobile layouts; remove temporary test records.
+
+# Existing place facts and full-screen mobile pages
+- [ ] Verify named venues against official sources; replace indicative address/hours and disclose unknown facts.
+- [ ] Use real visitor reviews and working map links on existing place pages.
+- [ ] Adapt Home, place details, add-place fields and review forms to full-width phones; verify mobile and desktop.
