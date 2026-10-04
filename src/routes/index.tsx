@@ -6,7 +6,6 @@ import heroImage from "@/assets/places/world-landmarks-hero.png";
 import { AiRecommendations } from "@/components/easygo/ai-recommendations";
 import { CitySelector } from "@/components/easygo/city-selector";
 import { ExploreSheet } from "@/components/easygo/explore-sheet";
-import { Logo } from "@/components/easygo/logo";
 import { NearbyPlaces } from "@/components/easygo/nearby-places";
 import { RadiusFilter } from "@/components/easygo/radius-filter";
 import { SearchPanel } from "@/components/easygo/search-panel";
@@ -51,13 +50,7 @@ function Home() {
         </div>
 
         <div className="relative z-10 mx-auto max-w-[1120px] safe-x safe-bottom pt-4 lg:px-8 lg:pt-5">
-          <header className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-            <div aria-hidden="true" />
-            <div className="rounded-full border border-attention/35 bg-foreground/70 px-4 py-2 shadow-soft backdrop-blur-md dark:border-attention/35 dark:bg-background/75">
-              <Logo />
-            </div>
-            <div aria-hidden="true" />
-          </header>
+          <div aria-hidden="true" className="h-[74px] sm:h-[82px]" />
 
           <div className="mt-3 flex justify-center">
             <CitySelector />

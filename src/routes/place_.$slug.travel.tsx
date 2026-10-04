@@ -69,7 +69,7 @@ function TravelOptionsPage() {
   const destination = `${tr(place.name)}, ${tr(place.city)}, ${tr(city.country)}`;
 
   return (
-    <div className="min-h-[100dvh] bg-background pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
+    <div className="min-h-[100dvh] pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
       <div className="mx-auto w-full max-w-[640px] safe-x pt-4">
         <Link to="/place/$slug" params={{ slug }} aria-label={c.back} title={c.back}
           className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">

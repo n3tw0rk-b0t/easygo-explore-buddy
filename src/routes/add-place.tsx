@@ -89,7 +89,7 @@ function AddPlace() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-background">
+    <div className="min-h-[100dvh]">
       <div className="mx-auto w-full safe-x pb-28 pt-4 sm:max-w-[640px] lg:pt-8">
         <Link to="/" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-card px-4 text-sm font-semibold text-alt-foreground shadow-soft hover:bg-secondary">
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />

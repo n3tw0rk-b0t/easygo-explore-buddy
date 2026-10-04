@@ -148,9 +148,11 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ReviewAuthProvider>
       <AppStateProvider>
+        <div className="relative isolate min-h-[100dvh]">
         <AppChrome />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
+        </div>
         <Toaster position="top-center" />
       </AppStateProvider>
       </ReviewAuthProvider>
