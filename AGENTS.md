@@ -11,7 +11,7 @@
 - Product vision source of truth: docs/EASYGO_AI_PRODUCT_CONTEXT.md — read before any feature work.
 - Community places live in Lovable Cloud (`community_places` table + private `place-images` bucket); writes and signed image URLs go through server functions in `src/lib/community.functions.ts` — why: workspace blocks public buckets and anyone may add places without an account.
 - UI reads places via `useAllPlaces()` (demo + community) — why: one merged list for cards, detail page and AI catalog.
-- Rich per-place info (address, hours, about, tip) lives in `src/data/place-details.ts` keyed by slug.
+- Rich per-place info (address, hours, about, tip, optional official source) lives in `src/data/place-details.ts` keyed by slug; unverified schedules are disclosed instead of estimated — why: visitors need traceable facts, not invented opening hours.
 - Place Details UI pieces live in `src/components/easygo/place-detail-parts.tsx`, its copy in `src/i18n/place-details.ts`, demo price/reviews in `src/data/place-extras.ts` — why: reusable, one data source shared with Home cards.
 - Travel Options placeholder is `src/routes/place_.$slug.travel.tsx` (URL `/place/$slug/travel`, not nested) — why: keeps the details page a leaf route.
 - SSR-rendered numbers/dates must not use locale formatting (`toLocaleString`) — why: server and browser locales differ and break hydration.
@@ -20,3 +20,5 @@
 - Community address and opening hours use the shared client/server place schema and persisted place fields — why: entered venue facts must survive reloads without substituting demo details.
 - Real reviews use public reads and validated server-only writes with transactional rate limiting; never mix them with demo reviews — why: anonymous contributions appear immediately while keeping demo data and private abuse-control identifiers separate.
 - Place map actions use encoded Google Maps search URLs with venue name and address — why: working external maps need no embedded map or location integration.
+- Place details display only submitted visitor reviews; demo review generators remain separate from live pages — why: invented reviews must not be presented alongside real contributions.
+- Home and public forms use full-width mobile bands with bounded desktop content — why: phones must not inherit a decorative desktop device frame.

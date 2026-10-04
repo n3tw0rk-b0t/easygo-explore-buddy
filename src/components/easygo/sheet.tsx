@@ -47,7 +47,7 @@ export function BottomSheet({
         <Overlay />
         <Dialog.Content
           className={cn(
-            "fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-[88vh] w-full max-w-[560px] flex-col rounded-t-3xl bg-card shadow-lift outline-none",
+            "fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-[92dvh] w-full flex-col rounded-t-2xl bg-card shadow-lift outline-none sm:max-w-[560px]",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
             className,
           )}
@@ -70,7 +70,7 @@ export function BottomSheet({
               <CloseButton label={closeLabel} />
             </div>
           </div>
-          <div className="overflow-y-auto px-5 py-4">{children}</div>
+          <div className="min-h-0 overflow-y-auto overscroll-contain px-4 pt-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-5">{children}</div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 import { EMERGENCY_NUMBERS } from "@/data/emergency";
 import { useAppState } from "@/state/app-state";
+import { Button } from "@/components/ui/button";
 import { BottomSheet, ConfirmDialog } from "./sheet";
 
 export function HelpFab() {
@@ -15,15 +16,17 @@ export function HelpFab() {
 
   return (
     <>
-      <button
+      <Button
         type="button"
         onClick={() => setOpen(true)}
         aria-haspopup="dialog"
-        className="fixed bottom-5 right-4 z-40 inline-flex min-h-12 items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-lift transition-colors hover:bg-primary-hover"
+        aria-label={t("help")}
+        title={t("help")}
+        size="icon"
+        className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 h-12 w-12 rounded-full shadow-lift"
       >
         <LifeBuoy className="h-5 w-5" aria-hidden="true" />
-        {t("help")}
-      </button>
+      </Button>
 
       <BottomSheet
         open={open}

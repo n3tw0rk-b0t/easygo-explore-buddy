@@ -5,9 +5,10 @@ export interface PlaceDetails {
   hours: Localized;
   about: Localized;
   tip: Localized;
+  source?: string;
 }
 
-/** Rich demo info per place slug (addresses and hours are indicative). */
+/** Visitor information; source links identify verified opening schedules. */
 export const PLACE_DETAILS: Record<string, PlaceDetails> = {
   "alov-qulleleri": {
     "address": {
@@ -82,9 +83,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Просп. Нефтяников, 58, Баку"
     },
     "hours": {
-      "az": "Adətən hər gün 10:00–18:00",
-      "en": "Usually daily 10:00–18:00",
-      "ru": "Обычно ежедневно 10:00–18:00"
+      "az": "Ziyarət saatları təsdiqlənməyib. Getməzdən əvvəl məkanla dəqiqləşdirin.",
+      "en": "Visiting hours are not confirmed. Check with the venue before visiting.",
+      "ru": "Часы посещения не подтверждены. Уточните перед визитом."
     },
     "about": {
       "az": "Qız qalası İçərişəhərin ən tanınmış abidələrindən biridir; tikilmə tarixi və ilkin təyinatı barədə müxtəlif fikirlər var. İçəridə tarixi ekspozisiyalar, yuxarıda isə köhnə şəhərə və buxtaya baxış meydançası yerləşir.",
@@ -104,9 +105,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Просп. Гейдара Алиева, 1, Баку"
     },
     "hours": {
-      "az": "Ç.a.–c. 11:00–19:00; ş.–b. 11:00–18:00; bazar ertəsi bağlı",
-      "en": "Tue–Fri 11:00–19:00; Sat–Sun 11:00–18:00; Mon closed",
-      "ru": "Вт–пт 11:00–19:00; сб–вс 11:00–18:00; пн закрыто"
+      "az": "Ziyarət saatları təsdiqlənməyib. Getməzdən əvvəl məkanla dəqiqləşdirin.",
+      "en": "Visiting hours are not confirmed. Check with the venue before visiting.",
+      "ru": "Часы посещения не подтверждены. Уточните перед визитом."
     },
     "about": {
       "az": "Zaha Hadidin layihələndirdiyi mərkəz 2012-ci ildə açılıb və axıcı ağ formaları ilə tanınır. Burada Azərbaycan tarixinə və mədəniyyətinə aid ekspozisiyalar, həmçinin müvəqqəti incəsənət sərgiləri keçirilir.",
@@ -148,9 +149,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Просп. Микаила Гусейнова, 28, Баку"
     },
     "hours": {
-      "az": "Ç.a.–c. 10:00–18:00; ş.–b. 10:00–19:00; bazar ertəsi bağlı",
-      "en": "Tue–Fri 10:00–18:00; Sat–Sun 10:00–19:00; Mon closed",
-      "ru": "Вт–пт 10:00–18:00; сб–вс 10:00–19:00; пн закрыто"
+      "az": "Ekspozisiya: ç.a.–c. 10:00–19:00; ş.–b. 11:00–20:00\nKassa: ç.a.–c. 10:00–18:00; ş.–b. 11:00–19:00\nBazar ertəsi bağlıdır",
+      "en": "Exhibition: Tue–Fri 10:00–19:00; Sat–Sun 11:00–20:00\nTicket office: Tue–Fri 10:00–18:00; Sat–Sun 11:00–19:00\nClosed Monday",
+      "ru": "Экспозиция: вт–пт 10:00–19:00; сб–вс 11:00–20:00\nКасса: вт–пт 10:00–18:00; сб–вс 11:00–19:00\nПонедельник — выходной"
     },
     "about": {
       "az": "1967-ci ildə yaradılan muzey Azərbaycan xalçaçılığının regional məktəblərini və toxuculuq ənənələrini təqdim edir. 2014-cü ildən kolleksiya bükülmüş xalçanı xatırladan sahilyanı binada nümayiş olunur.",
@@ -161,7 +162,8 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Canlı toxuculuq nümayişinin vaxtını girişdə soruşun.",
       "en": "Ask at reception when a live weaving demonstration is available.",
       "ru": "Уточните на входе время демонстрации ручного ткачества."
-    }
+    },
+    "source": "https://azcarpetmuseum.az/en/ticket"
   },
   "baki-zooloji-parki": {
     "address": {
@@ -170,9 +172,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Ул. Аббаскули-ага Бакиханова, 39, Баку"
     },
     "hours": {
-      "az": "Adətən hər gün 10:00–17:30",
-      "en": "Usually daily 10:00–17:30",
-      "ru": "Обычно ежедневно 10:00–17:30"
+      "az": "Bazar ertəsi–cümə: 10:00–19:00\nŞənbə–bazar: 09:00–19:00",
+      "en": "Mon–Fri: 10:00–19:00\nSat–Sun: 09:00–19:00",
+      "ru": "Пн–пт: 10:00–19:00\nСб–вс: 09:00–19:00"
     },
     "about": {
       "az": "Bakı Zooloji Parkı 1928-ci ildə yaradılıb və geniş yenidənqurmadan sonra 2021-ci ildə açılıb. Yaşıllıqlar arasındakı volyerlərdə yerli və ekzotik heyvanlar nümayiş olunur.",
@@ -183,7 +185,8 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Heyvanların daha fəal olduğu səhər saatlarında gəlməyə çalışın.",
       "en": "Visit in the morning, when many animals are more active.",
       "ru": "Приходите утром, когда многие животные более активны."
-    }
+    },
+    "source": "https://bakuzoo.az/en/contact"
   },
   "sultanahmet": {
     "address": {
@@ -209,14 +212,14 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
   },
   "galata-qullesi": {
     "address": {
-      "az": "Galata Kulesi küçəsi 2, Bereketzade, Beyoğlu, İstanbul",
-      "en": "Galata Kulesi Sokak 2, Bereketzade, Beyoğlu, Istanbul",
-      "ru": "Galata Kulesi Sokak, 2, Берекетзаде, Бейоглу, Стамбул"
+      "az": "Bereketzade, Galata Kulesi, 34421 Beyoğlu, İstanbul",
+      "en": "Bereketzade, Galata Kulesi, 34421 Beyoğlu, Istanbul",
+      "ru": "Bereketzade, Galata Kulesi, 34421 Бейоглу, Стамбул"
     },
     "hours": {
-      "az": "Adətən hər gün 08:30–23:00; axşam giriş rejimini yoxlayın",
-      "en": "Usually daily 08:30–23:00; check evening admission arrangements",
-      "ru": "Обычно ежедневно 08:30–23:00; уточняйте условия вечернего посещения"
+      "az": "Hər gün: 08:30–18:30\nAxşam ziyarəti: 18:30–22:00",
+      "en": "Daily: 08:30–18:30\nEvening visits: 18:30–22:00",
+      "ru": "Ежедневно: 08:30–18:30\nВечернее посещение: 18:30–22:00"
     },
     "about": {
       "az": "Genuyalılar tərəfindən 1348-ci ildə tikilən Qalata qülləsi şəhərin ən tanınmış orta əsr abidələrindəndir. Muzey ekspozisiyası və yuxarı baxış səviyyəsi Haliç, Bosfor və tarixi yarımadanı görməyə imkan verir.",
@@ -227,7 +230,8 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Günbatımı vaxtı növbələr uzandığından bileti və giriş qaydalarını əvvəlcədən yoxlayın.",
       "en": "Check tickets and entry arrangements ahead of time, as sunset queues can be long.",
       "ru": "Заранее проверьте билеты и правила входа: к закату очереди могут быть длинными."
-    }
+    },
+    "source": "https://muze.gov.tr/muze-detay?distId=MRK&sectionId=GLT04"
   },
   "bosfor-sahili": {
     "address": {
@@ -253,14 +257,14 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
   },
   "istanbul-muasir-muzeyi": {
     "address": {
-      "az": "Meclis-i Mebusan küçəsi 1/1, Beyoğlu, İstanbul",
-      "en": "Meclis-i Mebusan Caddesi 1/1, Beyoğlu, Istanbul",
-      "ru": "Meclis-i Mebusan Caddesi, 1/1, Бейоглу, Стамбул"
+      "az": "Kılıç Ali Paşa Mahallesi, Tophane İskele Caddesi 1/1, 34433 Beyoğlu, İstanbul",
+      "en": "Kılıç Ali Paşa Mahallesi, Tophane İskele Caddesi 1/1, 34433 Beyoğlu, Istanbul",
+      "ru": "Kılıç Ali Paşa Mahallesi, Tophane İskele Caddesi 1/1, 34433 Бейоглу, Стамбул"
     },
     "hours": {
-      "az": "Ç.a.–b. 10:00–18:00; cümə 20:00-dək; bazar ertəsi bağlı",
-      "en": "Tue–Sun 10:00–18:00; Fri until 20:00; Mon closed",
-      "ru": "Вт–вс 10:00–18:00; пт до 20:00; пн закрыто"
+      "az": "Çərşənbə axşamı–bazar: 10:00–18:00\nCümə: 10:00–20:00\nBazar ertəsi bağlı; son giriş bağlanışdan 30 dəqiqə əvvəl",
+      "en": "Tue–Sun: 10:00–18:00\nFri: 10:00–20:00\nMon closed; last entry 30 minutes before closing",
+      "ru": "Вт–вс: 10:00–18:00\nПт: 10:00–20:00\nПн закрыто; последний вход за 30 минут до закрытия"
     },
     "about": {
       "az": "2004-cü ildə yaradılan İstanbul Modern Türkiyənin müasir və çağdaş incəsənətinə həsr olunub. Muzey 2023-cü ildə Renzo Pianonun layihələndirdiyi yeni sahilyanı binada fəaliyyətə başlayıb.",
@@ -271,7 +275,8 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Müvəqqəti sərgilərin proqramını səfərdən əvvəl yoxlayın.",
       "en": "Check the temporary exhibition programme before your visit.",
       "ru": "Перед посещением проверьте программу временных выставок."
-    }
+    },
+    "source": "https://www.istanbulmodern.org/en/visit/museum"
   },
   "bratislava-kohne-seher": {
     "address": {
@@ -297,14 +302,14 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
   },
   "bratislava-qalasi": {
     "address": {
-      "az": "Hrad 1, Bratislava",
-      "en": "Hrad 1, Bratislava",
-      "ru": "Hrad, 1, Братислава"
+      "az": "Hrad, 811 06 Bratislava",
+      "en": "Hrad, 811 06 Bratislava",
+      "ru": "Hrad, 811 06 Братислава"
     },
     "hours": {
-      "az": "Muzey adətən 10:00–18:00; çərşənbə axşamı bağlı; mövsümə görə dəyişir",
-      "en": "Museum usually 10:00–18:00; Tue closed; seasonal variations",
-      "ru": "Музей обычно 10:00–18:00; вт закрыто; возможны сезонные изменения"
+      "az": "Muzey: 10:00–18:00; çərşənbə axşamı bağlı\nSon giriş: 17:00\nƏrazi: hər gün 08:00–22:00\nBarokko bağı (mart, oktyabr): 09:00–17:00",
+      "en": "Museum: 10:00–18:00; Tue closed\nLast entry: 17:00\nGrounds: daily 08:00–22:00\nBaroque garden (March, October): 09:00–17:00",
+      "ru": "Музей: 10:00–18:00; вт закрыто\nПоследний вход: 17:00\nТерритория: ежедневно 08:00–22:00\nБарочный сад (март, октябрь): 09:00–17:00"
     },
     "about": {
       "az": "Dunay üzərində yüksələn dördqülləli qala Bratislavanın əsas simvoludur. Yenidən qurulmuş sarayda Slovakiya Milli Muzeyinin tarixi ekspozisiyaları yerləşir, həyətlərdən isə şəhərə geniş mənzərə açılır.",
@@ -315,7 +320,8 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Köhnə şəhərdən qalaya gedən yol yoxuşlu olduğundan rahat ayaqqabı geyinin.",
       "en": "Wear comfortable shoes for the uphill walk from the Old Town.",
       "ru": "Наденьте удобную обувь: дорога из Старого города к замку идёт в гору."
-    }
+    },
+    "source": "https://www.snm.sk/en/visit/opening-hours"
   },
   "dunay-sahili": {
     "address": {
@@ -341,14 +347,14 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
   },
   "slovakiya-milli-qalereyasi": {
     "address": {
-      "az": "Riečna 1, Bratislava",
-      "en": "Riečna 1, Bratislava",
-      "ru": "Riečna, 1, Братислава"
+      "az": "Rázusovo nábrežie 1, 811 02 Bratislava",
+      "en": "Rázusovo nábrežie 1, 811 02 Bratislava",
+      "ru": "Rázusovo nábrežie 1, 811 02 Братислава"
     },
     "hours": {
-      "az": "Adətən ç.a.–b. 10:00–18:00, c.a. 20:00-dək; açıq zalları yoxlayın",
-      "en": "Typically Tue–Sun 10:00–18:00, Thu until 20:00; check gallery access",
-      "ru": "Обычно вт–вс 10:00–18:00, чт до 20:00; уточняйте доступность залов"
+      "az": "Çərşənbə axşamı–bazar: 10:00–18:00\nCümə axşamı: 12:00–20:00\nBazar ertəsi bağlı",
+      "en": "Tue–Sun: 10:00–18:00\nThu: 12:00–20:00\nMon closed",
+      "ru": "Вт–вс: 10:00–18:00\nЧт: 12:00–20:00\nПн закрыто"
     },
     "about": {
       "az": "1948-ci ildə yaradılan Slovakiya Milli Qalereyası tarixi və müasir incəsənət kolleksiyalarını qoruyur. Dunay kənarındakı kompleks tarixi tikililəri modernist memarlıqla birləşdirir.",
@@ -359,18 +365,19 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Getməzdən əvvəl rəsmi saytda hansı sərgi zallarının açıq olduğunu yoxlayın.",
       "en": "Check the official website for currently accessible exhibition halls before travelling.",
       "ru": "Перед поездкой проверьте на официальном сайте, какие выставочные залы доступны."
-    }
+    },
+    "source": "https://sng.sk/en/slovak-national-gallery/visit"
   },
   "schonbrunn": {
     "address": {
-      "az": "Schönbrunner Schloßstraße 47, Vyana",
-      "en": "Schönbrunner Schloßstraße 47, Vienna",
-      "ru": "Schönbrunner Schloßstraße, 47, Вена"
+      "az": "Schönbrunner Schloßstraße 47, 1130 Vyana",
+      "en": "Schönbrunner Schloßstraße 47, 1130 Vienna",
+      "ru": "Schönbrunner Schloßstraße 47, 1130 Вена"
     },
     "hours": {
-      "az": "Saray hər gün 08:30–17:00; yayda daha gec bağlanır",
-      "en": "Palace daily 08:30–17:00; longer hours in summer",
-      "ru": "Дворец ежедневно 08:30–17:00; летом работает дольше"
+      "az": "Saray: 08:30–17:30 (1 sentyabr–2 noyabr 2026)\n3 noyabr 2026–31 mart 2027: 08:30–17:00\nPark (oktyabr): 06:30–19:00",
+      "en": "Palace: 08:30–17:30 (1 Sep–2 Nov 2026)\n3 Nov 2026–31 Mar 2027: 08:30–17:00\nPark (October): 06:30–19:00",
+      "ru": "Дворец: 08:30–17:30 (1 сентября–2 ноября 2026)\n3 ноября 2026–31 марта 2027: 08:30–17:00\nПарк (октябрь): 06:30–19:00"
     },
     "about": {
       "az": "Şönbrunn Habsburqların yay iqamətgahı olub və UNESCO-nun Dünya İrsi siyahısındadır. Bəzəkli saray otaqları, geniş barokko bağları və təpədəki Qlorietta əsas görməli yerlərdir.",
@@ -381,7 +388,8 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Saray üçün vaxtı müəyyən edilmiş bileti əvvəlcədən onlayn alın.",
       "en": "Book a timed palace ticket online in advance.",
       "ru": "Заранее купите онлайн билет во дворец на определённое время."
-    }
+    },
+    "source": "https://www.schoenbrunn.at/en/visitor-information/opening-times"
   },
   "vyana-tarixi-merkezi": {
     "address": {
@@ -412,9 +420,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Riesenradplatz, 1020 Вена"
     },
     "hours": {
-      "az": "Park: 24 saat; attraksionlar əsasən mart–oktyabr, təxminən 10:00–22:00",
-      "en": "Park: 24 hours; rides mainly Mar–Oct, roughly 10:00–22:00",
-      "ru": "Парк: круглосуточно; аттракционы преимущественно март–октябрь, около 10:00–22:00"
+      "az": "Park ərazisi: 24 saat\nAttraksionların saatları operatora və mövsümə görə dəyişir.",
+      "en": "Park grounds: 24 hours\nRide hours vary by operator and season.",
+      "ru": "Территория парка: круглосуточно\nЧасы аттракционов зависят от оператора и сезона."
     },
     "about": {
       "az": "Prater həm geniş yaşıl parkı, həm də Wurstelprater əyləncə zonasını əhatə edir. 1897-ci ildə açılan məşhur nəhəng dönmə çarxı Vyananın tarixi simvollarındandır.",
@@ -456,9 +464,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Ул. Низами, рядом с площадью Фонтанов, Баку"
     },
     "hours": {
-      "az": "Adətən hər gün 09:00–23:00; kafeyə görə dəyişir",
-      "en": "Typically daily 09:00–23:00; varies by café",
-      "ru": "Обычно ежедневно 09:00–23:00; зависит от кафе"
+      "az": "Bu, məkanlar qrupudur. İş saatları seçilmiş kafeyə və ya puba görə dəyişir.",
+      "en": "This is an area listing. Hours depend on the individual café or pub.",
+      "ru": "Это группа заведений. Часы зависят от конкретного кафе или паба."
     },
     "about": {
       "az": "Nizami küçəsinin mərkəzi piyada hissəsində tarixi fasadlar arasında çoxsaylı kafelər yerləşir. Burada espresso məkanlarından Azərbaycan çayı və şirniyyatları təqdim edən kafelərə qədər müxtəlif seçimlər var.",
@@ -478,9 +486,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Просп. Нефтяников и соседние улицы, Баку"
     },
     "hours": {
-      "az": "Adətən hər gün 16:00–02:00; məkana görə dəyişir",
-      "en": "Typically daily 16:00–02:00; varies by venue",
-      "ru": "Обычно ежедневно 16:00–02:00; зависит от заведения"
+      "az": "Bu, məkanlar qrupudur. İş saatları seçilmiş kafeyə və ya puba görə dəyişir.",
+      "en": "This is an area listing. Hours depend on the individual café or pub.",
+      "ru": "Это группа заведений. Часы зависят от конкретного кафе или паба."
     },
     "about": {
       "az": "Bulvara yaxın küçələrdə publar, idman barları və rahat axşam məkanları var. Menyularda adətən pivə, kokteyllər və yüngül yeməklər olur; bəzi məkanlarda canlı musiqi keçirilir.",
@@ -500,9 +508,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Просп. Азадлыг, рядом с метро «28 Мая», Баку"
     },
     "hours": {
-      "az": "Adətən hər gün 10:00–22:00",
-      "en": "Typically daily 10:00–22:00",
-      "ru": "Обычно ежедневно 10:00–22:00"
+      "az": "Konkret məkan göstərilməyib; iş saatları təsdiqlənməyib.",
+      "en": "The exact venue is unspecified; hours are not confirmed.",
+      "ru": "Конкретное заведение не указано; часы работы не подтверждены."
     },
     "about": {
       "az": "28 May ətrafındakı mərkəzi ticarət mərkəzləri geyim mağazalarını, kafeləri və gündəlik xidmətləri bir araya gətirir. Belə məkanlar isti və ya yağışlı havada alış-veriş və yemək fasiləsi üçün əlverişlidir.",
@@ -522,9 +530,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Просп. Хатаи, Баку"
     },
     "hours": {
-      "az": "Adətən hər gün 08:00–19:00; piştaxtalara görə dəyişir",
-      "en": "Usually daily 08:00–19:00; individual stalls vary",
-      "ru": "Обычно ежедневно 08:00–19:00; часы отдельных прилавков различаются"
+      "az": "Ziyarət saatları təsdiqlənməyib. Getməzdən əvvəl məkanla dəqiqləşdirin.",
+      "en": "Visiting hours are not confirmed. Check with the venue before visiting.",
+      "ru": "Часы посещения не подтверждены. Уточните перед визитом."
     },
     "about": {
       "az": "Yaşıl Bazar Bakının tanınmış ərzaq bazarlarından biridir. Piştaxtalarda mövsümi meyvələr, göyərti, ədviyyatlar, quru meyvələr, qoz-fındıq və yerli turşular satılır.",
@@ -544,9 +552,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Ул. Мирзы Фатали Ахундова, 7, Баку"
     },
     "hours": {
-      "az": "Adətən gündüz; turist girişi namaz vaxtlarından kənar",
-      "en": "Generally daytime; tourist visits outside prayer times",
-      "ru": "Обычно в дневное время; туристические посещения вне намазов"
+      "az": "Ziyarət saatları təsdiqlənməyib. Getməzdən əvvəl məkanla dəqiqləşdirin.",
+      "en": "Visiting hours are not confirmed. Check with the venue before visiting.",
+      "ru": "Часы посещения не подтверждены. Уточните перед визитом."
     },
     "about": {
       "az": "Təzəpir məscidi XX əsrin əvvəllərində xeyriyyəçi Nabat xanım Aşurbəyovanın təşəbbüsü ilə tikilib. Qızılı rəngli günbəzlər, qoşa minarələr və bəzəkli interyer onun əsas memarlıq xüsusiyyətləridir.",
@@ -566,9 +574,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Просп. Нефтяников, рядом с бульваром, Баку"
     },
     "hours": {
-      "az": "Resepsiya adətən 24 saat; giriş 14:00–15:00-dan, çıxış 12:00-dək",
-      "en": "Reception usually 24 hours; check-in from 14:00–15:00, checkout by 12:00",
-      "ru": "Стойка регистрации обычно круглосуточно; заезд с 14:00–15:00, выезд до 12:00"
+      "az": "Konkret məkan göstərilməyib; iş saatları təsdiqlənməyib.",
+      "en": "The exact venue is unspecified; hours are not confirmed.",
+      "ru": "Конкретное заведение не указано; часы работы не подтверждены."
     },
     "about": {
       "az": "Bakı Bulvarı yaxınlığındakı sahilyanı hotellər gəzinti zonasına və mərkəzi görməli yerlərə rahat çıxış verir. Dəniz mənzərəsi və səs-küy səviyyəsi otağın mərtəbəsinə və istiqamətinə görə dəyişir.",
@@ -588,9 +596,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Ayasofya Meydanı, 1, Султанахмет, Фатих, Стамбул"
     },
     "hours": {
-      "az": "Turist qalereyası adətən hər gün 09:00–19:30; ibadət qaydaları ayrıdır",
-      "en": "Visitor gallery usually daily 09:00–19:30; worship access is separate",
-      "ru": "Туристическая галерея обычно ежедневно 09:00–19:30; вход для молитвы отдельный"
+      "az": "Ziyarət saatları təsdiqlənməyib. Getməzdən əvvəl məkanla dəqiqləşdirin.",
+      "en": "Visiting hours are not confirmed. Check with the venue before visiting.",
+      "ru": "Часы посещения не подтверждены. Уточните перед визитом."
     },
     "about": {
       "az": "537-ci ildə imperator Yustinianın dövründə tamamlanan Ayasofya Bizans memarlığının şah əsəridir. Sonralar məscid və muzey kimi fəaliyyət göstərib, 2020-ci ildə yenidən məscid olub; böyük günbəzi və qorunmuş mozaikaları ilə məşhurdur.",
@@ -610,9 +618,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Kalpakçılar Caddesi, Беязыт, Фатих, Стамбул"
     },
     "hours": {
-      "az": "B.e.–ş. 08:30–19:00; bazar və bəzi bayram günləri bağlı",
-      "en": "Mon–Sat 08:30–19:00; closed Sundays and some holidays",
-      "ru": "Пн–сб 08:30–19:00; закрыто по воскресеньям и в некоторые праздники"
+      "az": "Ziyarət saatları təsdiqlənməyib. Getməzdən əvvəl məkanla dəqiqləşdirin.",
+      "en": "Visiting hours are not confirmed. Check with the venue before visiting.",
+      "ru": "Часы посещения не подтверждены. Уточните перед визитом."
     },
     "about": {
       "az": "XV əsrdə əsası qoyulan Qapalıçarşı dünyanın ən məşhur tarixi örtülü bazarlarındandır. Tağlı keçidlər boyunca zərgərlik, xalça, keramika, dəri məmulatları və suvenir mağazaları yerləşir.",
@@ -632,9 +640,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Bezručova, 2, Братислава"
     },
     "hours": {
-      "az": "Daxili məkan əsasən səhər və axşam ibadətləri zamanı; kənardan baxış istənilən vaxt",
-      "en": "Interior mainly around morning and evening services; exterior anytime",
-      "ru": "Внутри открыто преимущественно во время утренних и вечерних служб; снаружи — в любое время"
+      "az": "B.e., ç.a., ç., ş.: 06:30–07:30\nC.a., c.: 17:30–19:00\nBazar: 07:30–11:00 və 17:30–19:00\nİbadət zamanı sakitliyə riayət edin",
+      "en": "Mon, Tue, Wed, Sat: 06:30–07:30\nThu, Fri: 17:30–19:00\nSun: 07:30–11:00 & 17:30–19:00\nPlease respect worship",
+      "ru": "Пн, вт, ср, сб: 06:30–07:30\nЧт, пт: 17:30–19:00\nВс: 07:30–11:00 и 17:30–19:00\nСоблюдайте тишину во время служб"
     },
     "about": {
       "az": "Müqəddəs Yelizaveta kilsəsi mavi fasadı və şirli kirəmitlərinə görə Mavi kilsə adlanır. Ödön Lechnerin layihəsi ilə 1909–1913-cü illərdə tikilmiş bina macar secession üslubunun seçilən nümunəsidir.",
@@ -645,18 +653,19 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "İçəri girmək istəyirsinizsə, kilsə qapısındakı ibadət cədvəlini yoxlayın və mərasimə mane olmayın.",
       "en": "Check the service timetable at the entrance if you want to see inside, and avoid disturbing worship.",
       "ru": "Если хотите зайти внутрь, проверьте расписание служб у входа и не мешайте богослужению."
-    }
+    },
+    "source": "https://www.bluechurch.sk/"
   },
   "ufo-korpusu": {
     "address": {
-      "az": "Most SNP 1, Bratislava",
-      "en": "Most SNP 1, Bratislava",
-      "ru": "Most SNP, 1, Братислава"
+      "az": "Most SNP, 851 01 Bratislava",
+      "en": "Most SNP, 851 01 Bratislava",
+      "ru": "Most SNP, 851 01 Братислава"
     },
     "hours": {
-      "az": "UFO baxış meydançası adətən hər gün 10:00–23:00; körpünün piyada yolu 24 saat",
-      "en": "UFO observation deck usually daily 10:00–23:00; bridge walkway 24 hours",
-      "ru": "Площадка UFO обычно ежедневно 10:00–23:00; пешеходная часть моста круглосуточно"
+      "az": "Baxış meydançası və bar: 10:00–23:00\nRestoran: 12:00–23:00\nİldə 364 gün açıqdır",
+      "en": "Observation deck & bar: 10:00–23:00\nRestaurant: 12:00–23:00\nOpen 364 days a year",
+      "ru": "Смотровая площадка и бар: 10:00–23:00\nРесторан: 12:00–23:00\nОткрыто 364 дня в году"
     },
     "about": {
       "az": "1972-ci ildə açılan Most SNP körpüsü uçan boşqabı xatırladan qülləüstü qurğusu ilə tanınır. Burada restoran və Dunay, qala, Köhnə şəhərə panoramik mənzərəsi olan açıq baxış meydançası yerləşir.",
@@ -667,7 +676,8 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Baxış meydançası üçün görünüşün yaxşı olduğu açıq hava gününü seçin.",
       "en": "Choose a clear day for the best visibility from the observation deck.",
       "ru": "Для посещения смотровой площадки выбирайте ясный день с хорошей видимостью."
-    }
+    },
+    "source": "https://www.u-f-o.sk/information"
   },
   "stefan-kilsesi": {
     "address": {
@@ -676,9 +686,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Stephansplatz, 3, 1010 Вена"
     },
     "hours": {
-      "az": "B.e.–ş. 06:00–22:00; b. 07:00–22:00; turist zonalarının saatları ayrıdır",
-      "en": "Mon–Sat 06:00–22:00; Sun 07:00–22:00; sightseeing areas have separate hours",
-      "ru": "Пн–сб 06:00–22:00; вс 07:00–22:00; туристические зоны работают отдельно"
+      "az": "Kafedral: b.e.–ş. 06:00–22:00; bazar və bayramlar 07:00–22:00\nTurist ziyarəti: b.e.–ş. 09:00–11:30 və 13:00–16:30; bazar və bayramlar 13:00–16:30",
+      "en": "Cathedral: Mon–Sat 06:00–22:00; Sun & holidays 07:00–22:00\nSightseeing: Mon–Sat 09:00–11:30 & 13:00–16:30; Sun & holidays 13:00–16:30",
+      "ru": "Собор: пн–сб 06:00–22:00; вс и праздники 07:00–22:00\nОсмотр: пн–сб 09:00–11:30 и 13:00–16:30; вс и праздники 13:00–16:30"
     },
     "about": {
       "az": "Müqəddəs Stefan kafedralı orta əsr Vyanasının əsas dini abidəsi və şəhərin simvoludur. Qotik cənub qülləsi, rəngli kirəmit damı, bəzəkli interyeri və katakombaları ilə tanınır.",
@@ -689,7 +699,8 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Pilləkənlə qalxmaq çətindirsə, cənub qülləsi əvəzinə liftli şimal qülləsinin girişini yoxlayın.",
       "en": "If stairs are difficult, check access to the north tower’s lift rather than climbing the south tower.",
       "ru": "Если подъём по лестницам затруднителен, уточните доступ к лифту северной башни вместо подъёма на южную."
-    }
+    },
+    "source": "https://stephanskirche.at/visit.php"
   },
   "naschmarkt": {
     "address": {
@@ -698,9 +709,9 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "ru": "Wienzeile, 1060 Вена"
     },
     "hours": {
-      "az": "Bazar: b.e.–c. 06:00–21:00, ş. 06:00–18:00; bazar günü bağlı; restoranlar fərqlənir",
-      "en": "Market: Mon–Fri 06:00–21:00, Sat 06:00–18:00; Sun closed; restaurant hours vary",
-      "ru": "Рынок: пн–пт 06:00–21:00, сб 06:00–18:00; вс закрыто; часы ресторанов различаются"
+      "az": "Piştaxtaların icazə verilən maksimum saatları: b.e.–c. 06:00–21:00; ş. 06:00–18:00\nRestoran/barlar: b.e.–ş. 06:00–23:00; bazar və bayramlar 09:00–21:00\nFərdi məkanların saatları dəyişə bilər",
+      "en": "Maximum permitted stall hours: Mon–Fri 06:00–21:00; Sat 06:00–18:00\nRestaurants/bars: Mon–Sat 06:00–23:00; Sun & holidays 09:00–21:00\nIndividual opening hours may vary",
+      "ru": "Максимально разрешённые часы прилавков: пн–пт 06:00–21:00; сб 06:00–18:00\nРестораны/бары: пн–сб 06:00–23:00; вс и праздники 09:00–21:00\nЧасы отдельных заведений могут отличаться"
     },
     "about": {
       "az": "Naschmarkt Vyananın ən tanınmış ərzaq bazarıdır və kökləri XVI əsrə gedib çıxır. Piştaxtalarda təzə məhsullar, pendirlər, ədviyyatlar və beynəlxalq delikateslər satılır; şənbə günləri yaxınlıqda bit bazarı qurulur.",
@@ -711,6 +722,7 @@ export const PLACE_DETAILS: Record<string, PlaceDetails> = {
       "az": "Ərzaq alış-verişi üçün səhər gəlin, çünki bəzi piştaxtalar rəsmi bağlanışdan əvvəl işini bitirir.",
       "en": "Come in the morning for food shopping, as some stalls close before the official closing time.",
       "ru": "За продуктами приходите утром: некоторые прилавки закрываются раньше официального окончания работы."
-    }
+    },
+    "source": "https://www.wien.gv.at/freizeit/naschmarkt"
   }
 };
