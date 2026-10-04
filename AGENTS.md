@@ -19,6 +19,8 @@
 - Shared menu, help and non-home search live in `AppChrome` mounted inside the root providers — why: controls persist across all pages without duplicating drawers, while Home keeps its original search placement.
 - Community address and opening hours use the shared client/server place schema and persisted place fields — why: entered venue facts must survive reloads without substituting demo details.
 - Real reviews use public reads and validated server-only writes with transactional rate limiting; never mix them with demo reviews — why: anonymous contributions appear immediately while keeping demo data and private abuse-control identifiers separate.
-- Place map actions use encoded Google Maps search URLs with venue name and address — why: working external maps need no embedded map or location integration.
-- Place details display only submitted visitor reviews; demo review generators remain separate from live pages — why: invented reviews must not be presented alongside real contributions.
+- Place addresses render Google Maps Embed with encoded venue/address queries and external Maps fallback; selected Google place IDs render exact matched maps — why: show real maps without trusting placeholder catalog coordinates or exposing credential-bearing preview hosts.
+- Place details keep EasyGo visitor reviews separate from attributed Google review samples; never display invented reviews — why: review sources and counts must remain honest.
+- Google Places functions require validated user authentication, bounded searches, explicit field masks and user-triggered cached requests without polling or retries — why: protect metered Maps access and prevent arbitrary public proxy use.
+- ReviewAuthProvider owns the root identity subscription and Google broker sign-in; server calls reuse the existing auth attacher — why: avoid duplicate auth listeners and unauthenticated Places requests.
 - Home and public forms use full-width mobile bands with bounded desktop content — why: phones must not inherit a decorative desktop device frame.

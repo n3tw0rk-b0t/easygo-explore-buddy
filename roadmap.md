@@ -4,6 +4,11 @@
 - [x] Verify image loading and gallery navigation on mobile and desktop: all 41 added photos load; navigation and counters work without runtime errors.
 - [ ] Seaside pubs and Seaside hotel: blocked by unspecified actual venues; retain original photo rather than invent gallery photos.
 
+# Small place maps and Google reviews
+- [ ] Add an embedded Google map below each available address, with external map fallback.
+- [ ] Add authenticated, bounded Google place matching and review samples with source attribution; keep EasyGo reviews separate.
+- [ ] Verify maps, review states and mobile layout.
+
 # Shared page controls
 - [x] Mount one persistent menu and help control in the root layout.
 - [x] Show existing search and Explore above every non-home page; preserve Home search.
