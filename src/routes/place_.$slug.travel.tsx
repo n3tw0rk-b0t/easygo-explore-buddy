@@ -46,7 +46,7 @@ function TravelPlaceholder() {
           <div className="pb-10">
             <TaxiSection
               context={{
-                cityId: customCity ? null : place.cityId,
+                cityId: place.cityId,
                 countryCode: getCity(place.cityId).countryCode,
                 destinationSlug: place.slug,
                 origin: null,
