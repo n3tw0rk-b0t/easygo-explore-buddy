@@ -39,12 +39,12 @@ function Home() {
   return (
     <div className="min-h-[100dvh] bg-foreground dark:bg-background">
       <div className="relative mx-auto min-h-[100dvh] w-full overflow-hidden bg-foreground dark:bg-background">
-        <div className="pointer-events-none absolute inset-x-0 -top-[10dvh] h-[100dvh] lg:h-[calc(100dvh-3.25rem)]">
+        <div className="pointer-events-none absolute inset-x-0 -top-[10dvh] h-[100dvh] sm:top-0">
           <img
             src={heroImage}
             alt=""
             aria-hidden="true"
-            className="h-full w-full object-contain object-top"
+            className="h-full w-full object-contain object-top sm:object-cover sm:object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-foreground/25 via-foreground/55 to-foreground dark:from-background/20 dark:via-background/60 dark:to-background" />
         </div>
