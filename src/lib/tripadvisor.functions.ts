@@ -19,11 +19,6 @@ export const searchTripadvisorPlaces = createServerFn({ method: "POST" })
     // Locale for localized catalog fields: az falls back to en.
     const locale = data.lang === "ru" ? "ru" : "en";
     return searchTerraCatalog({
-      query: data.query,
-      geoName: data.geoName || undefined,
-      category: data.category,
-      locale,
-    }) as Promise<import("./tripadvisor.server").TerraSearchResult[]>;
   });
 
 export const selectTripadvisorPlace = createServerFn({ method: "POST" })

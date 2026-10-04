@@ -125,14 +125,20 @@ export async function getTerraReviews(
   if (cached && Date.now() - cached.at < REVIEWS_TTL_MS) return cached.value as TerraReviewsResult;
   const q = new URLSearchParams({ version: "1", language, size: "5" });
   const page = await terraRequest<{ data?: TerraReview[] }>(`/locations/${locationId}/reviews?${q}`);
-  const reviews = (page.data ?? []).slice(0, 5).map((r) => ({
-    id: r.id,
-    rating: r.rating,
-    title: pickText(r.title),
-    text: pickText(r.text),
-    publishedOn: r.publish_ts?.slice(0, 10),
-    tripadvisorUrl: r.url,
-  }));
+  const reviews = (page.data ?? []).slice(0, 5).map((r) => {
+    const title = pickText(r.title);
+    const text = pickText(r.text);
+    const publishedOn = r.publish_ts?.slice(0, 10);
+    const tripadvisorUrl = r.url;
+    return {
+      id: r.id,
+      rating: r.rating,
+      ...(title ? { title } : {}),
+      ...(text ? { text } : {}),
+      ...(publishedOn ? { publishedOn } : {}),
+      ...(tripadvisorUrl ? { tripadvisorUrl } : {}),
+    };
+  });
   const result: TerraReviewsResult = { locationId, reviews };
   reviewsCache.set(cacheKey, { at: Date.now(), value: result });
   return result;
