@@ -1,7 +1,7 @@
 # Automatic external reviews
 - [ ] Resolve a secure, licensed way to display Google ratings/review samples without visitor sign-in; managed Maps calls must remain authenticated, and review snapshots cannot be stored as a workaround.
 - [ ] Booking hotel reviews: deferred by user decision (2026-10-04) until they obtain Demand API partner access and an affiliate ID.
-- [ ] Tripadvisor ratings/reviews: deferred by user decision (2026-10-04) until they obtain licensed Terra/Content API access; continue with Google only for now.
+- [x] Tripadvisor ratings/reviews via Terra API (2026-10-04): catalog search, authenticated place selection (allowlist append) and up to 5 attributed review samples per place; selected location persists per slug; verified live with real catalog data and reviews.
 
 # Photo galleries
 - [x] Download and validate distinct real place photos; preserve source credits.

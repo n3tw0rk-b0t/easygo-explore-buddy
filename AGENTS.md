@@ -23,4 +23,5 @@
 - Place details keep EasyGo visitor reviews separate from attributed Google review samples; never display invented reviews — why: review sources and counts must remain honest.
 - Google Places functions require validated user authentication, bounded searches, explicit field masks and user-triggered cached requests without polling or retries — why: protect metered Maps access and prevent arbitrary public proxy use.
 - ReviewAuthProvider owns the root identity subscription and Google broker sign-in; server calls reuse the existing auth attacher — why: avoid duplicate auth listeners and unauthenticated Places requests.
+- Tripadvisor reviews use the Terra API through `src/lib/tripadvisor.server.ts` (X-API-KEY, 30-min in-memory review cache); choosing a place appends its location ID to the account allowlist and the choice persists per slug in localStorage — why: Terra content endpoints are allowlist-licensed and its caching policy requires short-lived caching.
 - Home and public forms use full-width mobile bands with bounded desktop content — why: phones must not inherit a decorative desktop device frame.
