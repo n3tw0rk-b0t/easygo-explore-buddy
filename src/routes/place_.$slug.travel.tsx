@@ -3,6 +3,7 @@ import { ArrowLeft, Bike, Bus, Car, Check, Footprints, MapPin, Navigation, Train
 import { useState } from "react";
 
 import { DemoBadge } from "@/components/easygo/place-detail-parts";
+import { RouteCompare } from "@/components/easygo/route-compare";
 import { TaxiSection } from "@/components/easygo/taxi-section";
 import { Button } from "@/components/ui/button";
 import { getCity } from "@/data/cities";
@@ -87,8 +88,11 @@ function TravelOptionsPage() {
           </div>
         </section>
 
+        <RouteCompare cityId={place.cityId} cityName={tr(place.city)} destination={tr(place.name)} distanceKm={place.distanceKm} lang={lang}
+          onChoose={(m) => { setChosen(m); document.getElementById("travel-modes")?.scrollIntoView({ behavior: "smooth", block: "start" }); }} />
+
         <h2 className="sr-only">{c.modes}</h2>
-        <div role="tablist" aria-label={c.modes} className="no-scrollbar -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
+        <div id="travel-modes" role="tablist" aria-label={c.modes} className="no-scrollbar -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
           {modes.map((m) => {
             const Icon = MODE_ICONS[m];
             const active = m === mode;
