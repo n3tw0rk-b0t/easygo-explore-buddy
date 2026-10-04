@@ -1,6 +1,6 @@
 # Shared branding and backdrop
-- [ ] Keep the Home logo in the same top position on every content page.
-- [ ] Show Home's landmark image blurred behind other pages and verify mobile/desktop layouts.
+- [x] Keep the Home logo in the same top position on every content page; verified identical position and a single logo on all four pages.
+- [x] Show Home's landmark image blurred behind other pages; verified at 393px and 1280px without overflow or runtime errors.
 
 # Transport presentation
 - [x] Add real Bolt, Uber and Yango app logos and clearly labeled demo fare, pickup and trip-time details.
