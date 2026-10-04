@@ -112,7 +112,7 @@ export function PlaceTripadvisorReviews({
     setSelectingId(id);
     try {
       await select({ data: { locationId: id } });
-      const stored: StoredSelection = { id, name, url };
+      const stored: StoredSelection = { id, ...(name ? { name } : {}), ...(url ? { url } : {}) };
       setSelected(stored);
       try {
         window.localStorage.setItem(storageKey(slug), JSON.stringify(stored));
