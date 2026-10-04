@@ -1,21 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { Car, Clock } from "lucide-react";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { getTaxiOptions, type TaxiContext, type TaxiQuote, type TransportProvider } from "@/data/transport-providers";
+import { getTaxiOptions, providerUrl, type TaxiContext, type TaxiQuote, type TransportProvider } from "@/data/transport-providers";
 import type { Lang } from "@/data/types";
 import { useAppState } from "@/state/app-state";
 
 const AZ = { title: "", demoNote: "", open: "", seePrice: "", noPrice: "", estimate: "", demo: "", min: "", sponsored: "", empty: "", error: "", retry: "", redirect: "" };
 type Copy = typeof AZ;
 const COPY: Record<Lang, Copy> = {
-  az: { title: "Taksi", demoNote: "Demo siyahı — real mövcudluq hələ təsdiqlənməyib.", open: "Tətbiqdə aç", seePrice: "Tətbiqdə qiymətə bax", noPrice: "Qiymət məlumatı mövcud deyil", estimate: "Təxmini qiymət", demo: "Demo qiymət", min: "dəq ərzində", sponsored: "Sponsorlu", empty: "Bu şəhərdə dəstəklənən taksi xidməti tapılmadı.", error: "Taksi xidmətlərini yükləmək mümkün olmadı.", retry: "Yenidən cəhd et", redirect: "Taksi tətbiqinə keçid gələcək inteqrasiya mərhələsində aktiv ediləcək." },
-  en: { title: "Taxi", demoNote: "Demo list — real availability not yet verified.", open: "Open in app", seePrice: "See price in app", noPrice: "Price information unavailable", estimate: "Estimated price", demo: "Demo price", min: "min away", sponsored: "Sponsored", empty: "No supported taxi service was found in this city.", error: "Couldn't load taxi services.", retry: "Try again", redirect: "Taxi app redirect will be enabled in a future integration stage." },
-  ru: { title: "Такси", demoNote: "Демо-список — реальная доступность ещё не проверена.", open: "Открыть в приложении", seePrice: "Цена в приложении", noPrice: "Информация о цене недоступна", estimate: "Примерная цена", demo: "Демо-цена", min: "мин до подачи", sponsored: "Спонсор", empty: "В этом городе не найден поддерживаемый сервис такси.", error: "Не удалось загрузить сервисы такси.", retry: "Повторить", redirect: "Переход в приложение такси будет активирован на следующем этапе интеграции." },
+  az: { title: "Taksi", demoNote: "Şəhərdə fəaliyyət göstərən xidmətlər. Qiymət və vaxt tətbiqdə göstərilir.", open: "Tətbiqdə aç", seePrice: "Tətbiqdə qiymətə bax", noPrice: "Qiymət məlumatı mövcud deyil", estimate: "Təxmini qiymət", demo: "Demo qiymət", min: "dəq ərzində", sponsored: "Sponsorlu", empty: "Bu şəhərdə dəstəklənən taksi xidməti tapılmadı.", error: "Taksi xidmətlərini yükləmək mümkün olmadı.", retry: "Yenidən cəhd et", redirect: "Taksi tətbiqinə keçid gələcək inteqrasiya mərhələsində aktiv ediləcək." },
+  en: { title: "Taxi", demoNote: "Services operating in this city. Price and ETA are shown in the app.", open: "Open in app", seePrice: "See price in app", noPrice: "Price information unavailable", estimate: "Estimated price", demo: "Demo price", min: "min away", sponsored: "Sponsored", empty: "No supported taxi service was found in this city.", error: "Couldn't load taxi services.", retry: "Try again", redirect: "Taxi app redirect will be enabled in a future integration stage." },
+  ru: { title: "Такси", demoNote: "Сервисы, работающие в городе. Цена и время — в приложении.", open: "Открыть в приложении", seePrice: "Цена в приложении", noPrice: "Информация о цене недоступна", estimate: "Примерная цена", demo: "Демо-цена", min: "мин до подачи", sponsored: "Спонсор", empty: "В этом городе не найден поддерживаемый сервис такси.", error: "Не удалось загрузить сервисы такси.", retry: "Повторить", redirect: "Переход в приложение такси будет активирован на следующем этапе интеграции." },
 };
 
-export function TaxiProviderCard({ provider, quote, c }: { provider: TransportProvider; quote: TaxiQuote; c: Copy }) {
+export function TaxiProviderCard({ provider, quote, c, destination }: { provider: TransportProvider; quote: TaxiQuote; c: Copy; destination: string }) {
   const hasPrice = quote.priceStatus !== "unavailable" && quote.fareMin != null && quote.currency;
   return (
     <article className="flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft">
@@ -40,8 +39,8 @@ export function TaxiProviderCard({ provider, quote, c }: { provider: TransportPr
             : c.noPrice}
         </p>
       </div>
-      <Button size="sm" className="min-h-11 w-full shrink-0 rounded-full sm:w-auto" onClick={() => toast(c.redirect)}>
-        {hasPrice ? c.open : c.seePrice}
+      <Button asChild size="sm" className="min-h-11 w-full shrink-0 rounded-full sm:w-auto">
+        <a href={providerUrl(provider, destination) ?? "#"} target="_blank" rel="noopener noreferrer">{hasPrice ? c.open : c.seePrice}</a>
       </Button>
     </article>
   );
@@ -75,7 +74,7 @@ export function TaxiSection({ context }: { context: TaxiContext }) {
         ) : q.data.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border p-4 text-sm text-muted-foreground">{c.empty}</p>
         ) : (
-          q.data.map(({ provider, quote }) => <TaxiProviderCard key={provider.id} provider={provider} quote={quote} c={c} />)
+          q.data.map(({ provider, quote }) => <TaxiProviderCard key={provider.id} provider={provider} quote={quote} c={c} destination={context.destination} />)
         )}
       </div>
     </section>
