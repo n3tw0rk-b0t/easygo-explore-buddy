@@ -24,6 +24,7 @@ import { placeMapUrl } from "@/lib/place-input";
 import { placeReviewsQuery } from "@/lib/reviews-query";
 import { PlaceMiniMap } from "@/components/easygo/place-mini-map";
 import { PlaceGoogleReviews } from "@/components/easygo/place-google-reviews";
+import { PlaceTripadvisorReviews } from "@/components/easygo/place-tripadvisor-reviews";
 
 export const Route = createFileRoute("/place/$slug")({
   loader: ({ context, params }) => context.queryClient.ensureQueryData(placeReviewsQuery(params.slug)),
