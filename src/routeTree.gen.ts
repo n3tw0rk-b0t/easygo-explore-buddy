@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AddPlaceRouteImport } from './routes/add-place'
 import { Route as PlaceSlugRouteImport } from './routes/place.$slug'
+import { Route as PlaceSlugTravelRouteImport } from './routes/place_.$slug.travel'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const PlaceSlugRoute = PlaceSlugRouteImport.update({
   path: '/place/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlaceSlugTravelRoute = PlaceSlugTravelRouteImport.update({
+  id: '/place_/$slug/travel',
+  path: '/place/$slug/travel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/add-place': typeof AddPlaceRoute
   '/place/$slug': typeof PlaceSlugRoute
+  '/place/$slug/travel': typeof PlaceSlugTravelRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/add-place': typeof AddPlaceRoute
   '/place/$slug': typeof PlaceSlugRoute
+  '/place/$slug/travel': typeof PlaceSlugTravelRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/add-place': typeof AddPlaceRoute
   '/place/$slug': typeof PlaceSlugRoute
+  '/place_/$slug/travel': typeof PlaceSlugTravelRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/add-place' | '/place/$slug'
+  fullPaths: '/' | '/add-place' | '/place/$slug' | '/place/$slug/travel'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/add-place' | '/place/$slug'
-  id: '__root__' | '/' | '/add-place' | '/place/$slug'
+  to: '/' | '/add-place' | '/place/$slug' | '/place/$slug/travel'
+  id: '__root__' | '/' | '/add-place' | '/place/$slug' | '/place_/$slug/travel'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AddPlaceRoute: typeof AddPlaceRoute
   PlaceSlugRoute: typeof PlaceSlugRoute
+  PlaceSlugTravelRoute: typeof PlaceSlugTravelRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaceSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/place_/$slug/travel': {
+      id: '/place_/$slug/travel'
+      path: '/place/$slug/travel'
+      fullPath: '/place/$slug/travel'
+      preLoaderRoute: typeof PlaceSlugTravelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AddPlaceRoute: AddPlaceRoute,
   PlaceSlugRoute: PlaceSlugRoute,
+  PlaceSlugTravelRoute: PlaceSlugTravelRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
