@@ -27,6 +27,7 @@ export function PlaceCard({ place, variant = "carousel" }: { place: Place; varia
         <img
           src={place.image}
           alt={tr(place.name)}
+          referrerPolicy="no-referrer"
           loading="lazy"
           width={800}
           height={600}
@@ -46,13 +47,17 @@ export function PlaceCard({ place, variant = "carousel" }: { place: Place; varia
               </span>
             ) : (
               <>
-                <span className="inline-flex items-center gap-1">
-                  <Star className="h-3.5 w-3.5 fill-attention text-attention" aria-hidden="true" />
-                  <span className="font-semibold">{place.rating.toFixed(1)}</span>
-                </span>
-                <span>
-                  {place.distanceKm} km {t("away")}
-                </span>
+                {place.rating > 0 ? (
+                  <span className="inline-flex items-center gap-1">
+                    <Star className="h-3.5 w-3.5 fill-attention text-attention" aria-hidden="true" />
+                    <span className="font-semibold">{place.rating.toFixed(1)}</span>
+                  </span>
+                ) : null}
+                {place.distanceKm > 0 ? (
+                  <span>
+                    {place.distanceKm} km {t("away")}
+                  </span>
+                ) : null}
               </>
             )}
           </div>

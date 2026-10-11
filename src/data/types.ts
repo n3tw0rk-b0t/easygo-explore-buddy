@@ -49,6 +49,8 @@ export interface Place {
   isFavoriteByDefault: boolean;
   /** True for places added by users. */
   isCommunity?: boolean;
+  /** Real researched place; rating/reviews come live from Google/Tripadvisor. */
+  isCatalog?: boolean;
   address?: string | null;
   openingHours?: string | null;
 }

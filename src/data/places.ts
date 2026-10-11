@@ -33,6 +33,7 @@ import imgNaschmarkt from "@/assets/places/naschmarkt.jpg";
 
 import { CITIES } from "./cities";
 import { PLACE_GALLERY_PHOTOS } from "./place-gallery";
+import { buildCatalogPlaces } from "./catalog-places";
 import type { CityId, Place } from "./types";
 
 const cityMeta = (id: CityId) => {
@@ -671,10 +672,19 @@ const DEMO_PLACES: Place[] = [
   },
 ];
 
-export const PLACES: Place[] = DEMO_PLACES.map((place) => ({
+const BASE_PLACES: Place[] = DEMO_PLACES.map((place) => ({
   ...place,
   images: [place.image, ...(PLACE_GALLERY_PHOTOS[place.slug] ?? []).map((photo) => photo.image)],
 }));
+
+// Catalog places without an open-licence photo reuse a same-city demo photo
+// of the same category (or the city's first demo photo).
+const fallbackImage = (cityId: CityId, cat: Place["categories"][number]) =>
+  (BASE_PLACES.find((p) => p.cityId === cityId && p.categories.includes(cat)) ??
+    BASE_PLACES.find((p) => p.cityId === cityId) ??
+    BASE_PLACES[0]!).image;
+
+export const PLACES: Place[] = [...BASE_PLACES, ...buildCatalogPlaces(fallbackImage)];
 
 export const getPlacesByCity = (cityId: CityId) => PLACES.filter((p) => p.cityId === cityId);
 

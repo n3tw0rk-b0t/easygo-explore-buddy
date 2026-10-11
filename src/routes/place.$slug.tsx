@@ -11,6 +11,7 @@ import {
 } from "@/components/easygo/place-detail-parts";
 import { CATEGORIES } from "@/data/categories";
 import { PLACE_DETAILS } from "@/data/place-details";
+import { CATALOG_CREDITS } from "@/data/catalog-places";
 import { PLACE_GALLERY_PHOTOS } from "@/data/place-gallery";
 import { getPriceInfo } from "@/data/place-extras";
 import { PLACES } from "@/data/places";
@@ -122,7 +123,7 @@ function PlaceDetail() {
       <div className="relative mx-auto w-full pb-28 sm:max-w-[640px] lg:max-w-[860px] lg:px-8 lg:pt-6">
         {/* Hero + overlay nav */}
         <div className="relative">
-          <PlaceGallery key={place.slug} images={images} alt={tr(place.name)} photoLabel={c.photo} previousLabel={c.previousPhoto} nextLabel={c.nextPhoto} credits={PLACE_GALLERY_PHOTOS[place.slug] ?? []} />
+          <PlaceGallery key={place.slug} images={images} alt={tr(place.name)} photoLabel={c.photo} previousLabel={c.previousPhoto} nextLabel={c.nextPhoto} credits={PLACE_GALLERY_PHOTOS[place.slug] ?? CATALOG_CREDITS[place.slug] ?? []} />
           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 safe-x">
             <Button variant="ghost" size="icon" type="button" onClick={goBack} aria-label={c.back} className={iconBtn}>
               <ArrowLeft className="h-5 w-5" aria-hidden="true" />
@@ -156,7 +157,7 @@ function PlaceDetail() {
               ) : null}
               {place.isCommunity ? (
                 <span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-primary">{c.community}</span>
-              ) : (
+              ) : place.isCatalog ? null : (
                 <DemoBadge>{t("demoData")}</DemoBadge>
               )}
             </div>
